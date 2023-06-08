@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "paleolithic:plant_fiber"
+    },
+    {
+      "item": "paleolithic:plant_fiber"
+    },
+    {
+      "item": "paleolithic:plant_fiber"
+    }
+  ],
+  "result": {
+    "item": "paleolithic:plant_twine",
+    "count": 1
+  }
+}

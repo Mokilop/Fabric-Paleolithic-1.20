@@ -1,0 +1,21 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "paleolithic:block/rock",
+		"particle": "paleolithic:block/rock"
+	},
+	"elements": [
+		{
+			"from": [3, 0, 4],
+			"to": [7, 2, 9],
+			"faces": {
+				"north": {"uv": [0, 7, 4, 9], "texture": "#0"},
+				"east": {"uv": [0, 5, 5, 7], "texture": "#0"},
+				"south": {"uv": [4, 7, 8, 9], "texture": "#0"},
+				"west": {"uv": [5, 5, 10, 7], "texture": "#0"},
+				"up": {"uv": [4, 5, 0, 0], "texture": "#0"},
+				"down": {"uv": [8, 0, 4, 5], "texture": "#0"}
+			}
+		}
+	]
+}

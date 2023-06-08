@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "paleolithic:item/stone_lumber_axe_head_fragment"
+  }
+}

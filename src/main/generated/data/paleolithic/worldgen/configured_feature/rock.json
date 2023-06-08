@@ -1,0 +1,9 @@
+{
+  "type": "paleolithic:rock",
+  "config": {
+    "chanceToSpawnPercentage": 35,
+    "maxInPile": 3,
+    "maxNumberOfPiles": 3,
+    "spreadXZ": 10
+  }
+}

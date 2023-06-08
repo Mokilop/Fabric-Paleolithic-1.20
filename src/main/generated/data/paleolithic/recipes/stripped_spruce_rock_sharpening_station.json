@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "rock_sharpening_station",
+  "ingredients": [
+    {
+      "item": "paleolithic:rock"
+    },
+    {
+      "item": "paleolithic:rock"
+    },
+    {
+      "item": "minecraft:stripped_spruce_log"
+    }
+  ],
+  "result": {
+    "item": "paleolithic:stripped_spruce_rock_sharpening_station"
+  }
+}

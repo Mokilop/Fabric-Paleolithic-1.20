@@ -1,0 +1,8 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "paleolithic:block/rock_sharpening_station",
+	"textures": {
+		"1": "minecraft:block/cherry_log",
+		"2": "minecraft:block/cherry_log_top"
+	}
+}

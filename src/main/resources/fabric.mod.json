@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "paleolithic",
+	"version": "${version}",
+	"name": "paleolithic",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Mokilop"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/paleolithic/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"mokilop.paleolithic.Paleolithic"
+		],
+		"client": [
+			"mokilop.paleolithic.PaleolithicClient"
+		],
+		"fabric-datagen": [
+			"mokilop.paleolithic.PaleolithicDataGenerator"
+		]
+	},
+	"mixins": [
+		"paleolithic.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.14.21",
+		"minecraft": "~1.20",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

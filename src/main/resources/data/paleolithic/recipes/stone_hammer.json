@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "paleolithic:plant_twine"
+    },
+    {
+      "item": "paleolithic:rock"
+    },
+    {
+      "item": "minecraft:stick"
+    }
+  ],
+  "result": {
+    "item": "paleolithic:stone_hammer",
+    "count": 1
+  }
+}
