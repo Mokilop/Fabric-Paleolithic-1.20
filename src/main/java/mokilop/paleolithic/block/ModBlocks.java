@@ -1,6 +1,7 @@
 package mokilop.paleolithic.block;
 
 import mokilop.paleolithic.Paleolithic;
+import mokilop.paleolithic.block.custom.CraftingBenchBlock;
 import mokilop.paleolithic.block.custom.RockBlock;
 import mokilop.paleolithic.block.custom.RockSharpeningStationBlock;
 import mokilop.paleolithic.item.ModItemGroup;
@@ -81,6 +82,13 @@ public class ModBlocks {
             new RockSharpeningStationBlock(ROCK_SHARPENING_STATION_SETTINGS_BASE
                     .sounds(BlockSoundGroup.BAMBOO_WOOD)
                     .strength(Blocks.BAMBOO_BLOCK.getHardness(), Blocks.BAMBOO_BLOCK.getBlastResistance())), ModItemGroup.PALEOLITHIC);
+    //endregion
+
+    //region Primitive Crafting Stations
+
+    public static final Block PRIMITIVE_OAK_CRAFTING_BENCH = registerBlock("primitive_oak_crafting_bench",
+            new CraftingBenchBlock(ROCK_SHARPENING_STATION_SETTINGS_BASE), ModItemGroup.PALEOLITHIC);
+
     //endregion
 
     private  static Block registerBlock(String name, Block block, RegistryKey<ItemGroup> group){

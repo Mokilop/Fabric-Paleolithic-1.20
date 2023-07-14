@@ -1,6 +1,7 @@
 package mokilop.paleolithic;
 
 import mokilop.paleolithic.block.ModBlocks;
+import mokilop.paleolithic.block.entity.ModBlockEntities;
 import mokilop.paleolithic.item.ModItemGroup;
 import mokilop.paleolithic.item.ModItems;
 import mokilop.paleolithic.util.ModLootTableModifiers;
@@ -28,6 +29,7 @@ public class Paleolithic implements ModInitializer {
         ModItems.registerModItems();
         registerModFeatures();
         ModLootTableModifiers.modifyLootTables();
+        ModBlockEntities.registerBlocksEntities();
         generateModWorldGen();
     }
 }

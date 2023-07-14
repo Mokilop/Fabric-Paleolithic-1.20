@@ -26,6 +26,7 @@
   "block.paleolithic.stripped_spruce_rock_sharpening_station": "Stripped Spruce Rock Sharpening Station",
   "block.paleolithic.bamboo_rock_sharpening_station": "Bamboo Rock Sharpening Station",
   "block.paleolithic.stripped_bamboo_rock_sharpening_station": "Stripped Bamboo Rock Sharpening Station",
+  "block.paleolithic.primitive_oak_crafting_bench": "Primitive Oak Crafting Bench",
 
   "itemgroup.paleolithic": "Paleolithic",
   "stone_sharpening_station.mode_info.hatchet_head": "Sharpening mode: Hatchet Head",

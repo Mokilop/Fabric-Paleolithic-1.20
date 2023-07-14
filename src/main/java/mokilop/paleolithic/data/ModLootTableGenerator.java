@@ -29,5 +29,6 @@ public class ModLootTableGenerator extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.STRIPPED_MANGROVE_ROCK_SHARPENING_STATION);
         addDrop(ModBlocks.BAMBOO_ROCK_SHARPENING_STATION);
         addDrop(ModBlocks.STRIPPED_BAMBOO_SHARPENING_STATION);
+        addDrop(ModBlocks.PRIMITIVE_OAK_CRAFTING_BENCH);
     }
 }

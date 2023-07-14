@@ -13,7 +13,6 @@ public enum StoneSharpeningStationBlockMode implements StringIdentifiable {
 
     private final String name;
     private final Text text;
-
     private final Item item;
 
     private StoneSharpeningStationBlockMode(String name, Item item) {

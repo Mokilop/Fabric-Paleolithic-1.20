@@ -43,12 +43,12 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
     public static final EnumProperty<StoneSharpeningStationBlockMode> MODE = EnumProperty.of("mode", StoneSharpeningStationBlockMode.class);
 
     private static VoxelShape SHAPE = Stream.of(
-            Block.createCuboidShape(1, 12, 1, 15, 13, 15),
-            Block.createCuboidShape(0, 2, 0, 16, 12, 16),
-            Block.createCuboidShape(13, 0, 13, 16, 2, 16),
-            Block.createCuboidShape(0, 0, 13, 3, 2, 16),
-            Block.createCuboidShape(13, 0, 0, 16, 2, 3),
-            Block.createCuboidShape(0, 0, 0, 3, 2, 3)
+            Block.createCuboidShape(1, 10, 1, 15, 11, 15),
+            Block.createCuboidShape(0, 2, 0, 16, 10, 16),
+            Block.createCuboidShape(12, 0, 0, 16, 2, 4),
+            Block.createCuboidShape(12, 0, 12, 16, 2, 16),
+            Block.createCuboidShape(0, 0, 12, 4, 2, 16),
+            Block.createCuboidShape(0, 0, 0, 4, 2, 4)
     ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, BooleanBiFunction.OR)).get();
 
 
