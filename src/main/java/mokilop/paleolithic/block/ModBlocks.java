@@ -2,6 +2,7 @@ package mokilop.paleolithic.block;
 
 import mokilop.paleolithic.Paleolithic;
 import mokilop.paleolithic.block.custom.CraftingBenchBlock;
+import mokilop.paleolithic.block.custom.PrimitiveCampfireBlock;
 import mokilop.paleolithic.block.custom.RockBlock;
 import mokilop.paleolithic.block.custom.RockSharpeningStationBlock;
 import mokilop.paleolithic.item.ModItemGroup;
@@ -90,6 +91,10 @@ public class ModBlocks {
             new CraftingBenchBlock(ROCK_SHARPENING_STATION_SETTINGS_BASE), ModItemGroup.PALEOLITHIC);
 
     //endregion
+
+    public static final Block PRIMITIVE_CAMPFIRE = registerBlock("primitive_campfire",
+            new PrimitiveCampfireBlock(FabricBlockSettings.create().noCollision().nonOpaque().sounds(BlockSoundGroup.STONE)
+                    .luminance(state -> state.get(PrimitiveCampfireBlock.LIT) ? 14 : 0)), ModItemGroup.PALEOLITHIC);
 
     private  static Block registerBlock(String name, Block block, RegistryKey<ItemGroup> group){
         registerBlockItem(name, block, group);
