@@ -94,7 +94,7 @@ public class ModBlocks {
 
     public static final Block PRIMITIVE_CAMPFIRE = registerBlock("primitive_campfire",
             new PrimitiveCampfireBlock(FabricBlockSettings.create().noCollision().nonOpaque().sounds(BlockSoundGroup.STONE)
-                    .luminance(state -> state.get(PrimitiveCampfireBlock.LIT) ? 14 : 0)), ModItemGroup.PALEOLITHIC);
+                    .luminance(state -> state.get(PrimitiveCampfireBlock.LIT) ? state.get(PrimitiveCampfireBlock.FIRE_STRENGTH) * 3 + 2 : 0)), ModItemGroup.PALEOLITHIC);
 
     private  static Block registerBlock(String name, Block block, RegistryKey<ItemGroup> group){
         registerBlockItem(name, block, group);

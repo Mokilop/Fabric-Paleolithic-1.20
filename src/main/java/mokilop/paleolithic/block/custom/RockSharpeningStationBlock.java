@@ -75,7 +75,6 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        handleSound(world, pos, player, hit);
         if(!world.isClient() && hand == Hand.MAIN_HAND){
             if(player.getMainHandStack().isOf(ModBlocks.ROCK.asItem()) && hit.getSide() == Direction.UP){
                 if(isCoolingDown(player)) return ActionResult.CONSUME;
@@ -93,20 +92,11 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
         return player.getItemCooldownManager().isCoolingDown(player.getMainHandStack().getItem());
     }
 
-    private static void handleSound(World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if(player.getMainHandStack().isOf(ModBlocks.ROCK.asItem()) && hit.getSide() == Direction.UP){
-            if(isCoolingDown(player)) return;
-            world.playSound(player, pos, SoundEvents.BLOCK_STONE_HIT, SoundCategory.BLOCKS, 1f, 2f);
-        }
-        else{
-            world.playSound(player, pos, SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_ON, SoundCategory.BLOCKS, 0.2f, 10f);
-        }
-    }
-
     private ActionResult handleModeCycling(BlockState state, World world, BlockPos pos, PlayerEntity player) {
         world.setBlockState(pos, state.cycle(MODE));
         sendSharpeningModeMessage(player, state.cycle(MODE));
         this.sharpeningCounter = 0;
+        world.playSound(null, pos, SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_ON, SoundCategory.BLOCKS, 0.2f, 10f);
         return ActionResult.SUCCESS;
     }
 
@@ -118,6 +108,7 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
         }
         world.spawnEntity(getCorrectSharpenedRockEntity(state, world, pos));
         player.getItemCooldownManager().set(player.getMainHandStack().getItem(), 20);
+        world.playSound(null, pos, SoundEvents.BLOCK_STONE_HIT, SoundCategory.BLOCKS, 1f, 2f);
         return ActionResult.SUCCESS;
     }
 
@@ -125,6 +116,7 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
     private static ActionResult handleUnsuccessfulSharpening(World world, BlockPos pos, PlayerEntity player) {
         sendSharpeningMessage(player);
         player.getItemCooldownManager().set(player.getMainHandStack().getItem(), 3);
+        world.playSound(null, pos, SoundEvents.BLOCK_STONE_HIT, SoundCategory.BLOCKS, 1f, 1.5f);
         return ActionResult.SUCCESS;
     }
 
