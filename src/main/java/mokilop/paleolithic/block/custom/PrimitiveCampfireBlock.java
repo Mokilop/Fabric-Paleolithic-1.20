@@ -1,9 +1,7 @@
 package mokilop.paleolithic.block.custom;
 
-import mokilop.paleolithic.block.ModBlocks;
 import mokilop.paleolithic.block.entity.ModBlockEntities;
 import mokilop.paleolithic.block.entity.PrimitiveCampfireBlockEntity;
-import mokilop.paleolithic.block.enums.StoneSharpeningStationBlockMode;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -22,23 +20,47 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class PrimitiveCampfireBlock extends BlockWithEntity implements BlockEntityProvider {
     public PrimitiveCampfireBlock(Settings settings) {
         super(settings);
     }
+    private static VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 2, 16);
+
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
     public static final BooleanProperty LIT = BooleanProperty.of("lit");
     public static final BooleanProperty USED = BooleanProperty.of("used");
     public static final IntProperty FIRE_STRENGTH = IntProperty.of("fire_strength", 0, 4);
 
+    @Override
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return SHAPE;
+    }
+    @Override
+    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+        BlockState blockBellow = world.getBlockState(pos.down());
+        return blockBellow.isSideSolidFullSquare(world, pos.down(), Direction.UP);
+    }
+
+    @Override
+    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+        if (direction == Direction.DOWN && !this.canPlaceAt(state, world, pos)) {
+            return Blocks.AIR.getDefaultState();
+        }
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+    }
 
     @Nullable
     @Override
@@ -108,28 +130,37 @@ public class PrimitiveCampfireBlock extends BlockWithEntity implements BlockEnti
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if(world.isClient || hand != Hand.MAIN_HAND)return ActionResult.SUCCESS;
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if(blockEntity instanceof PrimitiveCampfireBlockEntity){
-            PrimitiveCampfireBlockEntity entity = ((PrimitiveCampfireBlockEntity) blockEntity);
-            ItemStack mhs = player.getMainHandStack();
-            if(AbstractFurnaceBlockEntity.canUseAsFuel(mhs)){
-                boolean success = entity.addFuel(mhs);
-                if(!success)return ActionResult.SUCCESS;
-                world.setBlockState(pos, state.with(LIT, true).with(USED, true));
-                if(!player.isCreative())mhs.decrement(1);
-                world.playSound(null, pos, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.BLOCKS, 0.2f, 1f);
-                return ActionResult.SUCCESS;
-            }
-            boolean isSmeltable = entity.matchGetter.getFirstMatch(new SimpleInventory(mhs), world).isPresent();
-            if(isSmeltable){
-                boolean success = entity.addSmeltable(mhs);
-                if(success){
-                    mhs.decrement(player.isCreative() ? 0 : 1);
-                    return ActionResult.SUCCESS;
-                }
-                return ActionResult.FAIL;
-            }
+        if (!(blockEntity instanceof PrimitiveCampfireBlockEntity entity)) {
+            return ActionResult.SUCCESS;
+        }
+        ItemStack mhs = player.getMainHandStack();
+        ItemStack ohs = player.getOffHandStack();
+        if(!state.get(LIT)){
 
         }
+        if(AbstractFurnaceBlockEntity.canUseAsFuel(mhs)){
+            return handleFuelAdding(state, world, pos, player, entity, mhs);
+        }
+        boolean isSmeltable = entity.matchGetter.getFirstMatch(new SimpleInventory(mhs), world).isPresent();
+        if(!isSmeltable)return ActionResult.SUCCESS;
+        return handleAddingItem(player, entity, mhs);
+    }
+
+    @NotNull
+    private static ActionResult handleAddingItem(PlayerEntity player, PrimitiveCampfireBlockEntity entity, ItemStack itemToAdd) {
+        boolean success = entity.addItem(itemToAdd);
+        if (!success) return ActionResult.SUCCESS;
+        itemToAdd.decrement(player.isCreative() ? 0 : 1);
+        return ActionResult.SUCCESS;
+    }
+
+    @NotNull
+    private static ActionResult handleFuelAdding(BlockState state, World world, BlockPos pos, PlayerEntity player, PrimitiveCampfireBlockEntity entity, ItemStack mhs) {
+        boolean success = entity.addFuel(mhs);
+        if(!success) return ActionResult.SUCCESS;
+        world.setBlockState(pos, state.with(LIT, true).with(USED, true));
+        if(!player.isCreative()) mhs.decrement(1);
+        world.playSound(null, pos, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.BLOCKS, 0.2f, 1f);
         return ActionResult.SUCCESS;
     }
 

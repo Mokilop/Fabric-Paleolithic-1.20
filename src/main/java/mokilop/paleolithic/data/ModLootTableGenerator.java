@@ -58,6 +58,7 @@ public class ModLootTableGenerator extends FabricBlockLootTableProvider {
         addDrop(Blocks.TALL_GRASS, tallGrassDrops(Blocks.TALL_GRASS, Blocks.GRASS));
         addDrop(Blocks.FERN, grassDrops(Blocks.FERN));
         addDrop(Blocks.LARGE_FERN, tallGrassDrops(Blocks.LARGE_FERN, Blocks.FERN));
+        addDrop(ModBlocks.PRIMITIVE_CAMPFIRE);
     }
 
     @Override

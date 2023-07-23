@@ -13,7 +13,6 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -22,7 +21,6 @@ import net.minecraft.recipe.RecipeManager;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -107,9 +105,8 @@ public class PrimitiveCampfireBlockEntity extends BlockEntity implements Impleme
         markDirty(world, blockPos, blockState);
     }
 
-    public boolean addSmeltable(ItemStack itemStack) {
-        boolean isEmpty = inventory.get(0).isEmpty();
-        if(!isEmpty)return false;
+    public boolean addItem(ItemStack itemStack) {
+        if(inventory.get(0).isEmpty())return false;
         inventory.set(0, itemStack.copyWithCount(1));
         progress = 0;
         markDirty();
