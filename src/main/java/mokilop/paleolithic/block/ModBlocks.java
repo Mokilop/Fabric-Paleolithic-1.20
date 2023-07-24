@@ -91,7 +91,10 @@ public class ModBlocks {
 
     //region Stumps
 
-    public static final Block OAK_STUMP = registerBlock("oak_stump", new StumpBlock(FabricBlockSettings.create()), ModItemGroup.PALEOLITHIC);
+    public static final Block OAK_STUMP = registerBlock("oak_stump", new StumpBlock(FabricBlockSettings.create()
+            .strength(Blocks.OAK_LOG.getHardness(), Blocks.OAK_LOG.getBlastResistance())
+            .sounds(BlockSoundGroup.WOOD)
+    ), ModItemGroup.PALEOLITHIC);
 
     //endregion
 

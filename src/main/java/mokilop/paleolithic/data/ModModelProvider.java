@@ -1,5 +1,6 @@
 package mokilop.paleolithic.data;
 
+import com.ibm.icu.text.Normalizer2;
 import mokilop.paleolithic.block.ModBlocks;
 import mokilop.paleolithic.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;

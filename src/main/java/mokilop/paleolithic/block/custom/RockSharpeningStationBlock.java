@@ -55,7 +55,7 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getHorizontalPlayerFacing().getOpposite()).with(MODE, StoneSharpeningStationBlockMode.HATCHET_HEAD);
+        return super.getPlacementState(ctx).with(FACING, ctx.getHorizontalPlayerFacing().getOpposite()).with(MODE, StoneSharpeningStationBlockMode.HATCHET_HEAD);
     }
 
     @Override

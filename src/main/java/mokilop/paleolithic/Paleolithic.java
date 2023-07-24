@@ -5,6 +5,7 @@ import mokilop.paleolithic.block.entity.ModBlockEntities;
 import mokilop.paleolithic.item.ModItemGroup;
 import mokilop.paleolithic.item.ModItems;
 import mokilop.paleolithic.networking.ModMessages;
+import mokilop.paleolithic.recipe.ModRecipes;
 import mokilop.paleolithic.util.ModLootTableModifiers;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
@@ -28,6 +29,7 @@ public class Paleolithic implements ModInitializer {
         ModItemGroup.registerItemGroups();
         ModBlocks.registerModBlocks();
         ModItems.registerModItems();
+        ModRecipes.registerRecipes();
         registerModFeatures();
         ModLootTableModifiers.modifyLootTables();
         ModMessages.registerC2SPackets();
