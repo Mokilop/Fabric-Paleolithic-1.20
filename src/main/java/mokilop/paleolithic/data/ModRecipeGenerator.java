@@ -4,14 +4,10 @@ import mokilop.paleolithic.Paleolithic;
 import mokilop.paleolithic.block.ModBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.block.Blocks;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.Identifier;
-import org.apache.commons.compress.compressors.lz77support.LZ77Compressor;
-
 import java.util.function.Consumer;
 
 import static mokilop.paleolithic.data.Constants.STATION_TYPES;

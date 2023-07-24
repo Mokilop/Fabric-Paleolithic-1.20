@@ -1,10 +1,7 @@
 package mokilop.paleolithic.block;
 
 import mokilop.paleolithic.Paleolithic;
-import mokilop.paleolithic.block.custom.CraftingBenchBlock;
-import mokilop.paleolithic.block.custom.PrimitiveCampfireBlock;
-import mokilop.paleolithic.block.custom.RockBlock;
-import mokilop.paleolithic.block.custom.RockSharpeningStationBlock;
+import mokilop.paleolithic.block.custom.*;
 import mokilop.paleolithic.item.ModItemGroup;
 import mokilop.paleolithic.item.custom.RockBlockItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -89,6 +86,12 @@ public class ModBlocks {
 
     public static final Block PRIMITIVE_OAK_CRAFTING_BENCH = registerBlock("primitive_oak_crafting_bench",
             new CraftingBenchBlock(ROCK_SHARPENING_STATION_SETTINGS_BASE), ModItemGroup.PALEOLITHIC);
+
+    //endregion
+
+    //region Stumps
+
+    public static final Block OAK_STUMP = registerBlock("oak_stump", new StumpBlock(FabricBlockSettings.create()), ModItemGroup.PALEOLITHIC);
 
     //endregion
 
