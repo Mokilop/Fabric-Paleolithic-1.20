@@ -1,11 +1,10 @@
 {
   "type": "paleolithic:stump_chopping",
-  "ingredients": [
+  "input":
     {
       "item": "minecraft:oak_log"
     }
-  ],
-  "output": {
-    "item": "minecraft:oak_planks"
-  }
+  ,
+  "result": "minecraft:oak_planks",
+  "count": "2"
 }

@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolItem;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
@@ -82,12 +83,15 @@ public class StumpBlock extends BlockWithEntity implements BlockEntityProvider {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+            String handN = (hand == Hand.MAIN_HAND) ? "main" : "off";
+            Paleolithic.LOGGER.info(handN);
         if(world.isClient())return ActionResult.SUCCESS;
         if(world.getBlockEntity(pos) instanceof StumpBlockEntity entity){
-            ItemStack mhs = player.getMainHandStack();
-            if(mhs.isEmpty()) entity.removeItem(player);
-            if(entity.addItem(mhs.copyWithCount(1))){
-                mhs.decrement(player.isCreative()?0:1);
+            ItemStack hs = (hand == Hand.MAIN_HAND) ? player.getMainHandStack() : player.getOffHandStack();
+            if(hs.getItem() instanceof ToolItem)return ActionResult.FAIL;
+            if(hs.isEmpty()) entity.removeItem(player);
+            if(entity.addItem(hs.copyWithCount(1))){
+                hs.decrement(player.isCreative()?0:1);
             }
             return ActionResult.SUCCESS;
         }
@@ -98,9 +102,9 @@ public class StumpBlock extends BlockWithEntity implements BlockEntityProvider {
     public void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
         if(world.isClient())return;
         if(world.getBlockEntity(pos) instanceof StumpBlockEntity entity){
-            if(player.getMainHandStack().getItem() instanceof AxeItem){
-                Paleolithic.LOGGER.info("hello?");
-                StumpBlockEntity.chop(world, pos, state, entity);
+            if(player.getMainHandStack().getItem() instanceof AxeItem axeItem){
+                boolean fullyCharged = player.getAttackCooldownProgress(0) == 1;
+                boolean successful = StumpBlockEntity.chop(world, pos, state, entity, fullyCharged);
             }
         }
     }

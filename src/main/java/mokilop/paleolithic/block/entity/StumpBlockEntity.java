@@ -39,41 +39,40 @@ public class StumpBlockEntity extends BlockEntity implements ImplementedInventor
     }
 
     public boolean addItem(ItemStack item) {
-        if(!inventory.get(0).isEmpty())return false;
+        if (!inventory.get(0).isEmpty()) return false;
         inventory.set(0, item.copyWithCount(1));
         return true;
     }
 
-    public boolean removeItem(PlayerEntity player){
-        if(inventory.get(0).isEmpty())return false;
+    public boolean removeItem(PlayerEntity player) {
+        if (inventory.get(0).isEmpty()) return false;
         player.giveItemStack(inventory.get(0));
         inventory.set(0, ItemStack.EMPTY);
         return true;
     }
 
     public void setInventory(DefaultedList<ItemStack> inventory) {
-        for(int i = 0; i<inventory.size(); i++){
+        for (int i = 0; i < inventory.size(); i++) {
             this.inventory.set(i, inventory.get(i));
         }
     }
 
-    private static boolean hasChoppingRecipe(StumpBlockEntity entity){
+    private static boolean hasChoppingRecipe(StumpBlockEntity entity) {
         return getMatchForChopping(entity).isPresent();
     }
 
-    private static Optional<StumpChoppingRecipe> getMatchForChopping(StumpBlockEntity entity){
+    private static Optional<StumpChoppingRecipe> getMatchForChopping(StumpBlockEntity entity) {
         SimpleInventory inv = new SimpleInventory(entity.size());
-        for(int i = 0; i< entity.size(); i++){
+        for (int i = 0; i < entity.size(); i++) {
             inv.setStack(i, entity.getStack(i));
         }
-        Paleolithic.LOGGER.info(String.valueOf(inv.getStack(0).getTranslationKey()));
         return entity.getWorld().getRecipeManager()
                 .getFirstMatch(StumpChoppingRecipe.Type.INSTANCE, inv, entity.getWorld());
     }
 
-    private static void craftItemFromChopping(StumpBlockEntity entity){
+    private static void craftItemFromChopping(StumpBlockEntity entity) {
         Optional<StumpChoppingRecipe> match = getMatchForChopping(entity);
-        if(match.isEmpty())return;
+        if (match.isEmpty()) return;
         ItemStack outputItems = getMatchForChopping(entity).get().getOutput(null);
         BlockPos pos = entity.pos;
         World world = entity.getWorld();
@@ -82,16 +81,15 @@ public class StumpBlockEntity extends BlockEntity implements ImplementedInventor
         world.spawnEntity(outputEntity);
     }
 
-    public static boolean chop(World world, BlockPos blockPos, BlockState blockState,StumpBlockEntity entity){
-        if(world.isClient())return false;
-        if(getMatchForChopping(entity).isEmpty()){
-            Paleolithic.LOGGER.info("No recipe");
+    public static boolean chop(World world, BlockPos blockPos, BlockState blockState, StumpBlockEntity entity, boolean fullyCharged) {
+        if (world.isClient()) return false;
+        if (getMatchForChopping(entity).isEmpty()) {
             Paleolithic.LOGGER.info(String.valueOf(world.isClient()));
             return false;
         }
         entity.progress++;
         Paleolithic.LOGGER.info(String.valueOf(entity.progress));
-        if(entity.progress >= maxProgress){
+        if (entity.progress >= maxProgress || fullyCharged) {
             entity.progress = 0;
             craftItemFromChopping(entity);
             markDirty(world, blockPos, blockState);
@@ -115,10 +113,9 @@ public class StumpBlockEntity extends BlockEntity implements ImplementedInventor
         progress = nbt.getInt("stump.progress");
     }
 
-    /*
     @Override
     public void markDirty() {
-        if(!world.isClient()) {
+        if (!world.isClient()) {
             PacketByteBuf data = PacketByteBufs.create();
             data.writeInt(inventory.size());
             for (ItemStack itemStack : inventory) {
@@ -132,5 +129,4 @@ public class StumpBlockEntity extends BlockEntity implements ImplementedInventor
         }
         super.markDirty();
     }
-    */
 }

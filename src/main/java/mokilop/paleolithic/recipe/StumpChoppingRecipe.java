@@ -1,12 +1,16 @@
 package mokilop.paleolithic.recipe;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import mokilop.paleolithic.Paleolithic;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.*;
 import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
@@ -60,6 +64,12 @@ public class StumpChoppingRecipe implements Recipe<SimpleInventory> {
         return Type.INSTANCE;
     }
 
+    public static class JsonFormat{
+        JsonObject input;
+        String result;
+        int count;
+    }
+
     public static class Type implements RecipeType<StumpChoppingRecipe>{
         private Type(){}
         public static final Type INSTANCE = new Type();
@@ -72,13 +82,11 @@ public class StumpChoppingRecipe implements Recipe<SimpleInventory> {
 
         @Override
         public StumpChoppingRecipe read(Identifier id, JsonObject json) {
-            ItemStack output = ShapedRecipe.outputFromJson(JsonHelper.asObject(json, "output"));
-            JsonArray ingredients = JsonHelper.getArray(json, "ingredients");
-            DefaultedList<Ingredient> inputs = DefaultedList.ofSize(1, Ingredient.EMPTY);
-            for(int i = 0; i < inputs.size(); i++){
-                inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
-            }
-            return new StumpChoppingRecipe(id, output, inputs);
+            JsonFormat recipeJson = new Gson().fromJson(json, JsonFormat.class);
+            Ingredient input = Ingredient.fromJson(recipeJson.input);
+            Item resultItem = Registries.ITEM.getOrEmpty(new Identifier(recipeJson.result)).get();
+            ItemStack result = new ItemStack(resultItem, recipeJson.count);
+            return new StumpChoppingRecipe(id,result, DefaultedList.ofSize(1, input));
         }
 
         @Override

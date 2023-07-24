@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "primitive_campfire",
+  "key": {
+    "R": {
+      "item": "paleolithic:rock"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "T": {
+      "item": "paleolithic:plant_twine"
+    }
+  },
+  "pattern": [
+    "SSS",
+    "RTR",
+    "RRR"
+  ],
+  "result": {
+    "item": "paleolithic:primitive_campfire"
+  },
+  "show_notification": true
+}
