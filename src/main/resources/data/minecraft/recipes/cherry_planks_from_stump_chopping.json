@@ -1,5 +1,8 @@
 {
   "type": "paleolithic:stump_chopping",
+  "tool": {
+    "tag": "minecraft:axes"
+  },
   "input":
     {
       "tag": "minecraft:cherry_logs"

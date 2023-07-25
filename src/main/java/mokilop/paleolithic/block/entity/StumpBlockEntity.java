@@ -52,23 +52,20 @@ public class StumpBlockEntity extends BlockEntityWithDisplayableInventory {
         return true;
     }
 
-    private static boolean hasChoppingRecipe(StumpBlockEntity entity) {
-        return getMatchForChopping(entity).isPresent();
-    }
-
-    private static Optional<StumpChoppingRecipe> getMatchForChopping(StumpBlockEntity entity) {
-        SimpleInventory inv = new SimpleInventory(entity.size());
+    private static Optional<StumpChoppingRecipe> getMatchForChopping(StumpBlockEntity entity, ItemStack tool) {
+        SimpleInventory inv = new SimpleInventory(entity.size() + 1);
+        inv.setStack(0, tool);
         for (int i = 0; i < entity.size(); i++) {
-            inv.setStack(i, entity.getStack(i));
+            inv.setStack(i + 1, entity.getStack(i));
         }
         return entity.getWorld().getRecipeManager()
                 .getFirstMatch(StumpChoppingRecipe.Type.INSTANCE, inv, entity.getWorld());
     }
 
-    private static void craftItemFromChopping(StumpBlockEntity entity) {
-        Optional<StumpChoppingRecipe> match = getMatchForChopping(entity);
+    private static void craftItemFromChopping(StumpBlockEntity entity, ItemStack tool) {
+        Optional<StumpChoppingRecipe> match = getMatchForChopping(entity, tool);
         if (match.isEmpty()) return;
-        ItemStack outputItems = getMatchForChopping(entity).get().getOutput(null);
+        ItemStack outputItems = match.get().getOutput(null);
         BlockPos pos = entity.pos;
         World world = entity.getWorld();
         ItemEntity outputEntity = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 0.7, pos.getZ() + 0.5, outputItems, 0, 0, 0);
@@ -76,15 +73,15 @@ public class StumpBlockEntity extends BlockEntityWithDisplayableInventory {
         world.spawnEntity(outputEntity);
     }
 
-    public static boolean chop(World world, BlockPos blockPos, BlockState blockState, StumpBlockEntity entity, boolean fullyCharged, boolean highDamage) {
+    public static boolean chop(World world, BlockPos blockPos, BlockState blockState, StumpBlockEntity entity, ItemStack tool, boolean fullyCharged, boolean highDamage) {
         if (world.isClient()) return false;
-        if (getMatchForChopping(entity).isEmpty()) {
+        if (getMatchForChopping(entity, tool).isEmpty()) {
             return false;
         }
         entity.progress += fullyCharged ? 2 : 1;
         if (entity.progress >= maxProgress || (fullyCharged && highDamage)) {
             entity.progress = 0;
-            craftItemFromChopping(entity);
+            craftItemFromChopping(entity, tool);
             world.playSound(null,blockPos, SoundEvents.BLOCK_WOOD_BREAK, SoundCategory.BLOCKS, 1, 1.5f);
             world.playSound(null,blockPos, SoundEvents.BLOCK_WOOD_BREAK, SoundCategory.BLOCKS, 1, 1.5f);
             entity.markDirty();

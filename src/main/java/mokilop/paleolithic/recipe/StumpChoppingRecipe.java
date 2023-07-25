@@ -16,6 +16,8 @@ import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
+import java.util.Arrays;
+
 public class StumpChoppingRecipe implements Recipe<SimpleInventory> {
     private final Identifier id;
     private final ItemStack output;
@@ -31,7 +33,7 @@ public class StumpChoppingRecipe implements Recipe<SimpleInventory> {
     public boolean matches(SimpleInventory inventory, World world) {
         if(world.isClient())return false;
 
-        return recipeItems.get(0).test(inventory.getStack(0));
+        return recipeItems.get(0).test(inventory.getStack(0)) && recipeItems.get(1).test(inventory.getStack(1));
     }
 
     @Override
@@ -65,6 +67,7 @@ public class StumpChoppingRecipe implements Recipe<SimpleInventory> {
     }
 
     public static class JsonFormat{
+        JsonObject tool;
         JsonObject input;
         String result;
         int count;
@@ -84,9 +87,13 @@ public class StumpChoppingRecipe implements Recipe<SimpleInventory> {
         public StumpChoppingRecipe read(Identifier id, JsonObject json) {
             JsonFormat recipeJson = new Gson().fromJson(json, JsonFormat.class);
             Ingredient input = Ingredient.fromJson(recipeJson.input);
+            Ingredient tool = Ingredient.fromJson(recipeJson.tool);
             Item resultItem = Registries.ITEM.getOrEmpty(new Identifier(recipeJson.result)).get();
             ItemStack result = new ItemStack(resultItem, recipeJson.count);
-            return new StumpChoppingRecipe(id,result, DefaultedList.ofSize(1, input));
+            DefaultedList<Ingredient> ingList = DefaultedList.ofSize(2, Ingredient.EMPTY);
+            ingList.set(0, tool);
+            ingList.set(1, input);
+            return new StumpChoppingRecipe(id,result,ingList);
         }
 
         @Override

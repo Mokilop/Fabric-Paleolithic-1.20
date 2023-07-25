@@ -1,0 +1,13 @@
+{
+  "type": "paleolithic:stump_chopping",
+  "tool": {
+    "tag": "minecraft:pickaxes"
+  },
+  "input":
+    {
+      "item": "minecraft:stone"
+    }
+  ,
+  "result": "minecraft:cobblestone",
+  "count": "1"
+}

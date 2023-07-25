@@ -8,10 +8,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolItem;
+import net.minecraft.item.*;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
@@ -87,8 +84,8 @@ public class StumpBlock extends BlockWithEntity implements BlockEntityProvider {
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if(world.isClient())return ActionResult.SUCCESS;
         if(world.getBlockEntity(pos) instanceof StumpBlockEntity entity){
-            ItemStack hs = (hand == Hand.MAIN_HAND) ? player.getMainHandStack() : player.getOffHandStack();
-            if(hs.getItem() instanceof ToolItem)return ActionResult.FAIL;
+            ItemStack hs = player.getMainHandStack();
+            if(hs.getItem() instanceof ToolItem)hs = player.getOffHandStack();
             if(hs.isEmpty()) entity.removeItem(player);
             if(entity.addItem(hs.copyWithCount(1))){
                 hs.decrement(player.isCreative()?0:1);
@@ -102,11 +99,12 @@ public class StumpBlock extends BlockWithEntity implements BlockEntityProvider {
     public void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
         if(world.isClient())return;
         if(world.getBlockEntity(pos) instanceof StumpBlockEntity entity){
-            if(player.getMainHandStack().getItem() instanceof AxeItem axeItem){
+            ItemStack mhs = player.getMainHandStack();
+            if(mhs.getItem() instanceof MiningToolItem toolItem){
                 boolean fullyCharged = player.getAttackCooldownProgress(0) == 1;
-                boolean highDamage = axeItem.getAttackDamage() >= 8;
-                boolean successful = StumpBlockEntity.chop(world, pos, state, entity, fullyCharged, highDamage);
-                player.getMainHandStack().damage(1, world.getRandom(), (ServerPlayerEntity)player);
+                boolean highDamage = toolItem.getAttackDamage() >= 8;
+                boolean successful = StumpBlockEntity.chop(world, pos, state, entity, mhs, fullyCharged, highDamage);
+                mhs.damage(1, world.getRandom(), (ServerPlayerEntity)player);
             }
         }
     }

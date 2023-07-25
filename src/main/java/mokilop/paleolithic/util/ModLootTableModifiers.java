@@ -19,15 +19,18 @@ import java.util.Arrays;
 
 public class ModLootTableModifiers {
 
+    private static Identifier GRASS_ID  = new Identifier("minecraft", "blocks/grass");
+
     public static void modifyLootTables(){
         LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
             if(source.isBuiltin() && id.toString().contains("_leaves")){
                 LootPool.Builder poolBuilder = LootPool.builder()
                         .rolls(ConstantLootNumberProvider.create(1))
                         .with(ItemEntry.builder(Items.STICK))
-                        .apply(SetCountLootFunction.builder(BinomialLootNumberProvider.create(3, 0.1f)));
+                        .apply(SetCountLootFunction.builder(BinomialLootNumberProvider.create(2, 0.1f)));
                 tableBuilder.pool(poolBuilder.build());
             }
         });
+
     }
 }
