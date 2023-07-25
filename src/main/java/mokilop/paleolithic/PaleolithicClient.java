@@ -2,6 +2,7 @@ package mokilop.paleolithic;
 
 import mokilop.paleolithic.block.entity.ModBlockEntities;
 import mokilop.paleolithic.block.entity.client.PrimitiveCampfireBlockEntityRenderer;
+import mokilop.paleolithic.block.entity.client.StumpBlockEntityRenderer;
 import mokilop.paleolithic.networking.ModMessages;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
@@ -14,5 +15,6 @@ public class PaleolithicClient implements ClientModInitializer {
 
 
         BlockEntityRendererFactories.register(ModBlockEntities.PRIMITIVE_CAMPFIRE, PrimitiveCampfireBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(ModBlockEntities.STUMP, StumpBlockEntityRenderer::new);
     }
 }

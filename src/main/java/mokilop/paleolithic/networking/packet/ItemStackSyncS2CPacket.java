@@ -1,5 +1,6 @@
 package mokilop.paleolithic.networking.packet;
 
+import mokilop.paleolithic.block.entity.BlockEntityWithDisplayableInventory;
 import mokilop.paleolithic.block.entity.PrimitiveCampfireBlockEntity;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
@@ -19,7 +20,7 @@ public class ItemStackSyncS2CPacket {
         }
         BlockPos position = buf.readBlockPos();
 
-        if (client.world.getBlockEntity(position) instanceof PrimitiveCampfireBlockEntity blockEntity) {
+        if (client.world.getBlockEntity(position) instanceof BlockEntityWithDisplayableInventory blockEntity) {
             blockEntity.setInventory(list);
         }
     }

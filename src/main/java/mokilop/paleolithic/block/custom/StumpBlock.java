@@ -83,8 +83,6 @@ public class StumpBlock extends BlockWithEntity implements BlockEntityProvider {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-            String handN = (hand == Hand.MAIN_HAND) ? "main" : "off";
-            Paleolithic.LOGGER.info(handN);
         if(world.isClient())return ActionResult.SUCCESS;
         if(world.getBlockEntity(pos) instanceof StumpBlockEntity entity){
             ItemStack hs = (hand == Hand.MAIN_HAND) ? player.getMainHandStack() : player.getOffHandStack();
