@@ -25,7 +25,24 @@ public class ModBlockEntities {
         STUMP = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 new Identifier(Paleolithic.MOD_ID, "stump"),
                 FabricBlockEntityTypeBuilder.create(StumpBlockEntity::new,
-                        ModBlocks.OAK_STUMP).build(null));
+                        ModBlocks.BAMBOO_STUMP,
+                        ModBlocks.ACACIA_STUMP,
+                        ModBlocks.BIRCH_STUMP,
+                        ModBlocks.CHERRY_STUMP,
+                        ModBlocks.DARK_OAK_STUMP,
+                        ModBlocks.JUNGLE_STUMP,
+                        ModBlocks.MANGROVE_STUMP,
+                        ModBlocks.OAK_STUMP,
+                        ModBlocks.SPRUCE_STUMP,
+                        ModBlocks.STRIPPED_ACACIA_STUMP,
+                        ModBlocks.STRIPPED_BAMBOO_STUMP,
+                        ModBlocks.STRIPPED_BIRCH_STUMP,
+                        ModBlocks.STRIPPED_CHERRY_STUMP,
+                        ModBlocks.STRIPPED_DARK_OAK_STUMP,
+                        ModBlocks.STRIPPED_JUNGLE_STUMP,
+                        ModBlocks.STRIPPED_MANGROVE_STUMP,
+                        ModBlocks.STRIPPED_OAK_STUMP,
+                        ModBlocks.STRIPPED_SPRUCE_STUMP).build(null));
 
     }
 }

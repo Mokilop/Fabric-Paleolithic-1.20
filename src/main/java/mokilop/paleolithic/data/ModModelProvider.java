@@ -1,14 +1,20 @@
 package mokilop.paleolithic.data;
 
-import com.ibm.icu.text.Normalizer2;
-import mokilop.paleolithic.block.ModBlocks;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import mokilop.paleolithic.Paleolithic;
 import mokilop.paleolithic.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
-import net.minecraft.client.gui.ParentElement;
+import net.minecraft.block.Block;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Models;
+import net.minecraft.registry.Registries;
+
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.Arrays;
 
 public class ModModelProvider extends FabricModelProvider {
     public ModModelProvider(FabricDataOutput output) {
@@ -17,6 +23,7 @@ public class ModModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
+
     }
 
     @Override
@@ -25,5 +32,8 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.STONE_HAMMER, Models.HANDHELD);
         itemModelGenerator.register(ModItems.PLANT_TWINE, Models.GENERATED);
         itemModelGenerator.register(ModItems.PLANT_FIBER, Models.GENERATED);
+
     }
+
+
 }

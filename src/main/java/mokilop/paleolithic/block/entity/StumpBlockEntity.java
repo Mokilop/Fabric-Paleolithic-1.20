@@ -76,13 +76,13 @@ public class StumpBlockEntity extends BlockEntityWithDisplayableInventory {
         world.spawnEntity(outputEntity);
     }
 
-    public static boolean chop(World world, BlockPos blockPos, BlockState blockState, StumpBlockEntity entity, boolean fullyCharged) {
+    public static boolean chop(World world, BlockPos blockPos, BlockState blockState, StumpBlockEntity entity, boolean fullyCharged, boolean highDamage) {
         if (world.isClient()) return false;
         if (getMatchForChopping(entity).isEmpty()) {
             return false;
         }
-        entity.progress++;
-        if (entity.progress >= maxProgress || fullyCharged) {
+        entity.progress += fullyCharged ? 2 : 1;
+        if (entity.progress >= maxProgress || (fullyCharged && highDamage)) {
             entity.progress = 0;
             craftItemFromChopping(entity);
             world.playSound(null,blockPos, SoundEvents.BLOCK_WOOD_BREAK, SoundCategory.BLOCKS, 1, 1.5f);

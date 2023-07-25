@@ -1,0 +1,10 @@
+{
+  "type": "paleolithic:stump_chopping",
+  "input":
+    {
+      "tag": "minecraft:cherry_logs"
+    }
+  ,
+  "result": "minecraft:cherry_planks",
+  "count": "2"
+}

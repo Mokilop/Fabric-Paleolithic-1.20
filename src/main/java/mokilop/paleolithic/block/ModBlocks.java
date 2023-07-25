@@ -90,11 +90,28 @@ public class ModBlocks {
     //endregion
 
     //region Stumps
-
-    public static final Block OAK_STUMP = registerBlock("oak_stump", new StumpBlock(FabricBlockSettings.create()
+    private static FabricBlockSettings stumpBaseSettings = FabricBlockSettings.create()
             .strength(Blocks.OAK_LOG.getHardness(), Blocks.OAK_LOG.getBlastResistance())
-            .sounds(BlockSoundGroup.WOOD)
-    ), ModItemGroup.PALEOLITHIC);
+            .sounds(BlockSoundGroup.WOOD);
+
+    public static final Block ACACIA_STUMP = registerBlock("acacia_stump", new StumpBlock(stumpBaseSettings), ModItemGroup.PALEOLITHIC);
+    public static final Block BAMBOO_STUMP = registerBlock("bamboo_block_stump", new StumpBlock(stumpBaseSettings), ModItemGroup.PALEOLITHIC);
+    public static final Block BIRCH_STUMP = registerBlock("birch_stump", new StumpBlock(stumpBaseSettings), ModItemGroup.PALEOLITHIC);
+    public static final Block CHERRY_STUMP = registerBlock("cherry_stump", new StumpBlock(stumpBaseSettings), ModItemGroup.PALEOLITHIC);
+    public static final Block DARK_OAK_STUMP = registerBlock("dark_oak_stump", new StumpBlock(stumpBaseSettings), ModItemGroup.PALEOLITHIC);
+    public static final Block JUNGLE_STUMP = registerBlock("jungle_stump", new StumpBlock(stumpBaseSettings), ModItemGroup.PALEOLITHIC);
+    public static final Block MANGROVE_STUMP = registerBlock("mangrove_stump", new StumpBlock(stumpBaseSettings), ModItemGroup.PALEOLITHIC);
+    public static final Block OAK_STUMP = registerBlock("oak_stump", new StumpBlock(stumpBaseSettings), ModItemGroup.PALEOLITHIC);
+    public static final Block SPRUCE_STUMP = registerBlock("spruce_stump", new StumpBlock(stumpBaseSettings), ModItemGroup.PALEOLITHIC);
+    public static final Block STRIPPED_ACACIA_STUMP = registerBlock("stripped_acacia_stump", new StumpBlock(stumpBaseSettings), ModItemGroup.PALEOLITHIC);
+    public static final Block STRIPPED_BAMBOO_STUMP = registerBlock("stripped_bamboo_block_stump", new StumpBlock(stumpBaseSettings), ModItemGroup.PALEOLITHIC);
+    public static final Block STRIPPED_BIRCH_STUMP = registerBlock("stripped_birch_stump", new StumpBlock(stumpBaseSettings), ModItemGroup.PALEOLITHIC);
+    public static final Block STRIPPED_CHERRY_STUMP = registerBlock("stripped_cherry_stump", new StumpBlock(stumpBaseSettings), ModItemGroup.PALEOLITHIC);
+    public static final Block STRIPPED_DARK_OAK_STUMP = registerBlock("stripped_dark_oak_stump", new StumpBlock(stumpBaseSettings), ModItemGroup.PALEOLITHIC);
+    public static final Block STRIPPED_JUNGLE_STUMP = registerBlock("stripped_jungle_stump", new StumpBlock(stumpBaseSettings), ModItemGroup.PALEOLITHIC);
+    public static final Block STRIPPED_MANGROVE_STUMP = registerBlock("stripped_mangrove_stump", new StumpBlock(stumpBaseSettings), ModItemGroup.PALEOLITHIC);
+    public static final Block STRIPPED_OAK_STUMP = registerBlock("stripped_oak_stump", new StumpBlock(stumpBaseSettings), ModItemGroup.PALEOLITHIC);
+    public static final Block STRIPPED_SPRUCE_STUMP = registerBlock("stripped_spruce_stump", new StumpBlock(stumpBaseSettings), ModItemGroup.PALEOLITHIC);
 
     //endregion
 

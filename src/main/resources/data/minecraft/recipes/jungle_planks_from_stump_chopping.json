@@ -1,0 +1,10 @@
+{
+  "type": "paleolithic:stump_chopping",
+  "input":
+    {
+      "tag": "minecraft:jungle_logs"
+    }
+  ,
+  "result": "minecraft:jungle_planks",
+  "count": "2"
+}

@@ -1,0 +1,10 @@
+{
+  "type": "paleolithic:stump_chopping",
+  "input":
+    {
+      "tag": "minecraft:birch_logs"
+    }
+  ,
+  "result": "minecraft:birch_planks",
+  "count": "2"
+}

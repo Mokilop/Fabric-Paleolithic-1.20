@@ -1,0 +1,10 @@
+{
+  "type": "paleolithic:stump_chopping",
+  "input":
+    {
+      "tag": "minecraft:mangrove_logs"
+    }
+  ,
+  "result": "minecraft:mangrove_planks",
+  "count": "2"
+}

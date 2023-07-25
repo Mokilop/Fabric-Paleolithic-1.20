@@ -6,11 +6,13 @@ import mokilop.paleolithic.block.entity.PrimitiveCampfireBlockEntity;
 import mokilop.paleolithic.block.entity.StumpBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
@@ -102,7 +104,9 @@ public class StumpBlock extends BlockWithEntity implements BlockEntityProvider {
         if(world.getBlockEntity(pos) instanceof StumpBlockEntity entity){
             if(player.getMainHandStack().getItem() instanceof AxeItem axeItem){
                 boolean fullyCharged = player.getAttackCooldownProgress(0) == 1;
-                boolean successful = StumpBlockEntity.chop(world, pos, state, entity, fullyCharged);
+                boolean highDamage = axeItem.getAttackDamage() >= 8;
+                boolean successful = StumpBlockEntity.chop(world, pos, state, entity, fullyCharged, highDamage);
+                player.getMainHandStack().damage(1, world.getRandom(), (ServerPlayerEntity)player);
             }
         }
     }
