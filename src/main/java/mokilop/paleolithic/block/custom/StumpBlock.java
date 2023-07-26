@@ -4,18 +4,22 @@ import mokilop.paleolithic.Paleolithic;
 import mokilop.paleolithic.block.entity.ImplementedInventory;
 import mokilop.paleolithic.block.entity.PrimitiveCampfireBlockEntity;
 import mokilop.paleolithic.block.entity.StumpBlockEntity;
+import mokilop.paleolithic.sound.ModSounds;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
@@ -82,15 +86,18 @@ public class StumpBlock extends BlockWithEntity implements BlockEntityProvider {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if(world.isClient())return ActionResult.SUCCESS;
+        if(hit.getSide() != Direction.UP)return ActionResult.PASS;
+        if(world.isClient())return ActionResult.CONSUME;
         if(world.getBlockEntity(pos) instanceof StumpBlockEntity entity){
             ItemStack hs = player.getMainHandStack();
             if(hs.getItem() instanceof ToolItem)hs = player.getOffHandStack();
-            if(hs.isEmpty()) entity.removeItem(player);
+            if(hs.isEmpty()) {
+                if(entity.removeItem(player)) return ActionResult.CONSUME_PARTIAL;
+            }
             if(entity.addItem(hs.copyWithCount(1))){
                 hs.decrement(player.isCreative()?0:1);
             }
-            return ActionResult.SUCCESS;
+            return ActionResult.CONSUME_PARTIAL;
         }
         return ActionResult.PASS;
     }
@@ -104,7 +111,11 @@ public class StumpBlock extends BlockWithEntity implements BlockEntityProvider {
                 boolean fullyCharged = player.getAttackCooldownProgress(0) == 1;
                 boolean highDamage = toolItem.getAttackDamage() >= 8;
                 boolean successful = StumpBlockEntity.chop(world, pos, state, entity, mhs, fullyCharged, highDamage);
-                mhs.damage(1, world.getRandom(), (ServerPlayerEntity)player);
+                mhs.damage(successful ? 1 : 0, world.getRandom(), (ServerPlayerEntity)player);
+                if(successful && world.getRandom().nextInt(256) == 0){
+                    world.playSound(null, pos, ModSounds.STUMP_SHATTER, SoundCategory.BLOCKS, 1, 1);
+                    world.removeBlock(pos, false);
+                }
             }
         }
     }

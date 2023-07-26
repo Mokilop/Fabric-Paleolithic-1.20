@@ -34,6 +34,7 @@ public class ModBlocks {
             ),
             ModItemGroup.PALEOLITHIC);
 
+
     //region Rock Sharpening Stations
     private static final FabricBlockSettings ROCK_SHARPENING_STATION_SETTINGS_BASE =
             FabricBlockSettings

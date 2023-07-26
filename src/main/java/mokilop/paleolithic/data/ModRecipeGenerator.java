@@ -30,7 +30,7 @@ public class ModRecipeGenerator extends FabricRecipeProvider {
 
     private static void generateRockSharpeningStationRecipes(Consumer<RecipeJsonProvider> exporter) {
 
-        for(int i = 0; i < STATION_TYPES.length; i++){
+        for(int i = 0; i < WOOD_TYPES.length; i++){
             ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, STATION_TYPES[i])
                     .input(ModBlocks.ROCK)
                     .input(ModBlocks.ROCK)

@@ -55,7 +55,24 @@ public class ModLootTableGenerator extends FabricBlockLootTableProvider {
         addDrop(Blocks.FERN, grassDrops(Blocks.FERN));
         addDrop(Blocks.LARGE_FERN, tallGrassDrops(Blocks.LARGE_FERN, Blocks.FERN));
         addDrop(ModBlocks.PRIMITIVE_CAMPFIRE);
+        addDrop(ModBlocks.ACACIA_STUMP);
+        addDrop(ModBlocks.BAMBOO_STUMP);
+        addDrop(ModBlocks.BIRCH_STUMP);
+        addDrop(ModBlocks.CHERRY_STUMP);
+        addDrop(ModBlocks.DARK_OAK_STUMP);
+        addDrop(ModBlocks.JUNGLE_STUMP);
+        addDrop(ModBlocks.MANGROVE_STUMP);
         addDrop(ModBlocks.OAK_STUMP);
+        addDrop(ModBlocks.SPRUCE_STUMP);
+        addDrop(ModBlocks.STRIPPED_ACACIA_STUMP);
+        addDrop(ModBlocks.STRIPPED_BAMBOO_STUMP);
+        addDrop(ModBlocks.STRIPPED_BIRCH_STUMP);
+        addDrop(ModBlocks.STRIPPED_CHERRY_STUMP);
+        addDrop(ModBlocks.STRIPPED_DARK_OAK_STUMP);
+        addDrop(ModBlocks.STRIPPED_JUNGLE_STUMP);
+        addDrop(ModBlocks.STRIPPED_MANGROVE_STUMP);
+        addDrop(ModBlocks.STRIPPED_OAK_STUMP);
+        addDrop(ModBlocks.STRIPPED_SPRUCE_STUMP);
     }
 
     @Override

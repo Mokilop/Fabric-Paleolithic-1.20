@@ -1,0 +1,8 @@
+{
+  "stump_shatter": {
+    "subtitle": "sounds.paleolithic.stump_shatter",
+    "sounds": [
+      "paleolithic:stump_shatter"
+    ]
+  }
+}

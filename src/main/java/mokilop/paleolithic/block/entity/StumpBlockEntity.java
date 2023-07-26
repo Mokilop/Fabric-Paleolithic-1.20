@@ -28,7 +28,7 @@ import java.util.Optional;
 public class StumpBlockEntity extends BlockEntityWithDisplayableInventory {
 
     private int progress = 0;
-    private static int maxProgress = 3;
+    private static int maxProgress = 6;
 
     public StumpBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.STUMP, pos, state, 1);
@@ -86,8 +86,9 @@ public class StumpBlockEntity extends BlockEntityWithDisplayableInventory {
             world.playSound(null,blockPos, SoundEvents.BLOCK_WOOD_BREAK, SoundCategory.BLOCKS, 1, 1.5f);
             entity.markDirty();
             markDirty(world, blockPos, blockState);
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override
