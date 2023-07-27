@@ -2,7 +2,9 @@ package mokilop.paleolithic.data;
 
 import mokilop.paleolithic.block.ModBlocks;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSetType;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.WoodType;
 
 public class Constants {
     public static final Block[] WOOD_TYPES = {
@@ -45,5 +47,25 @@ public class Constants {
             ModBlocks.STRIPPED_MANGROVE_ROCK_SHARPENING_STATION,
             ModBlocks.BAMBOO_ROCK_SHARPENING_STATION,
             ModBlocks.STRIPPED_BAMBOO_SHARPENING_STATION
+    };
+    public static final Block[] STUMP_TYPES = {
+            ModBlocks.OAK_STUMP,
+            ModBlocks.SPRUCE_STUMP,
+            ModBlocks.ACACIA_STUMP,
+            ModBlocks.BIRCH_STUMP,
+            ModBlocks.CHERRY_STUMP,
+            ModBlocks.DARK_OAK_STUMP,
+            ModBlocks.JUNGLE_STUMP,
+            ModBlocks.MANGROVE_STUMP,
+            ModBlocks.STRIPPED_OAK_STUMP,
+            ModBlocks.STRIPPED_SPRUCE_STUMP,
+            ModBlocks.STRIPPED_ACACIA_STUMP,
+            ModBlocks.STRIPPED_BIRCH_STUMP,
+            ModBlocks.STRIPPED_CHERRY_STUMP,
+            ModBlocks.STRIPPED_DARK_OAK_STUMP,
+            ModBlocks.STRIPPED_JUNGLE_STUMP,
+            ModBlocks.STRIPPED_MANGROVE_STUMP,
+            ModBlocks.BAMBOO_STUMP,
+            ModBlocks.STRIPPED_BAMBOO_STUMP
     };
 }

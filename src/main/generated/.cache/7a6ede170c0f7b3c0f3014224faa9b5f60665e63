@@ -1,4 +1,4 @@
-// 1.20	2023-07-25T20:27:25.7127176	paleolithic/Block Loot Tables
+// 1.20	2023-07-26T22:43:08.373147	paleolithic/Block Loot Tables
 4b8b585f6db231218596c1e68774dab7caef4222 data\paleolithic\loot_tables\blocks\mangrove_stump.json
 d9377bda774af6edf81517a9da976742dd428208 data\paleolithic\loot_tables\blocks\stripped_bamboo_block_stump.json
 7f38c8c6dcf99b20830c2bf638d3ebc6b5954af8 data\paleolithic\loot_tables\blocks\spruce_rock_sharpening_station.json
@@ -7,8 +7,8 @@ c858bd5b26661af2f20afb2d6a2d1f00c8a8e4f6 data\paleolithic\loot_tables\blocks\str
 62020d51b0914f728176e10992b746e8a21f583e data\paleolithic\loot_tables\blocks\primitive_campfire.json
 2d8a011c13c2acdd1c5cc5965749c61958c74d53 data\paleolithic\loot_tables\blocks\stripped_mangrove_rock_sharpening_station.json
 aa0df85f1bb18b4632507d987828a4a658ab6b14 data\minecraft\loot_tables\blocks\fern.json
-5a073c60daf95afe3211c867134fffd65e8ece80 data\paleolithic\loot_tables\blocks\jungle_rock_sharpening_station.json
 2a395b27f7f90e0a766f3f792e9730550539fa7d data\paleolithic\loot_tables\blocks\stripped_spruce_stump.json
+5a073c60daf95afe3211c867134fffd65e8ece80 data\paleolithic\loot_tables\blocks\jungle_rock_sharpening_station.json
 23278f0c76754caf5b34aab0da681ab7e1e0e290 data\paleolithic\loot_tables\blocks\spruce_stump.json
 94b5e0907b981c2c56890eb7addc9b2cf9557039 data\paleolithic\loot_tables\blocks\acacia_rock_sharpening_station.json
 ae31e672c78c480928b87f7284356cd999ab79e6 data\paleolithic\loot_tables\blocks\stripped_oak_stump.json

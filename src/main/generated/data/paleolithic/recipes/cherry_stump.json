@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "stump",
+  "ingredients": [
+    {
+      "item": "minecraft:cherry_log"
+    }
+  ],
+  "result": {
+    "item": "paleolithic:cherry_stump"
+  }
+}

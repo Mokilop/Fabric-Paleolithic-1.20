@@ -7,23 +7,26 @@ import mokilop.paleolithic.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.Block;
-import net.minecraft.data.client.BlockStateModelGenerator;
-import net.minecraft.data.client.ItemModelGenerator;
-import net.minecraft.data.client.Models;
+import net.minecraft.data.client.*;
 import net.minecraft.registry.Registries;
+import net.minecraft.util.Identifier;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Optional;
 
 public class ModModelProvider extends FabricModelProvider {
+
+    private static final Model STUMP_MODEL = new Model(Optional.of(new Identifier(Paleolithic.MOD_ID, "stump")),
+            Optional.of("oak"), TextureKey.TEXTURE);
+
     public ModModelProvider(FabricDataOutput output) {
         super(output);
     }
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-
     }
 
     @Override

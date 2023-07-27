@@ -48,7 +48,8 @@
 
   "block.paleolithic.primitive_campfire": "Primitive Campfire",
 
-  "itemgroup.paleolithic": "Paleolithic",
+  "itemgroup.paleolithic_items": "Paleolithic Items",
+  "itemgroup.paleolithic_blocks": "Paleolithic Blocks",
   "stone_sharpening_station.mode_info.hatchet_head": "Sharpening mode: Hatchet Head",
   "stone_sharpening_station.mode_info.spear_head": "Sharpening mode: Spear Head",
   "stone_sharpening_station.mode_info.pickaxe_head_fragment": "Sharpening mode: Pickaxe Head Fragment",

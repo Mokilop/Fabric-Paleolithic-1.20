@@ -20,7 +20,7 @@ public class ModItems {
     public static final Item STONE_LUMBER_AXE_HEAD_FRAGMENT = registerItem("stone_lumber_axe_head_fragment", new Item(new FabricItemSettings()));
     public static final Item STONE_HATCHET = registerItem("stone_hatchet", new AxeItem(ToolMaterials.STONE, 4.0f, -2f, new FabricItemSettings()));
     private static Item registerItem(String name, Item item){
-        addItemToGroup(ModItemGroup.PALEOLITHIC, item);
+        addItemToGroup(ModItemGroup.PALEOLITHIC_ITEMS, item);
         return Registry.register(Registries.ITEM, new Identifier(Paleolithic.MOD_ID, name), item);
     }
     private static Item registerItem(String name, Item item, RegistryKey<ItemGroup> group){

@@ -13,8 +13,7 @@ import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.util.Identifier;
 import java.util.function.Consumer;
 
-import static mokilop.paleolithic.data.Constants.STATION_TYPES;
-import static mokilop.paleolithic.data.Constants.WOOD_TYPES;
+import static mokilop.paleolithic.data.Constants.*;
 
 public class ModRecipeGenerator extends FabricRecipeProvider {
 
@@ -38,6 +37,12 @@ public class ModRecipeGenerator extends FabricRecipeProvider {
                     .criterion(FabricRecipeProvider.hasItem(WOOD_TYPES[i]), FabricRecipeProvider.conditionsFromItem(WOOD_TYPES[i]))
                     .group("rock_sharpening_station")
                     .offerTo(exporter, new Identifier(Paleolithic.MOD_ID, FabricRecipeProvider.getRecipeName(STATION_TYPES[i])));
+
+            ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, STUMP_TYPES[i])
+                    .input(WOOD_TYPES[i])
+                    .criterion(FabricRecipeProvider.hasItem(WOOD_TYPES[i]), FabricRecipeProvider.conditionsFromItem(WOOD_TYPES[i]))
+                    .group("stump")
+                    .offerTo(exporter, new Identifier(Paleolithic.MOD_ID, FabricRecipeProvider.getRecipeName(STUMP_TYPES[i])));
         }
 
         ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.PRIMITIVE_CAMPFIRE)

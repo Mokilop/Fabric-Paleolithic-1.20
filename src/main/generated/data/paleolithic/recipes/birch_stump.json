@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "stump",
+  "ingredients": [
+    {
+      "item": "minecraft:birch_log"
+    }
+  ],
+  "result": {
+    "item": "paleolithic:birch_stump"
+  }
+}

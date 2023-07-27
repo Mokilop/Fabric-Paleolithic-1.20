@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "stump",
+  "ingredients": [
+    {
+      "item": "minecraft:stripped_mangrove_log"
+    }
+  ],
+  "result": {
+    "item": "paleolithic:stripped_mangrove_stump"
+  }
+}
