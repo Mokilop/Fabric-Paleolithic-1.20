@@ -2,8 +2,6 @@ package mokilop.paleolithic;
 
 import mokilop.paleolithic.block.ModBlocks;
 import mokilop.paleolithic.block.entity.ModBlockEntities;
-import mokilop.paleolithic.data.CustomAndBadGenerator;
-import mokilop.paleolithic.data.ModModelProvider;
 import mokilop.paleolithic.item.ModItemGroup;
 import mokilop.paleolithic.item.ModItems;
 import mokilop.paleolithic.networking.ModMessages;

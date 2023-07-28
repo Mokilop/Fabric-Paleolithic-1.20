@@ -3,10 +3,13 @@ package mokilop.paleolithic.data;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import mokilop.paleolithic.Paleolithic;
+import mokilop.paleolithic.block.ModBlocks;
+import mokilop.paleolithic.block.custom.StumpBlock;
 import mokilop.paleolithic.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.Block;
+import net.minecraft.block.WoodType;
 import net.minecraft.data.client.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
@@ -27,6 +30,7 @@ public class ModModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
+        registerStumps(blockStateModelGenerator);
     }
 
     @Override
@@ -38,5 +42,14 @@ public class ModModelProvider extends FabricModelProvider {
 
     }
 
+    private void registerStump(BlockStateModelGenerator blockStateModelGenerator, StumpBlock stump){
+        blockStateModelGenerator.blockStateCollector
+                .accept(BlockStateModelGenerator.createSingletonBlockState(stump, StumpBlock.PARENT_MODEL
+                        .upload(stump, stump.textureMap, blockStateModelGenerator.modelCollector)));
+    }
+
+    private void registerStumps(BlockStateModelGenerator blockStateModelGenerator){
+        ModBlocks.getAllStumps().forEach((s) -> registerStump(blockStateModelGenerator, ((StumpBlock) s)));
+    }
 
 }

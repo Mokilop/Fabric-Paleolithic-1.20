@@ -1,0 +1,7 @@
+{
+  "parent": "paleolithic:block/stump",
+  "textures": {
+    "log": "minecraft:block/stripped_warped_stem",
+    "log_top": "minecraft:block/stripped_warped_stem_top"
+  }
+}

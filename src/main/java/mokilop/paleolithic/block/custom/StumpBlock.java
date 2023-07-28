@@ -1,18 +1,18 @@
 package mokilop.paleolithic.block.custom;
 
 import mokilop.paleolithic.Paleolithic;
-import mokilop.paleolithic.block.entity.ImplementedInventory;
-import mokilop.paleolithic.block.entity.PrimitiveCampfireBlockEntity;
 import mokilop.paleolithic.block.entity.StumpBlockEntity;
+import mokilop.paleolithic.data.Constants;
 import mokilop.paleolithic.sound.ModSounds;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.data.client.Model;
+import net.minecraft.data.client.TextureKey;
+import net.minecraft.data.client.TextureMap;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
@@ -20,58 +20,63 @@ import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
+import java.util.Optional;
 
 public class StumpBlock extends BlockWithEntity implements BlockEntityProvider {
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
+    public WoodType woodType;
+    public boolean isStripped;
+    public TextureMap textureMap;
+    public static final Model PARENT_MODEL = new Model(Optional.of(new Identifier(Paleolithic.MOD_ID, "block/stump")),
+            Optional.empty());
     public static VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 6, 16);
 
-    public StumpBlock(Settings settings) {
-        super(settings);
+    public StumpBlock(Settings settings, WoodType woodType, boolean stripped)
+    {
+        super(settings.sounds(woodType.soundType()));
+        this.woodType = woodType;
+        isStripped = stripped;
+        textureMap = new TextureMap().register(TextureKey.of("log"), TextureMap.getId(getLogBlock()))
+                .register(TextureKey.of("log_top"), TextureMap.getSubId(getLogBlock(), "_top"));
+    }
+    private Block getLogBlock() {
+        return (isStripped ? Constants.STRIPPED_LOGS_MAP : Constants.LOGS_MAP).get(woodType);
     }
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new StumpBlockEntity(pos, state);
     }
-
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
     }
-
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
-
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         return super.getPlacementState(ctx).with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
-
     @Override
     public BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));
     }
-
     @Override
     public BlockState mirror(BlockState state, BlockMirror mirror) {
         return state.rotate(mirror.getRotation(state.get(FACING)));
     }
-
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return SHAPE;
     }
-
     @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (state.getBlock() != newState.getBlock()) {
