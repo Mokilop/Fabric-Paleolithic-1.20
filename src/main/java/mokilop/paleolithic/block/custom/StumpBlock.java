@@ -29,12 +29,12 @@ import java.util.Optional;
 
 public class StumpBlock extends BlockWithEntity implements BlockEntityProvider {
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
-    public WoodType woodType;
-    public boolean isStripped;
-    public TextureMap textureMap;
     public static final Model PARENT_MODEL = new Model(Optional.of(new Identifier(Paleolithic.MOD_ID, "block/stump")),
             Optional.empty());
-    public static VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 6, 16);
+    private WoodType woodType;
+    private boolean isStripped;
+    private TextureMap textureMap;
+    public static final VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 6, 16);
 
     public StumpBlock(Settings settings, WoodType woodType, boolean stripped)
     {
@@ -44,7 +44,20 @@ public class StumpBlock extends BlockWithEntity implements BlockEntityProvider {
         textureMap = new TextureMap().register(TextureKey.of("log"), TextureMap.getId(getLogBlock()))
                 .register(TextureKey.of("log_top"), TextureMap.getSubId(getLogBlock(), "_top"));
     }
-    private Block getLogBlock() {
+    public WoodType getWoodType() {
+        return woodType;
+    }
+    public boolean getIsStripped(){
+        return isStripped;
+    }
+    public TextureMap getTextureMap(){
+        return textureMap;
+    }
+    public Model getParentModel(){
+        return PARENT_MODEL;
+    }
+
+    public Block getLogBlock() {
         return (isStripped ? Constants.STRIPPED_LOGS_MAP : Constants.LOGS_MAP).get(woodType);
     }
     @Nullable

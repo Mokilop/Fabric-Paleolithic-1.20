@@ -1,0 +1,7 @@
+{
+  "parent": "paleolithic:block/rock_sharpening_station",
+  "textures": {
+    "log": "minecraft:block/crimson_stem",
+    "log_top": "minecraft:block/crimson_stem_top"
+  }
+}

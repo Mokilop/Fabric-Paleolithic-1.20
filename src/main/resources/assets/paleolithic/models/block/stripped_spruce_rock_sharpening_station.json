@@ -1,8 +1,0 @@
-{
-	"credit": "Made with Blockbench",
-	"parent": "paleolithic:block/rock_sharpening_station",
-	"textures": {
-		"1": "minecraft:block/stripped_spruce_log",
-		"2": "minecraft:block/stripped_spruce_log_top"
-	}
-}

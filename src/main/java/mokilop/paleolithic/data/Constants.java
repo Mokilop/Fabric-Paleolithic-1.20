@@ -9,47 +9,6 @@ import net.minecraft.block.WoodType;
 import java.util.HashMap;
 
 public class Constants {
-    public static final Block[] STATION_TYPES = {
-            ModBlocks.OAK_ROCK_SHARPENING_STATION,
-            ModBlocks.SPRUCE_ROCK_SHARPENING_STATION,
-            ModBlocks.ACACIA_ROCK_SHARPENING_STATION,
-            ModBlocks.BIRCH_ROCK_SHARPENING_STATION,
-            ModBlocks.CHERRY_ROCK_SHARPENING_STATION,
-            ModBlocks.DARK_OAK_ROCK_SHARPENING_STATION,
-            ModBlocks.JUNGLE_ROCK_SHARPENING_STATION,
-            ModBlocks.MANGROVE_ROCK_SHARPENING_STATION,
-            ModBlocks.STRIPPED_OAK_ROCK_SHARPENING_STATION,
-            ModBlocks.STRIPPED_SPRUCE_ROCK_SHARPENING_STATION,
-            ModBlocks.STRIPPED_ACACIA_ROCK_SHARPENING_STATION,
-            ModBlocks.STRIPPED_BIRCH_ROCK_SHARPENING_STATION,
-            ModBlocks.STRIPPED_CHERRY_ROCK_SHARPENING_STATION,
-            ModBlocks.STRIPPED_DARK_OAK_ROCK_SHARPENING_STATION,
-            ModBlocks.STRIPPED_JUNGLE_ROCK_SHARPENING_STATION,
-            ModBlocks.STRIPPED_MANGROVE_ROCK_SHARPENING_STATION,
-            ModBlocks.BAMBOO_ROCK_SHARPENING_STATION,
-            ModBlocks.STRIPPED_BAMBOO_SHARPENING_STATION
-    };
-    public static final Block[] STUMP_TYPES = {
-            ModBlocks.OAK_STUMP,
-            ModBlocks.SPRUCE_STUMP,
-            ModBlocks.ACACIA_STUMP,
-            ModBlocks.BIRCH_STUMP,
-            ModBlocks.CHERRY_STUMP,
-            ModBlocks.DARK_OAK_STUMP,
-            ModBlocks.JUNGLE_STUMP,
-            ModBlocks.MANGROVE_STUMP,
-            ModBlocks.STRIPPED_OAK_STUMP,
-            ModBlocks.STRIPPED_SPRUCE_STUMP,
-            ModBlocks.STRIPPED_ACACIA_STUMP,
-            ModBlocks.STRIPPED_BIRCH_STUMP,
-            ModBlocks.STRIPPED_CHERRY_STUMP,
-            ModBlocks.STRIPPED_DARK_OAK_STUMP,
-            ModBlocks.STRIPPED_JUNGLE_STUMP,
-            ModBlocks.STRIPPED_MANGROVE_STUMP,
-            ModBlocks.BAMBOO_STUMP,
-            ModBlocks.STRIPPED_BAMBOO_STUMP
-    };
-
     public static HashMap<WoodType, Block> LOGS_MAP = createLogsMap();
     public static HashMap<WoodType, Block> STRIPPED_LOGS_MAP = createStrippedLogsMap();
     public static HashMap<WoodType, Block> PLANKS_MAP = createPlanksMap();
@@ -99,36 +58,4 @@ public class Constants {
         map.put(WoodType.BAMBOO, Blocks.BAMBOO_PLANKS);
         return map;
     }
-    /*private static HashMap<WoodType, Block> createStumpsMap(){
-        HashMap<WoodType, Block> map = new HashMap<>();
-        map.put(WoodType.OAK, ModBlocks.OAK_STUMP);
-        map.put(WoodType.SPRUCE, ModBlocks.SPRUCE_STUMP);
-        map.put(WoodType.BIRCH, ModBlocks.BIRCH_STUMP);
-        map.put(WoodType.ACACIA, ModBlocks.ACACIA_STUMP);
-        map.put(WoodType.CHERRY, ModBlocks.CHERRY_STUMP);
-        map.put(WoodType.JUNGLE, ModBlocks.JUNGLE_STUMP);
-        map.put(WoodType.DARK_OAK, ModBlocks.DARK_OAK_STUMP);
-        map.put(WoodType.CRIMSON, ModBlocks.CRIMSON_STUMP);
-        map.put(WoodType.WARPED, ModBlocks.WARPED_STUMP);
-        map.put(WoodType.MANGROVE, ModBlocks.MANGROVE_STUMP);
-        map.put(WoodType.BAMBOO, ModBlocks.BAMBOO_STUMP);
-        return map;
-    }
-    private static HashMap<WoodType, Block> createStrippedStumpsMap(){
-        HashMap<WoodType, Block> map = new HashMap<>();
-        map.put(WoodType.OAK, ModBlocks.STRIPPED_OAK_STUMP);
-        map.put(WoodType.SPRUCE, ModBlocks.STRIPPED_SPRUCE_STUMP);
-        map.put(WoodType.BIRCH, ModBlocks.STRIPPED_BIRCH_STUMP);
-        map.put(WoodType.ACACIA, ModBlocks.STRIPPED_ACACIA_STUMP);
-        map.put(WoodType.CHERRY, ModBlocks.STRIPPED_CHERRY_STUMP);
-        map.put(WoodType.JUNGLE, ModBlocks.STRIPPED_JUNGLE_STUMP);
-        map.put(WoodType.DARK_OAK, ModBlocks.STRIPPED_DARK_OAK_STUMP);
-        map.put(WoodType.CRIMSON, ModBlocks.STRIPPED_CRIMSON_STUMP);
-        map.put(WoodType.WARPED, ModBlocks.STRIPPED_WARPED_STUMP);
-        map.put(WoodType.MANGROVE, ModBlocks.STRIPPED_MANGROVE_STUMP);
-        map.put(WoodType.BAMBOO, ModBlocks.STRIPPED_BAMBOO_STUMP);
-        return map;
-    }*/
-
-
 }

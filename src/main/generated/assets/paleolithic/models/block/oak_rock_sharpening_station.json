@@ -1,0 +1,7 @@
+{
+  "parent": "paleolithic:block/rock_sharpening_station",
+  "textures": {
+    "log": "minecraft:block/oak_log",
+    "log_top": "minecraft:block/oak_log_top"
+  }
+}

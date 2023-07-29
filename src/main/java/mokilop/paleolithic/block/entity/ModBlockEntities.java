@@ -10,19 +10,21 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class ModBlockEntities {
-    public static BlockEntityType<PrimitiveCraftingBenchBlockEntity> PRIMITIVE_CRAFTING_BENCH;
+    public static BlockEntityType<CraftingStumpBlockEntity> CRAFTING_STUMP;
     public static BlockEntityType<PrimitiveCampfireBlockEntity> PRIMITIVE_CAMPFIRE;
     public static BlockEntityType<StumpBlockEntity> STUMP;
 
     public static void registerBlocksEntities() {
-        PRIMITIVE_CRAFTING_BENCH = Registry.register(Registries.BLOCK_ENTITY_TYPE,
-                new Identifier(Paleolithic.MOD_ID, "primitive_oak_crafting_bench"),
-                FabricBlockEntityTypeBuilder.create(PrimitiveCraftingBenchBlockEntity::new,
-                        ModBlocks.PRIMITIVE_OAK_CRAFTING_BENCH).build(null));
+        CRAFTING_STUMP = Registry.register(Registries.BLOCK_ENTITY_TYPE,
+                new Identifier(Paleolithic.MOD_ID, "crafting_stump"),
+                FabricBlockEntityTypeBuilder.create(CraftingStumpBlockEntity::new,
+                        ModBlocks.getAllCraftingStumps().toArray(Block[]::new)).build(null));
+
         PRIMITIVE_CAMPFIRE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 new Identifier(Paleolithic.MOD_ID, "primitive_campfire"),
                 FabricBlockEntityTypeBuilder.create(PrimitiveCampfireBlockEntity::new,
                         ModBlocks.PRIMITIVE_CAMPFIRE).build(null));
+
         STUMP = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 new Identifier(Paleolithic.MOD_ID, "stump"),
                 FabricBlockEntityTypeBuilder.create(StumpBlockEntity::new,

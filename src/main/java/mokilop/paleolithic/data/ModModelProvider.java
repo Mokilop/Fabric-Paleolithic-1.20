@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import mokilop.paleolithic.Paleolithic;
 import mokilop.paleolithic.block.ModBlocks;
+import mokilop.paleolithic.block.custom.RockSharpeningStationBlock;
 import mokilop.paleolithic.block.custom.StumpBlock;
 import mokilop.paleolithic.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -21,9 +22,6 @@ import java.util.Optional;
 
 public class ModModelProvider extends FabricModelProvider {
 
-    private static final Model STUMP_MODEL = new Model(Optional.of(new Identifier(Paleolithic.MOD_ID, "stump")),
-            Optional.of("oak"), TextureKey.TEXTURE);
-
     public ModModelProvider(FabricDataOutput output) {
         super(output);
     }
@@ -31,6 +29,7 @@ public class ModModelProvider extends FabricModelProvider {
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
         registerStumps(blockStateModelGenerator);
+        registerRockSharpeningStations(blockStateModelGenerator);
     }
 
     @Override
@@ -45,11 +44,26 @@ public class ModModelProvider extends FabricModelProvider {
     private void registerStump(BlockStateModelGenerator blockStateModelGenerator, StumpBlock stump){
         blockStateModelGenerator.blockStateCollector
                 .accept(BlockStateModelGenerator.createSingletonBlockState(stump, StumpBlock.PARENT_MODEL
-                        .upload(stump, stump.textureMap, blockStateModelGenerator.modelCollector)));
+                        .upload(stump, stump.getTextureMap(), blockStateModelGenerator.modelCollector)));
+    }
+    private void registerRockSharpeningStation(BlockStateModelGenerator blockStateModelGenerator, RockSharpeningStationBlock stationBlock)
+    {
+        blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier
+                .create(stationBlock, BlockStateVariant.create()
+                        .put(VariantSettings.MODEL, RockSharpeningStationBlock.PARENT_MODEL
+                                .upload(stationBlock, stationBlock.getTextureMap(),
+                                        blockStateModelGenerator.modelCollector)))
+                .coordinate(BlockStateModelGenerator
+                        .createNorthDefaultHorizontalRotationStates()));
+    }
+    private void registerRockSharpeningStations(BlockStateModelGenerator blockStateModelGenerator){
+        ModBlocks.getAllRockSharpeningStations().forEach((s)->registerRockSharpeningStation(blockStateModelGenerator, (RockSharpeningStationBlock) s));
     }
 
     private void registerStumps(BlockStateModelGenerator blockStateModelGenerator){
         ModBlocks.getAllStumps().forEach((s) -> registerStump(blockStateModelGenerator, ((StumpBlock) s)));
     }
+
+
 
 }

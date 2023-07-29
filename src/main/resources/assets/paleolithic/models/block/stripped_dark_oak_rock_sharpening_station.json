@@ -1,8 +1,0 @@
-{
-	"credit": "Made with Blockbench",
-	"parent": "paleolithic:block/rock_sharpening_station",
-	"textures": {
-		"1": "minecraft:block/stripped_dark_oak_log",
-		"2": "minecraft:block/stripped_dark_oak_log_top"
-	}
-}

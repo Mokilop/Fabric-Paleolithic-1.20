@@ -1,0 +1,7 @@
+{
+  "parent": "paleolithic:block/rock_sharpening_station",
+  "textures": {
+    "log": "minecraft:block/acacia_log",
+    "log_top": "minecraft:block/acacia_log_top"
+  }
+}

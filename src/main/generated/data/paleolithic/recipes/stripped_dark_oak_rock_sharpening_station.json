@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "rock_sharpening_station",
+  "ingredients": [
+    {
+      "item": "minecraft:stripped_dark_oak_log"
+    },
+    {
+      "item": "paleolithic:rock"
+    },
+    {
+      "item": "paleolithic:rock"
+    }
+  ],
+  "result": {
+    "item": "paleolithic:stripped_dark_oak_rock_sharpening_station"
+  }
+}

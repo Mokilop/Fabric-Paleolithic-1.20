@@ -1,0 +1,7 @@
+{
+  "parent": "paleolithic:block/rock_sharpening_station",
+  "textures": {
+    "log": "minecraft:block/stripped_birch_log",
+    "log_top": "minecraft:block/stripped_birch_log_top"
+  }
+}

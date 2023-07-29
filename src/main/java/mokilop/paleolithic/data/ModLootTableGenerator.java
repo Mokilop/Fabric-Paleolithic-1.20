@@ -31,48 +31,13 @@ public class ModLootTableGenerator extends FabricBlockLootTableProvider {
 
     @Override
     public void generate() {
-        addDrop(ModBlocks.OAK_ROCK_SHARPENING_STATION);
-        addDrop(ModBlocks.SPRUCE_ROCK_SHARPENING_STATION);
-        addDrop(ModBlocks.ACACIA_ROCK_SHARPENING_STATION);
-        addDrop(ModBlocks.BIRCH_ROCK_SHARPENING_STATION);
-        addDrop(ModBlocks.CHERRY_ROCK_SHARPENING_STATION);
-        addDrop(ModBlocks.DARK_OAK_ROCK_SHARPENING_STATION);
-        addDrop(ModBlocks.JUNGLE_ROCK_SHARPENING_STATION);
-        addDrop(ModBlocks.MANGROVE_ROCK_SHARPENING_STATION);
-        addDrop(ModBlocks.STRIPPED_OAK_ROCK_SHARPENING_STATION);
-        addDrop(ModBlocks.STRIPPED_SPRUCE_ROCK_SHARPENING_STATION);
-        addDrop(ModBlocks.STRIPPED_ACACIA_ROCK_SHARPENING_STATION);
-        addDrop(ModBlocks.STRIPPED_BIRCH_ROCK_SHARPENING_STATION);
-        addDrop(ModBlocks.STRIPPED_CHERRY_ROCK_SHARPENING_STATION);
-        addDrop(ModBlocks.STRIPPED_DARK_OAK_ROCK_SHARPENING_STATION);
-        addDrop(ModBlocks.STRIPPED_JUNGLE_ROCK_SHARPENING_STATION );
-        addDrop(ModBlocks.STRIPPED_MANGROVE_ROCK_SHARPENING_STATION);
-        addDrop(ModBlocks.BAMBOO_ROCK_SHARPENING_STATION);
-        addDrop(ModBlocks.STRIPPED_BAMBOO_SHARPENING_STATION);
-        addDrop(ModBlocks.PRIMITIVE_OAK_CRAFTING_BENCH);
         addDrop(Blocks.GRASS, grassDrops(Blocks.GRASS));
         addDrop(Blocks.TALL_GRASS, tallGrassDrops(Blocks.TALL_GRASS, Blocks.GRASS));
         addDrop(Blocks.FERN, grassDrops(Blocks.FERN));
         addDrop(Blocks.LARGE_FERN, tallGrassDrops(Blocks.LARGE_FERN, Blocks.FERN));
         addDrop(ModBlocks.PRIMITIVE_CAMPFIRE);
-        addDrop(ModBlocks.ACACIA_STUMP);
-        addDrop(ModBlocks.BAMBOO_STUMP);
-        addDrop(ModBlocks.BIRCH_STUMP);
-        addDrop(ModBlocks.CHERRY_STUMP);
-        addDrop(ModBlocks.DARK_OAK_STUMP);
-        addDrop(ModBlocks.JUNGLE_STUMP);
-        addDrop(ModBlocks.MANGROVE_STUMP);
-        addDrop(ModBlocks.OAK_STUMP);
-        addDrop(ModBlocks.SPRUCE_STUMP);
-        addDrop(ModBlocks.STRIPPED_ACACIA_STUMP);
-        addDrop(ModBlocks.STRIPPED_BAMBOO_STUMP);
-        addDrop(ModBlocks.STRIPPED_BIRCH_STUMP);
-        addDrop(ModBlocks.STRIPPED_CHERRY_STUMP);
-        addDrop(ModBlocks.STRIPPED_DARK_OAK_STUMP);
-        addDrop(ModBlocks.STRIPPED_JUNGLE_STUMP);
-        addDrop(ModBlocks.STRIPPED_MANGROVE_STUMP);
-        addDrop(ModBlocks.STRIPPED_OAK_STUMP);
-        addDrop(ModBlocks.STRIPPED_SPRUCE_STUMP);
+        ModBlocks.getAllStumps().forEach(this::addDrop);
+        ModBlocks.getAllRockSharpeningStations().forEach(this::addDrop);
     }
 
     @Override
@@ -91,4 +56,3 @@ public class ModLootTableGenerator extends FabricBlockLootTableProvider {
 
     }
 }
-//ModItems.PLANT_FIBER, BinomialLootNumberProvider.create(3, 0.2f)))

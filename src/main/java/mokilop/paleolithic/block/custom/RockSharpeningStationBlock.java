@@ -1,11 +1,13 @@
 package mokilop.paleolithic.block.custom;
 
+import mokilop.paleolithic.Paleolithic;
 import mokilop.paleolithic.block.ModBlocks;
 import mokilop.paleolithic.block.enums.StoneSharpeningStationBlockMode;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.block.ShapeContext;
+import mokilop.paleolithic.data.Constants;
+import net.minecraft.block.*;
+import net.minecraft.data.client.Model;
+import net.minecraft.data.client.TextureKey;
+import net.minecraft.data.client.TextureMap;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -14,12 +16,8 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
-import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.Hand;
+import net.minecraft.util.*;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -31,17 +29,10 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public class RockSharpeningStationBlock extends HorizontalFacingBlock {
-    public RockSharpeningStationBlock(Settings settings) {
-        super(settings);
-    }
-
-    private int sharpeningCounter = 0;
-
-    public static final EnumProperty<StoneSharpeningStationBlockMode> MODE = EnumProperty.of("mode", StoneSharpeningStationBlockMode.class);
-
     private static VoxelShape SHAPE = Stream.of(
             Block.createCuboidShape(1, 10, 1, 15, 11, 15),
             Block.createCuboidShape(0, 2, 0, 16, 10, 16),
@@ -50,6 +41,30 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
             Block.createCuboidShape(0, 0, 12, 4, 2, 16),
             Block.createCuboidShape(0, 0, 0, 4, 2, 4)
     ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, BooleanBiFunction.OR)).get();
+    public static final Model PARENT_MODEL = new Model(Optional.of(new Identifier(Paleolithic.MOD_ID, "block/rock_sharpening_station")),
+            Optional.empty());
+    private int sharpeningCounter = 0;
+    public static final EnumProperty<StoneSharpeningStationBlockMode> MODE = EnumProperty.of("mode", StoneSharpeningStationBlockMode.class);
+    private WoodType woodType;
+    private boolean isStripped;
+    private TextureMap textureMap;
+    public RockSharpeningStationBlock(Settings settings, WoodType woodType, boolean isStripped) {
+        super(settings.sounds(woodType.soundType()));
+        this.woodType = woodType;
+        this.isStripped = isStripped;
+        textureMap = new TextureMap().register(TextureKey.of("log"), TextureMap.getId(getLogBlock()))
+                .register(TextureKey.of("log_top"), TextureMap.getSubId(getLogBlock(), "_top"));
+    }
+    public Block getLogBlock() {
+        return (isStripped ? Constants.STRIPPED_LOGS_MAP : Constants.LOGS_MAP).get(woodType);
+    }
+
+    public WoodType getWoodType() {
+        return woodType;
+    }
+    public boolean isStripped() {
+        return isStripped;
+    }
 
 
     @Nullable
@@ -144,5 +159,10 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING).add(MODE);
+    }
+
+
+    public TextureMap getTextureMap() {
+        return textureMap;
     }
 }
