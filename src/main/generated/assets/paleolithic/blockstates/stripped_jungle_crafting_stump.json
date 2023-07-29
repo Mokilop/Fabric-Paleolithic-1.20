@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "paleolithic:block/stripped_jungle_crafting_stump",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "paleolithic:block/stripped_jungle_crafting_stump"
+    },
+    "facing=south": {
+      "model": "paleolithic:block/stripped_jungle_crafting_stump",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "paleolithic:block/stripped_jungle_crafting_stump",
+      "y": 270
+    }
+  }
+}

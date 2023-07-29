@@ -1,8 +1,6 @@
 package mokilop.paleolithic.data;
 
-import mokilop.paleolithic.block.ModBlocks;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockSetType;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.WoodType;
 

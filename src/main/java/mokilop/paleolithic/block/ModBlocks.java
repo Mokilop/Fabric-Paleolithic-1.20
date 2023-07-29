@@ -98,8 +98,39 @@ public class ModBlocks {
     public static final Block STRIPPED_BAMBOO_STUMP = registerStump(WoodType.BAMBOO, true);
     //endregion
     //region Crafting Stumps
-    public static Stream<Block> getAllCraftingStumps() {return STUMPS.stream();}
+    private static Block registerCraftingStump(WoodType type, boolean isStripped){
+        String name = (isStripped ? "stripped_" : "") + type.name() + "_crafting_stump";
+        Block L = Constants.LOGS_MAP.get(type);
+        FabricBlockSettings settings = FabricBlockSettings.create()
+                .strength(L.getHardness(), L.getBlastResistance());
+        Block crafting_stump = registerBlock(name, new CraftingStumpBlock(settings, type, isStripped), ModItemGroup.PALEOLITHIC_BLOCKS);
+        CRAFTING_STUMPS.add(crafting_stump);
+        return crafting_stump;
+    }
+    public static Stream<Block> getAllCraftingStumps() {return CRAFTING_STUMPS.stream();}
     private static final Set<Block> CRAFTING_STUMPS = new ObjectArraySet<>();
+    public static final Block OAK_CRAFTING_STUMP = registerCraftingStump(WoodType.OAK, false);
+    public static final Block SPRUCE_CRAFTING_STUMP = registerCraftingStump(WoodType.SPRUCE, false);
+    public static final Block BIRCH_CRAFTING_STUMP = registerCraftingStump(WoodType.BIRCH, false);
+    public static final Block ACACIA_CRAFTING_STUMP = registerCraftingStump(WoodType.ACACIA, false);
+    public static final Block CHERRY_CRAFTING_STUMP = registerCraftingStump(WoodType.CHERRY, false);
+    public static final Block JUNGLE_CRAFTING_STUMP = registerCraftingStump(WoodType.JUNGLE, false);
+    public static final Block DARK_OAK_CRAFTING_STUMP = registerCraftingStump(WoodType.DARK_OAK, false);
+    public static final Block CRIMSON_CRAFTING_STUMP = registerCraftingStump(WoodType.CRIMSON, false);
+    public static final Block WARPED_CRAFTING_STUMP = registerCraftingStump(WoodType.WARPED, false);
+    public static final Block MANGROVE_CRAFTING_STUMP = registerCraftingStump(WoodType.MANGROVE, false);
+    public static final Block BAMBOO_CRAFTING_STUMP = registerCraftingStump(WoodType.BAMBOO, false);
+    public static final Block STRIPPED_OAK_CRAFTING_STUMP = registerCraftingStump(WoodType.OAK, true);
+    public static final Block STRIPPED_SPRUCE_CRAFTING_STUMP = registerCraftingStump(WoodType.SPRUCE, true);
+    public static final Block STRIPPED_BIRCH_CRAFTING_STUMP = registerCraftingStump(WoodType.BIRCH, true);
+    public static final Block STRIPPED_ACACIA_CRAFTING_STUMP = registerCraftingStump(WoodType.ACACIA, true);
+    public static final Block STRIPPED_CHERRY_CRAFTING_STUMP = registerCraftingStump(WoodType.CHERRY, true);
+    public static final Block STRIPPED_JUNGLE_CRAFTING_STUMP = registerCraftingStump(WoodType.JUNGLE, true);
+    public static final Block STRIPPED_DARK_OAK_CRAFTING_STUMP = registerCraftingStump(WoodType.DARK_OAK, true);
+    public static final Block STRIPPED_CRIMSON_CRAFTING_STUMP = registerCraftingStump(WoodType.CRIMSON, true);
+    public static final Block STRIPPED_WARPED_CRAFTING_STUMP = registerCraftingStump(WoodType.WARPED, true);
+    public static final Block STRIPPED_MANGROVE_CRAFTING_STUMP = registerCraftingStump(WoodType.MANGROVE, true);
+    public static final Block STRIPPED_BAMBOO_CRAFTING_STUMP = registerCraftingStump(WoodType.BAMBOO, true);
 
     //endregion
     public static final Block PRIMITIVE_CAMPFIRE = registerPrimitiveCampfire();

@@ -14,9 +14,8 @@ import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.util.Identifier;
-import java.util.function.Consumer;
 
-import static mokilop.paleolithic.data.Constants.*;
+import java.util.function.Consumer;
 
 public class ModRecipeGenerator extends FabricRecipeProvider {
 

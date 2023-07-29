@@ -2,9 +2,11 @@ package mokilop.paleolithic.block.custom;
 
 import mokilop.paleolithic.Paleolithic;
 import mokilop.paleolithic.block.entity.CraftingStumpBlockEntity;
+import mokilop.paleolithic.data.Constants;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.data.client.Model;
+import net.minecraft.data.client.TextureKey;
 import net.minecraft.data.client.TextureMap;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
@@ -42,8 +44,29 @@ public class CraftingStumpBlock extends BlockWithEntity {
     private boolean isStripped;
     private TextureMap textureMap;
 
-    public CraftingStumpBlock(Settings settings) {
-        super(settings);
+    public CraftingStumpBlock(Settings settings, WoodType woodType, boolean isStripped) {
+        super(settings.sounds(woodType.soundType()));
+        this.woodType = woodType;
+        this.isStripped = isStripped;
+        textureMap = new TextureMap().register(TextureKey.of("log"), TextureMap.getId(getLogBlock()))
+                .register(TextureKey.of("log_top"), TextureMap.getSubId(getLogBlock(), "_top"))
+                .register(TextureKey.of("stripped_log"), TextureMap.getId(Constants.STRIPPED_LOGS_MAP.get(woodType)));
+    }
+    public WoodType getWoodType() {
+        return woodType;
+    }
+    public boolean getIsStripped(){
+        return isStripped;
+    }
+    public TextureMap getTextureMap(){
+        return textureMap;
+    }
+    public Model getParentModel(){
+        return PARENT_MODEL;
+    }
+
+    public Block getLogBlock() {
+        return (isStripped ? Constants.STRIPPED_LOGS_MAP : Constants.LOGS_MAP).get(woodType);
     }
 
     public BlockState getPlacementState(ItemPlacementContext ctx) {

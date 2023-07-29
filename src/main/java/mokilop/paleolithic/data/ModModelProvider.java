@@ -1,24 +1,13 @@
 package mokilop.paleolithic.data;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import mokilop.paleolithic.Paleolithic;
 import mokilop.paleolithic.block.ModBlocks;
+import mokilop.paleolithic.block.custom.CraftingStumpBlock;
 import mokilop.paleolithic.block.custom.RockSharpeningStationBlock;
 import mokilop.paleolithic.block.custom.StumpBlock;
 import mokilop.paleolithic.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
-import net.minecraft.block.Block;
-import net.minecraft.block.WoodType;
 import net.minecraft.data.client.*;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
-
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Optional;
 
 public class ModModelProvider extends FabricModelProvider {
 
@@ -30,6 +19,7 @@ public class ModModelProvider extends FabricModelProvider {
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
         registerStumps(blockStateModelGenerator);
         registerRockSharpeningStations(blockStateModelGenerator);
+        registerCraftingStumps(blockStateModelGenerator);
     }
 
     @Override
@@ -56,12 +46,26 @@ public class ModModelProvider extends FabricModelProvider {
                 .coordinate(BlockStateModelGenerator
                         .createNorthDefaultHorizontalRotationStates()));
     }
+    private void registerCraftingStump(BlockStateModelGenerator blockStateModelGenerator, CraftingStumpBlock craftingStump)
+    {
+        blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier
+                .create(craftingStump, BlockStateVariant.create()
+                        .put(VariantSettings.MODEL, CraftingStumpBlock.PARENT_MODEL
+                                .upload(craftingStump, craftingStump.getTextureMap(),
+                                        blockStateModelGenerator.modelCollector)))
+                .coordinate(BlockStateModelGenerator
+                        .createNorthDefaultHorizontalRotationStates()));
+    }
+
     private void registerRockSharpeningStations(BlockStateModelGenerator blockStateModelGenerator){
         ModBlocks.getAllRockSharpeningStations().forEach((s)->registerRockSharpeningStation(blockStateModelGenerator, (RockSharpeningStationBlock) s));
     }
 
     private void registerStumps(BlockStateModelGenerator blockStateModelGenerator){
         ModBlocks.getAllStumps().forEach((s) -> registerStump(blockStateModelGenerator, ((StumpBlock) s)));
+    }
+    private void registerCraftingStumps(BlockStateModelGenerator blockStateModelGenerator){
+        ModBlocks.getAllCraftingStumps().forEach((s) -> registerCraftingStump(blockStateModelGenerator, ((CraftingStumpBlock) s)));
     }
 
 

@@ -5,7 +5,6 @@ import mokilop.paleolithic.block.entity.client.PrimitiveCampfireBlockEntityRende
 import mokilop.paleolithic.block.entity.client.StumpBlockEntityRenderer;
 import mokilop.paleolithic.networking.ModMessages;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 
 public class PaleolithicClient implements ClientModInitializer {

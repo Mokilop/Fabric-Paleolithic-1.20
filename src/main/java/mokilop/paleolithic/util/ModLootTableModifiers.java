@@ -1,21 +1,13 @@
 package mokilop.paleolithic.util;
 
-import com.mojang.datafixers.types.templates.Tag;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
-import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.BinomialLootNumberProvider;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
-import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.Identifier;
-
-import java.util.Arrays;
 
 public class ModLootTableModifiers {
 

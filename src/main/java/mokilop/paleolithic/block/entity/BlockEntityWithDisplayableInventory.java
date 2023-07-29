@@ -1,7 +1,5 @@
 package mokilop.paleolithic.block.entity;
 
-import jdk.jfr.StackTrace;
-import mokilop.paleolithic.Paleolithic;
 import mokilop.paleolithic.networking.ModMessages;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
