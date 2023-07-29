@@ -28,6 +28,9 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class CraftingStumpBlock extends BlockWithEntity {
+    public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
+    public static final Model PARENT_MODEL = new Model(Optional.of(new Identifier(Paleolithic.MOD_ID, "block/crafting_stump")),
+            Optional.empty());
     private static final VoxelShape SHAPE = Stream.of(
             Block.createCuboidShape(1, 0, 1, 15, 3, 15),
             Block.createCuboidShape(1, 15, 15, 15, 16, 16),
@@ -37,9 +40,6 @@ public class CraftingStumpBlock extends BlockWithEntity {
             Block.createCuboidShape(1, 15, 0, 15, 16, 1),
             Block.createCuboidShape(3, 3, 3, 13, 13, 13)
     ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, BooleanBiFunction.OR)).get();
-    public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
-    public static final Model PARENT_MODEL = new Model(Optional.of(new Identifier(Paleolithic.MOD_ID, "block/crafting_stump")),
-            Optional.empty());
     private WoodType woodType;
     private boolean isStripped;
     private TextureMap textureMap;
@@ -52,16 +52,20 @@ public class CraftingStumpBlock extends BlockWithEntity {
                 .register(TextureKey.of("log_top"), TextureMap.getSubId(getLogBlock(), "_top"))
                 .register(TextureKey.of("stripped_log"), TextureMap.getId(Constants.STRIPPED_LOGS_MAP.get(woodType)));
     }
+
     public WoodType getWoodType() {
         return woodType;
     }
-    public boolean getIsStripped(){
+
+    public boolean getIsStripped() {
         return isStripped;
     }
-    public TextureMap getTextureMap(){
+
+    public TextureMap getTextureMap() {
         return textureMap;
     }
-    public Model getParentModel(){
+
+    public Model getParentModel() {
         return PARENT_MODEL;
     }
 
@@ -87,6 +91,7 @@ public class CraftingStumpBlock extends BlockWithEntity {
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return SHAPE;
     }
+
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
@@ -96,7 +101,7 @@ public class CraftingStumpBlock extends BlockWithEntity {
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return null;
+        return new CraftingStumpBlockEntity(pos, state);
     }
 
     @Override
@@ -109,8 +114,8 @@ public class CraftingStumpBlock extends BlockWithEntity {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof CraftingStumpBlockEntity) {
-                ItemScatterer.spawn(world, pos, (CraftingStumpBlockEntity)blockEntity);
-                world.updateComparators(pos,this);
+                ItemScatterer.spawn(world, pos, (CraftingStumpBlockEntity) blockEntity);
+                world.updateComparators(pos, this);
             }
             super.onStateReplaced(state, world, pos, newState, moved);
         }

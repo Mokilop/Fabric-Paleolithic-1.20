@@ -29,7 +29,7 @@ public class StumpChoppingRecipe implements Recipe<SimpleInventory> {
 
     @Override
     public boolean matches(SimpleInventory inventory, World world) {
-        if(world.isClient())return false;
+        if (world.isClient()) return false;
 
         return recipeItems.get(0).test(inventory.getStack(0)) && recipeItems.get(1).test(inventory.getStack(1));
     }
@@ -64,20 +64,21 @@ public class StumpChoppingRecipe implements Recipe<SimpleInventory> {
         return Type.INSTANCE;
     }
 
-    public static class JsonFormat{
+    public static class JsonFormat {
         JsonObject tool;
         JsonObject input;
         String result;
         int count;
     }
 
-    public static class Type implements RecipeType<StumpChoppingRecipe>{
-        private Type(){}
+    public static class Type implements RecipeType<StumpChoppingRecipe> {
         public static final Type INSTANCE = new Type();
         public static final String ID = "stump_chopping";
+        private Type() {
+        }
     }
 
-    public static class Serializer implements RecipeSerializer<StumpChoppingRecipe>{
+    public static class Serializer implements RecipeSerializer<StumpChoppingRecipe> {
         public static final Serializer INSTANCE = new Serializer();
         public static final String ID = "stump_chopping";
 
@@ -91,7 +92,7 @@ public class StumpChoppingRecipe implements Recipe<SimpleInventory> {
             DefaultedList<Ingredient> ingList = DefaultedList.ofSize(2, Ingredient.EMPTY);
             ingList.set(0, tool);
             ingList.set(1, input);
-            return new StumpChoppingRecipe(id,result,ingList);
+            return new StumpChoppingRecipe(id, result, ingList);
         }
 
         @Override

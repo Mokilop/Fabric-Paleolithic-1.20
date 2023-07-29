@@ -16,29 +16,11 @@ import java.util.Optional;
 
 public class StumpBlockEntity extends BlockEntityWithDisplayableInventory {
 
-    private int progress = 0;
     private static int maxProgress = 6;
+    private int progress = 0;
 
     public StumpBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.STUMP, pos, state, 1);
-    }
-
-    public boolean addItem(ItemStack item) {
-        if (!inventory.get(0).isEmpty() || item.isEmpty()) return false;
-        inventory.set(0, item.copyWithCount(1));
-        progress = 0;
-        markDirty();
-        world.playSound(null, pos, SoundEvents.BLOCK_WOOD_PLACE, SoundCategory.BLOCKS, 1, 0.2f);
-        return true;
-    }
-
-    public boolean removeItem(PlayerEntity player) {
-        if (inventory.get(0).isEmpty()) return false;
-        if(!player.isCreative()) player.giveItemStack(inventory.get(0));
-        inventory.set(0, ItemStack.EMPTY);
-        markDirty();
-        world.playSound(null, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1, 1);
-        return true;
     }
 
     private static Optional<StumpChoppingRecipe> getMatchForChopping(StumpBlockEntity entity, ItemStack tool) {
@@ -71,13 +53,31 @@ public class StumpBlockEntity extends BlockEntityWithDisplayableInventory {
         if (entity.progress >= maxProgress || (fullyCharged && highDamage)) {
             entity.progress = 0;
             craftItemFromChopping(entity, tool);
-            world.playSound(null,blockPos, SoundEvents.BLOCK_WOOD_BREAK, SoundCategory.BLOCKS, 1, 1.5f);
-            world.playSound(null,blockPos, SoundEvents.BLOCK_WOOD_BREAK, SoundCategory.BLOCKS, 1, 1.5f);
+            world.playSound(null, blockPos, SoundEvents.BLOCK_WOOD_BREAK, SoundCategory.BLOCKS, 1, 1.5f);
+            world.playSound(null, blockPos, SoundEvents.BLOCK_WOOD_BREAK, SoundCategory.BLOCKS, 1, 1.5f);
             entity.markDirty();
             markDirty(world, blockPos, blockState);
             return true;
         }
         return false;
+    }
+
+    public boolean addItem(ItemStack item) {
+        if (!inventory.get(0).isEmpty() || item.isEmpty()) return false;
+        inventory.set(0, item.copyWithCount(1));
+        progress = 0;
+        markDirty();
+        world.playSound(null, pos, SoundEvents.BLOCK_WOOD_PLACE, SoundCategory.BLOCKS, 1, 0.2f);
+        return true;
+    }
+
+    public boolean removeItem(PlayerEntity player) {
+        if (inventory.get(0).isEmpty()) return false;
+        if (!player.isCreative()) player.giveItemStack(inventory.get(0));
+        inventory.set(0, ItemStack.EMPTY);
+        markDirty();
+        world.playSound(null, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1, 1);
+        return true;
     }
 
     @Override

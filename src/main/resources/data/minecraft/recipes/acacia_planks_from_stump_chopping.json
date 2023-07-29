@@ -3,11 +3,9 @@
   "tool": {
     "tag": "minecraft:axes"
   },
-  "input":
-    {
-      "tag": "minecraft:acacia_logs"
-    }
-  ,
+  "input": {
+    "tag": "minecraft:acacia_logs"
+  },
   "result": "minecraft:acacia_planks",
   "count": "2"
 }

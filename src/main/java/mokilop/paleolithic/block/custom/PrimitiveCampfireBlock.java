@@ -34,20 +34,38 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class PrimitiveCampfireBlock extends BlockWithEntity implements BlockEntityProvider {
-    public PrimitiveCampfireBlock(Settings settings) {
-        super(settings);
-    }
-    private static VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 2, 16);
-
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
     public static final BooleanProperty LIT = BooleanProperty.of("lit");
     public static final BooleanProperty USED = BooleanProperty.of("used");
     public static final IntProperty FIRE_STRENGTH = IntProperty.of("fire_strength", 0, 4);
+    private static VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 2, 16);
+    public PrimitiveCampfireBlock(Settings settings) {
+        super(settings);
+    }
+
+    @NotNull
+    private static ActionResult handleAddingItem(PlayerEntity player, PrimitiveCampfireBlockEntity entity, ItemStack itemToAdd) {
+        boolean success = entity.addItem(itemToAdd);
+        if (!success) return ActionResult.SUCCESS;
+        itemToAdd.decrement(player.isCreative() ? 0 : 1);
+        return ActionResult.SUCCESS;
+    }
+
+    @NotNull
+    private static ActionResult handleFuelAdding(BlockState state, World world, BlockPos pos, PlayerEntity player, PrimitiveCampfireBlockEntity entity, ItemStack mhs) {
+        boolean success = entity.addFuel(mhs);
+        if (!success) return ActionResult.SUCCESS;
+        world.setBlockState(pos, state.with(LIT, true).with(USED, true));
+        if (!player.isCreative()) mhs.decrement(1);
+        world.playSound(null, pos, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.BLOCKS, 0.2f, 1f);
+        return ActionResult.SUCCESS;
+    }
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return SHAPE;
     }
+
     @Override
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
         BlockState blockBellow = world.getBlockState(pos.down());
@@ -82,22 +100,24 @@ public class PrimitiveCampfireBlock extends BlockWithEntity implements BlockEnti
         return state.rotate(mirror.getRotation(state.get(FACING)));
     }
 
+    // Block Entity Below
+
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         if (!state.get(LIT)) {
             return;
         }
         if (random.nextInt(10) == 0) {
-            world.playSound((double)pos.getX() + 0.5, (double)pos.getY() + 0.5, (double)pos.getZ() + 0.5, SoundEvents.BLOCK_CAMPFIRE_CRACKLE, SoundCategory.BLOCKS, 0.5f + random.nextFloat(), random.nextFloat() * 0.7f + 0.6f, false);
+            world.playSound((double) pos.getX() + 0.5, (double) pos.getY() + 0.5, (double) pos.getZ() + 0.5, SoundEvents.BLOCK_CAMPFIRE_CRACKLE, SoundCategory.BLOCKS, 0.5f + random.nextFloat(), random.nextFloat() * 0.7f + 0.6f, false);
         }
         if (random.nextInt(5) == 0) {
             for (int i = 0; i < random.nextInt(1) + 1; ++i) {
-                world.addParticle(ParticleTypes.LAVA, (double)pos.getX() + 0.5, (double)pos.getY() + 0.5, (double)pos.getZ() + 0.5, random.nextFloat() / 2.0f, 5.0E-5, random.nextFloat() / 2.0f);
+                world.addParticle(ParticleTypes.LAVA, (double) pos.getX() + 0.5, (double) pos.getY() + 0.5, (double) pos.getZ() + 0.5, random.nextFloat() / 2.0f, 5.0E-5, random.nextFloat() / 2.0f);
             }
         }
-        if(random.nextBoolean()){
+        if (random.nextBoolean()) {
             DefaultParticleType defaultParticleType = ParticleTypes.CAMPFIRE_COSY_SMOKE;
-            world.addImportantParticle(defaultParticleType, true, (double)pos.getX() + 0.5 + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), (double)pos.getY() + random.nextDouble() + random.nextDouble(), (double)pos.getZ() + 0.5 + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), 0.0, 0.07, 0.0);
+            world.addImportantParticle(defaultParticleType, true, (double) pos.getX() + 0.5 + random.nextDouble() / 3.0 * (double) (random.nextBoolean() ? 1 : -1), (double) pos.getY() + random.nextDouble() + random.nextDouble(), (double) pos.getZ() + 0.5 + random.nextDouble() / 3.0 * (double) (random.nextBoolean() ? 1 : -1), 0.0, 0.07, 0.0);
         }
     }
 
@@ -105,9 +125,6 @@ public class PrimitiveCampfireBlock extends BlockWithEntity implements BlockEnti
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING).add(LIT).add(USED).add(FIRE_STRENGTH);
     }
-
-    // Block Entity Below
-
 
     @Override
     public BlockRenderType getRenderType(BlockState state) {
@@ -119,8 +136,8 @@ public class PrimitiveCampfireBlock extends BlockWithEntity implements BlockEnti
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof PrimitiveCampfireBlockEntity) {
-                ItemScatterer.spawn(world, pos, (PrimitiveCampfireBlockEntity)blockEntity);
-                world.updateComparators(pos,this);
+                ItemScatterer.spawn(world, pos, (PrimitiveCampfireBlockEntity) blockEntity);
+                world.updateComparators(pos, this);
             }
             super.onStateReplaced(state, world, pos, newState, moved);
         }
@@ -128,40 +145,22 @@ public class PrimitiveCampfireBlock extends BlockWithEntity implements BlockEnti
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if(world.isClient || hand != Hand.MAIN_HAND)return ActionResult.SUCCESS;
+        if (world.isClient || hand != Hand.MAIN_HAND) return ActionResult.SUCCESS;
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (!(blockEntity instanceof PrimitiveCampfireBlockEntity entity)) {
             return ActionResult.SUCCESS;
         }
         ItemStack mhs = player.getMainHandStack();
         ItemStack ohs = player.getOffHandStack();
-        if(!state.get(LIT)){
+        if (!state.get(LIT)) {
 
         }
-        if(AbstractFurnaceBlockEntity.canUseAsFuel(mhs)){
+        if (AbstractFurnaceBlockEntity.canUseAsFuel(mhs)) {
             return handleFuelAdding(state, world, pos, player, entity, mhs);
         }
         boolean isSmeltable = entity.matchGetter.getFirstMatch(new SimpleInventory(mhs), world).isPresent();
-        if(!isSmeltable)return ActionResult.SUCCESS;
+        if (!isSmeltable) return ActionResult.SUCCESS;
         return handleAddingItem(player, entity, mhs);
-    }
-
-    @NotNull
-    private static ActionResult handleAddingItem(PlayerEntity player, PrimitiveCampfireBlockEntity entity, ItemStack itemToAdd) {
-        boolean success = entity.addItem(itemToAdd);
-        if (!success) return ActionResult.SUCCESS;
-        itemToAdd.decrement(player.isCreative() ? 0 : 1);
-        return ActionResult.SUCCESS;
-    }
-
-    @NotNull
-    private static ActionResult handleFuelAdding(BlockState state, World world, BlockPos pos, PlayerEntity player, PrimitiveCampfireBlockEntity entity, ItemStack mhs) {
-        boolean success = entity.addFuel(mhs);
-        if(!success) return ActionResult.SUCCESS;
-        world.setBlockState(pos, state.with(LIT, true).with(USED, true));
-        if(!player.isCreative()) mhs.decrement(1);
-        world.playSound(null, pos, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.BLOCKS, 0.2f, 1f);
-        return ActionResult.SUCCESS;
     }
 
     @Override

@@ -19,9 +19,10 @@ import net.minecraft.world.World;
 
 public class StumpBlockEntityRenderer implements BlockEntityRenderer<StumpBlockEntity> {
 
-    public StumpBlockEntityRenderer(BlockEntityRendererFactory.Context context){
+    public StumpBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
 
     }
+
     @Override
     public void render(StumpBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
@@ -29,7 +30,7 @@ public class StumpBlockEntityRenderer implements BlockEntityRenderer<StumpBlockE
         matrices.push();
         matrices.translate(0.499f, 0.7f, 0.499f);
         matrices.scale(1.3f, 1.3f, 1.3f);
-        switch(entity.getCachedState().get(StumpBlock.FACING)){
+        switch (entity.getCachedState().get(StumpBlock.FACING)) {
             case NORTH -> matrices.multiply(RotationAxis.POSITIVE_Y.rotation(0));
             case WEST -> matrices.multiply(RotationAxis.POSITIVE_Y.rotation(1.5708f));
             case SOUTH -> matrices.multiply(RotationAxis.POSITIVE_Y.rotation(3.14159f));
@@ -40,6 +41,7 @@ public class StumpBlockEntityRenderer implements BlockEntityRenderer<StumpBlockE
                 OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, entity.getWorld(), 1);
         matrices.pop();
     }
+
     private int getLightLevel(World world, BlockPos pos) {
         int bLight = world.getLightLevel(LightType.BLOCK, pos);
         int sLight = world.getLightLevel(LightType.SKY, pos);

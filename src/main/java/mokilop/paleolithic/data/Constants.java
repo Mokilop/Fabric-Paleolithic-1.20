@@ -11,7 +11,7 @@ public class Constants {
     public static HashMap<WoodType, Block> STRIPPED_LOGS_MAP = createStrippedLogsMap();
     public static HashMap<WoodType, Block> PLANKS_MAP = createPlanksMap();
 
-    private static HashMap<WoodType, Block> createLogsMap(){
+    private static HashMap<WoodType, Block> createLogsMap() {
         HashMap<WoodType, Block> map = new HashMap<>();
         map.put(WoodType.OAK, Blocks.OAK_LOG);
         map.put(WoodType.SPRUCE, Blocks.SPRUCE_LOG);
@@ -26,7 +26,8 @@ public class Constants {
         map.put(WoodType.BAMBOO, Blocks.BAMBOO_BLOCK);
         return map;
     }
-    private static HashMap<WoodType, Block> createStrippedLogsMap(){
+
+    private static HashMap<WoodType, Block> createStrippedLogsMap() {
         HashMap<WoodType, Block> map = new HashMap<>();
         map.put(WoodType.OAK, Blocks.STRIPPED_OAK_LOG);
         map.put(WoodType.SPRUCE, Blocks.STRIPPED_SPRUCE_LOG);
@@ -41,7 +42,8 @@ public class Constants {
         map.put(WoodType.BAMBOO, Blocks.STRIPPED_BAMBOO_BLOCK);
         return map;
     }
-    private static HashMap<WoodType, Block> createPlanksMap(){
+
+    private static HashMap<WoodType, Block> createPlanksMap() {
         HashMap<WoodType, Block> map = new HashMap<>();
         map.put(WoodType.OAK, Blocks.OAK_PLANKS);
         map.put(WoodType.SPRUCE, Blocks.SPRUCE_PLANKS);

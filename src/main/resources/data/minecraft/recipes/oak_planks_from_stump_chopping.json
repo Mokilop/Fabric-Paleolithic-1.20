@@ -3,11 +3,9 @@
   "tool": {
     "tag": "minecraft:axes"
   },
-  "input":
-    {
-      "tag": "minecraft:oak_logs"
-    }
-  ,
+  "input": {
+    "tag": "minecraft:oak_logs"
+  },
   "result": "minecraft:oak_planks",
   "count": "2"
 }

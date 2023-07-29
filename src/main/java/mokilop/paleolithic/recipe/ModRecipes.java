@@ -6,7 +6,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class ModRecipes {
-    public static void registerRecipes(){
+    public static void registerRecipes() {
         Registry.register(Registries.RECIPE_TYPE, new Identifier(Paleolithic.MOD_ID, StumpChoppingRecipe.Type.ID), StumpChoppingRecipe.Type.INSTANCE);
         Registry.register(Registries.RECIPE_SERIALIZER, new Identifier(Paleolithic.MOD_ID, StumpChoppingRecipe.Serializer.ID), StumpChoppingRecipe.Serializer.INSTANCE);
     }

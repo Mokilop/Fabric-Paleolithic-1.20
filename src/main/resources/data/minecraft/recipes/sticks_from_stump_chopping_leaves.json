@@ -3,11 +3,9 @@
   "tool": {
     "tag": "minecraft:axes"
   },
-  "input":
-    {
-      "tag": "minecraft:leaves"
-    }
-  ,
+  "input": {
+    "tag": "minecraft:leaves"
+  },
   "result": "minecraft:stick",
   "count": "2"
 }

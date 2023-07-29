@@ -14,9 +14,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Blocks.class)
 public class BlockMixin {
-	@Inject(at = @At("HEAD"), method = "createLogBlock(Lnet/minecraft/block/MapColor;Lnet/minecraft/block/MapColor;)Lnet/minecraft/block/PillarBlock;", cancellable = true)
-	private static void createLogBlock(MapColor topMapColor, MapColor sideMapColor, CallbackInfoReturnable<PillarBlock> cir){
-		PillarBlock r = new PillarBlock(AbstractBlock.Settings.create().mapColor(state -> state.get(PillarBlock.AXIS) == Direction.Axis.Y ? topMapColor : sideMapColor).instrument(Instrument.BASS).strength(2.0f).requiresTool().sounds(BlockSoundGroup.WOOD).burnable());
-		cir.setReturnValue(r);
-	}
+    @Inject(at = @At("HEAD"), method = "createLogBlock(Lnet/minecraft/block/MapColor;Lnet/minecraft/block/MapColor;)Lnet/minecraft/block/PillarBlock;", cancellable = true)
+    private static void createLogBlock(MapColor topMapColor, MapColor sideMapColor, CallbackInfoReturnable<PillarBlock> cir) {
+        PillarBlock r = new PillarBlock(AbstractBlock.Settings.create().mapColor(state -> state.get(PillarBlock.AXIS) == Direction.Axis.Y ? topMapColor : sideMapColor).instrument(Instrument.BASS).strength(2.0f).requiresTool().sounds(BlockSoundGroup.WOOD).burnable());
+        cir.setReturnValue(r);
+    }
 }

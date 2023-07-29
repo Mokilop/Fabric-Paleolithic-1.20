@@ -3,11 +3,9 @@
   "tool": {
     "tag": "minecraft:axes"
   },
-  "input":
-    {
-      "tag": "minecraft:jungle_logs"
-    }
-  ,
+  "input": {
+    "tag": "minecraft:jungle_logs"
+  },
   "result": "minecraft:jungle_planks",
   "count": "2"
 }

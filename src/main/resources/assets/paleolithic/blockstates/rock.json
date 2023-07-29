@@ -1,52 +1,49 @@
 {
   "variants": {
-    "facing=north,stones=1":
-      {
-        "model": "paleolithic:block/rock"
-      },
+    "facing=north,stones=1": {
+      "model": "paleolithic:block/rock"
+    },
     "facing=east,stones=1": {
-        "model": "paleolithic:block/rock",
-        "y": 90
-      },
-      "facing=south,stones=1": {
-        "model": "paleolithic:block/rock",
-        "y": 180
-      },
-      "facing=west,stones=1": {
-        "model": "paleolithic:block/rock",
-        "y": 270
-      },
-    "facing=north,stones=2":
-      {
-        "model": "paleolithic:block/two_rocks"
-      },
+      "model": "paleolithic:block/rock",
+      "y": 90
+    },
+    "facing=south,stones=1": {
+      "model": "paleolithic:block/rock",
+      "y": 180
+    },
+    "facing=west,stones=1": {
+      "model": "paleolithic:block/rock",
+      "y": 270
+    },
+    "facing=north,stones=2": {
+      "model": "paleolithic:block/two_rocks"
+    },
     "facing=east,stones=2": {
-        "model": "paleolithic:block/two_rocks",
-        "y": 90
-      },
-      "facing=south,stones=2": {
-        "model": "paleolithic:block/two_rocks",
-        "y": 180
-      },
-      "facing=west,stones=2": {
-        "model": "paleolithic:block/two_rocks",
-        "y": 270
-      },
-    "facing=north,stones=3":
-      {
-        "model": "paleolithic:block/three_rocks"
-      },
+      "model": "paleolithic:block/two_rocks",
+      "y": 90
+    },
+    "facing=south,stones=2": {
+      "model": "paleolithic:block/two_rocks",
+      "y": 180
+    },
+    "facing=west,stones=2": {
+      "model": "paleolithic:block/two_rocks",
+      "y": 270
+    },
+    "facing=north,stones=3": {
+      "model": "paleolithic:block/three_rocks"
+    },
     "facing=east,stones=3": {
-        "model": "paleolithic:block/three_rocks",
-        "y": 90
-      },
-      "facing=south,stones=3": {
-        "model": "paleolithic:block/three_rocks",
-        "y": 180
-      },
-      "facing=west,stones=3": {
-        "model": "paleolithic:block/three_rocks",
-        "y": 270
-      }
+      "model": "paleolithic:block/three_rocks",
+      "y": 90
+    },
+    "facing=south,stones=3": {
+      "model": "paleolithic:block/three_rocks",
+      "y": 180
+    },
+    "facing=west,stones=3": {
+      "model": "paleolithic:block/three_rocks",
+      "y": 270
+    }
   }
 }

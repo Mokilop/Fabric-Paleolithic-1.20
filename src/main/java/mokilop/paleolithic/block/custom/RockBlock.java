@@ -17,6 +17,14 @@ import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
 public class RockBlock extends HorizontalFacingBlock implements Waterloggable {
+    public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
+    public static final IntProperty STONES = IntProperty.of("stones", 1, 3);
+    private static VoxelShape SHAPE_NORTH_1 = Block.createCuboidShape(3, 0, 4, 7, 2, 9);
+    private static VoxelShape SHAPE_WEST_1 = Block.createCuboidShape(4, 0, 9, 9, 2, 13);
+    private static VoxelShape SHAPE_SOUTH_1 = Block.createCuboidShape(9, 0, 7, 13, 2, 12);
+    private static VoxelShape SHAPE_EAST_1 = Block.createCuboidShape(7, 0, 3, 12, 2, 7);
+    private static VoxelShape SHAPE_2 = Block.createCuboidShape(2, 0, 2, 13, 2, 13);
+    private static VoxelShape SHAPE_3 = Block.createCuboidShape(1, 0, 1, 15, 2, 15);
     public RockBlock(Settings settings) {
         super(settings);
         setDefaultState(getDefaultState()
@@ -25,22 +33,10 @@ public class RockBlock extends HorizontalFacingBlock implements Waterloggable {
                 .with(WATERLOGGED, false));
     }
 
-    public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
-    public static final IntProperty STONES = IntProperty.of("stones", 1, 3);
-
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(Properties.HORIZONTAL_FACING, WATERLOGGED, STONES);
     }
-
-    private static VoxelShape SHAPE_NORTH_1 = Block.createCuboidShape(3, 0, 4, 7, 2, 9);
-    private static VoxelShape SHAPE_WEST_1 = Block.createCuboidShape(4, 0, 9, 9, 2, 13);
-    private static VoxelShape SHAPE_SOUTH_1 = Block.createCuboidShape(9, 0, 7, 13, 2, 12);
-    private static VoxelShape SHAPE_EAST_1 = Block.createCuboidShape(7, 0, 3, 12, 2, 7);
-    private static VoxelShape SHAPE_2 = Block.createCuboidShape(2, 0, 2, 13, 2, 13);
-    private static VoxelShape SHAPE_3 = Block.createCuboidShape(1, 0, 1, 15, 2, 15);
-
-
 
     @Override
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
@@ -60,8 +56,8 @@ public class RockBlock extends HorizontalFacingBlock implements Waterloggable {
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         Direction dir = state.get(FACING);
         int stones = state.get(STONES);
-        if(stones == 2) return SHAPE_2;
-        if(stones == 3) return SHAPE_3;
+        if (stones == 2) return SHAPE_2;
+        if (stones == 3) return SHAPE_3;
         switch (dir) {
             case SOUTH:
                 return SHAPE_SOUTH_1;
@@ -79,7 +75,7 @@ public class RockBlock extends HorizontalFacingBlock implements Waterloggable {
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         BlockState blockState = ctx.getWorld().getBlockState(ctx.getBlockPos());
         if (blockState.isOf(this)) {
-            return (BlockState)blockState.with(STONES, Math.min(3, blockState.get(STONES) + 1));
+            return (BlockState) blockState.with(STONES, Math.min(3, blockState.get(STONES) + 1));
         }
         return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getHorizontalPlayerFacing().getOpposite())
                 .with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER);

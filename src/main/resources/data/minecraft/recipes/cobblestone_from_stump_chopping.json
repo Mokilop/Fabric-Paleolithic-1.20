@@ -3,11 +3,9 @@
   "tool": {
     "tag": "minecraft:pickaxes"
   },
-  "input":
-    {
-      "item": "minecraft:stone"
-    }
-  ,
+  "input": {
+    "item": "minecraft:stone"
+  },
   "result": "minecraft:cobblestone",
   "count": "1"
 }

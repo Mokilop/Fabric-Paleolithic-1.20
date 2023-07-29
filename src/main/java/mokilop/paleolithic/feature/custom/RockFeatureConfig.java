@@ -5,7 +5,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.world.gen.feature.FeatureConfig;
 
-public record RockFeatureConfig(int maxInPile, int maxNumberOfPiles, int spreadXZ, int chanceToSpawnPercentage) implements FeatureConfig {
+public record RockFeatureConfig(int maxInPile, int maxNumberOfPiles, int spreadXZ,
+                                int chanceToSpawnPercentage) implements FeatureConfig {
     public static Codec<RockFeatureConfig> CODEC = RecordCodecBuilder.create(
             rockFeatureConfigInstance ->
                     rockFeatureConfigInstance.group(
@@ -16,17 +17,20 @@ public record RockFeatureConfig(int maxInPile, int maxNumberOfPiles, int spreadX
                     ).apply(rockFeatureConfigInstance, RockFeatureConfig::new));
 
 
-    public int maxInPile(){
-        return  maxInPile;
+    public int maxInPile() {
+        return maxInPile;
     }
-    public int maxNumberOfPiles(){
-        return  maxNumberOfPiles;
+
+    public int maxNumberOfPiles() {
+        return maxNumberOfPiles;
     }
-    public int spreadXZ(){
-        return  spreadXZ;
+
+    public int spreadXZ() {
+        return spreadXZ;
     }
-    public int chanceToSpawnPercentage(){
-        return  chanceToSpawnPercentage;
+
+    public int chanceToSpawnPercentage() {
+        return chanceToSpawnPercentage;
     }
 
 }

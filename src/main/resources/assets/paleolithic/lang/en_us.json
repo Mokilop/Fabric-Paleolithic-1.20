@@ -3,12 +3,11 @@
   "item.paleolithic.plant_fiber": "Plant Fiber",
   "item.paleolithic.plant_twine": "Plant Twine",
   "item.paleolithic.stone_hammer": "Stone Hammer",
-  "item.paleolithic.stone_hatchet_head" : "Stone Hatchet Head",
+  "item.paleolithic.stone_hatchet_head": "Stone Hatchet Head",
   "item.paleolithic.stone_spear_head": "Stone Spear Head",
   "item.paleolithic.stone_pickaxe_head_fragment": "Stone Pickaxe Head Fragment",
   "item.paleolithic.stone_lumber_axe_head_fragment": "Stone Lumber Axe Head Fragment",
   "block.paleolithic.primitive_campfire": "Primitive Campfire",
-
   "block.paleolithic.oak_rock_sharpening_station": "Oak Rock Sharpening Station",
   "block.paleolithic.spruce_rock_sharpening_station": "Spruce Rock Sharpening Station",
   "block.paleolithic.acacia_rock_sharpening_station": "Acacia Rock Sharpening Station",
@@ -31,7 +30,6 @@
   "block.paleolithic.stripped_crimson_rock_sharpening_station": "Stripped Crimson Rock Sharpening Station",
   "block.paleolithic.warped_rock_sharpening_station": "Warped Rock Sharpening Station",
   "block.paleolithic.stripped_warped_rock_sharpening_station": "Stripped Warped Rock Sharpening Station",
-
   "block.paleolithic.oak_stump": "Oak Stump",
   "block.paleolithic.spruce_stump": "Spruce Stump",
   "block.paleolithic.acacia_stump": "Acacia Stump",
@@ -54,10 +52,7 @@
   "block.paleolithic.stripped_crimson_stump": "Stripped Crimson Stump",
   "block.paleolithic.warped_stump": "Warped Stump",
   "block.paleolithic.stripped_warped_stump": "Stripped Warped Stump",
-
   "block.paleolithic.primitive_oak_crafting_bench": "Primitive Oak Crafting Bench",
-
-
   "itemgroup.paleolithic_items": "Paleolithic Items",
   "itemgroup.paleolithic_blocks": "Paleolithic Blocks",
   "stone_sharpening_station.mode_info.hatchet_head": "Sharpening mode: Hatchet Head",

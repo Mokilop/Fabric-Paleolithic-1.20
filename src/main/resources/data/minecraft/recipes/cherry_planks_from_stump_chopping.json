@@ -3,11 +3,9 @@
   "tool": {
     "tag": "minecraft:axes"
   },
-  "input":
-    {
-      "tag": "minecraft:cherry_logs"
-    }
-  ,
+  "input": {
+    "tag": "minecraft:cherry_logs"
+  },
   "result": "minecraft:cherry_planks",
   "count": "2"
 }

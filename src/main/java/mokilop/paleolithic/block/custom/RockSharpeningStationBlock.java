@@ -33,6 +33,9 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class RockSharpeningStationBlock extends HorizontalFacingBlock {
+    public static final Model PARENT_MODEL = new Model(Optional.of(new Identifier(Paleolithic.MOD_ID, "block/rock_sharpening_station")),
+            Optional.empty());
+    public static final EnumProperty<StoneSharpeningStationBlockMode> MODE = EnumProperty.of("mode", StoneSharpeningStationBlockMode.class);
     private static VoxelShape SHAPE = Stream.of(
             Block.createCuboidShape(1, 10, 1, 15, 11, 15),
             Block.createCuboidShape(0, 2, 0, 16, 10, 16),
@@ -41,13 +44,11 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
             Block.createCuboidShape(0, 0, 12, 4, 2, 16),
             Block.createCuboidShape(0, 0, 0, 4, 2, 4)
     ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, BooleanBiFunction.OR)).get();
-    public static final Model PARENT_MODEL = new Model(Optional.of(new Identifier(Paleolithic.MOD_ID, "block/rock_sharpening_station")),
-            Optional.empty());
     private int sharpeningCounter = 0;
-    public static final EnumProperty<StoneSharpeningStationBlockMode> MODE = EnumProperty.of("mode", StoneSharpeningStationBlockMode.class);
     private WoodType woodType;
     private boolean isStripped;
     private TextureMap textureMap;
+
     public RockSharpeningStationBlock(Settings settings, WoodType woodType, boolean isStripped) {
         super(settings.sounds(woodType.soundType()));
         this.woodType = woodType;
@@ -55,6 +56,46 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
         textureMap = new TextureMap().register(TextureKey.of("log"), TextureMap.getId(getLogBlock()))
                 .register(TextureKey.of("log_top"), TextureMap.getSubId(getLogBlock(), "_top"));
     }
+
+    private static boolean isCoolingDown(PlayerEntity player) {
+        return player.getItemCooldownManager().isCoolingDown(player.getMainHandStack().getItem());
+    }
+
+    @NotNull
+    private static ActionResult handleSuccessfulSharpening(BlockState state, World world, BlockPos pos, PlayerEntity player) {
+        player.sendMessage(Text.literal("Sharpening success"), true);
+        if (!player.isCreative()) {
+            player.getMainHandStack().decrement(1);
+        }
+        world.spawnEntity(getCorrectSharpenedRockEntity(state, world, pos));
+        player.getItemCooldownManager().set(player.getMainHandStack().getItem(), 20);
+        world.playSound(null, pos, SoundEvents.BLOCK_STONE_HIT, SoundCategory.BLOCKS, 1f, 2f);
+        return ActionResult.SUCCESS;
+    }
+
+    @NotNull
+    private static ActionResult handleUnsuccessfulSharpening(World world, BlockPos pos, PlayerEntity player) {
+        sendSharpeningMessage(player);
+        player.getItemCooldownManager().set(player.getMainHandStack().getItem(), 3);
+        world.playSound(null, pos, SoundEvents.BLOCK_STONE_HIT, SoundCategory.BLOCKS, 1f, 1.5f);
+        return ActionResult.SUCCESS;
+    }
+
+    private static ItemEntity getCorrectSharpenedRockEntity(BlockState state, World world, BlockPos pos) {
+        Item sharpenedRock = state.get(MODE).getItem();
+        ItemEntity entity = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, sharpenedRock.getDefaultStack().split(1));
+        entity.setVelocity(0, 0, 0);
+        return entity;
+    }
+
+    private static void sendSharpeningModeMessage(PlayerEntity player, BlockState state) {
+        player.sendMessage(state.get(MODE).asText(), true);
+    }
+
+    private static void sendSharpeningMessage(PlayerEntity player) {
+        player.sendMessage(Text.translatable("stone_sharpening_station.sharpening"), true);
+    }
+
     public Block getLogBlock() {
         return (isStripped ? Constants.STRIPPED_LOGS_MAP : Constants.LOGS_MAP).get(woodType);
     }
@@ -62,10 +103,10 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
     public WoodType getWoodType() {
         return woodType;
     }
+
     public boolean isStripped() {
         return isStripped;
     }
-
 
     @Nullable
     @Override
@@ -90,10 +131,10 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if(!world.isClient() && hand == Hand.MAIN_HAND){
-            if(player.getMainHandStack().isOf(ModBlocks.ROCK.asItem()) && hit.getSide() == Direction.UP){
-                if(isCoolingDown(player)) return ActionResult.CONSUME;
-                if(!isSharpeningSuccessful()){
+        if (!world.isClient() && hand == Hand.MAIN_HAND) {
+            if (player.getMainHandStack().isOf(ModBlocks.ROCK.asItem()) && hit.getSide() == Direction.UP) {
+                if (isCoolingDown(player)) return ActionResult.CONSUME;
+                if (!isSharpeningSuccessful()) {
                     return handleUnsuccessfulSharpening(world, pos, player);
                 }
                 return handleSuccessfulSharpening(state, world, pos, player);
@@ -101,10 +142,6 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
             return handleModeCycling(state, world, pos, player);
         }
         return ActionResult.SUCCESS;
-    }
-
-    private static boolean isCoolingDown(PlayerEntity player) {
-        return player.getItemCooldownManager().isCoolingDown(player.getMainHandStack().getItem());
     }
 
     private ActionResult handleModeCycling(BlockState state, World world, BlockPos pos, PlayerEntity player) {
@@ -115,45 +152,10 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
         return ActionResult.SUCCESS;
     }
 
-    @NotNull
-    private static ActionResult handleSuccessfulSharpening(BlockState state, World world, BlockPos pos, PlayerEntity player) {
-        player.sendMessage(Text.literal("Sharpening success"), true);
-        if(!player.isCreative()){
-            player.getMainHandStack().decrement(1);
-        }
-        world.spawnEntity(getCorrectSharpenedRockEntity(state, world, pos));
-        player.getItemCooldownManager().set(player.getMainHandStack().getItem(), 20);
-        world.playSound(null, pos, SoundEvents.BLOCK_STONE_HIT, SoundCategory.BLOCKS, 1f, 2f);
-        return ActionResult.SUCCESS;
-    }
-
-    @NotNull
-    private static ActionResult handleUnsuccessfulSharpening(World world, BlockPos pos, PlayerEntity player) {
-        sendSharpeningMessage(player);
-        player.getItemCooldownManager().set(player.getMainHandStack().getItem(), 3);
-        world.playSound(null, pos, SoundEvents.BLOCK_STONE_HIT, SoundCategory.BLOCKS, 1f, 1.5f);
-        return ActionResult.SUCCESS;
-    }
-
-    private static ItemEntity getCorrectSharpenedRockEntity(BlockState state, World world, BlockPos pos){
-        Item sharpenedRock = state.get(MODE).getItem();
-        ItemEntity entity =  new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, sharpenedRock.getDefaultStack().split(1));
-        entity.setVelocity(0, 0, 0);
-        return entity;
-    }
-
-    private boolean isSharpeningSuccessful(){
+    private boolean isSharpeningSuccessful() {
         boolean successfulSharpen = ++sharpeningCounter >= 5;
         sharpeningCounter = successfulSharpen ? 0 : sharpeningCounter;
         return successfulSharpen;
-    }
-
-    private static void sendSharpeningModeMessage(PlayerEntity player, BlockState state){
-        player.sendMessage(state.get(MODE).asText(), true);
-    }
-
-    private static void sendSharpeningMessage(PlayerEntity player){
-        player.sendMessage(Text.translatable("stone_sharpening_station.sharpening"), true);
     }
 
     @Override

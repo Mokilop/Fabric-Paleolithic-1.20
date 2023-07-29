@@ -3,11 +3,9 @@
   "tool": {
     "tag": "minecraft:axes"
   },
-  "input":
-    {
-      "tag": "minecraft:birch_logs"
-    }
-  ,
+  "input": {
+    "tag": "minecraft:birch_logs"
+  },
   "result": "minecraft:birch_planks",
   "count": "2"
 }

@@ -34,14 +34,14 @@ public abstract class BlockEntityWithDisplayableInventory extends BlockEntity im
     }
 
     public void setInventory(DefaultedList<ItemStack> inventory) {
-        for(int i = 0; i < inventory.size(); i++){
+        for (int i = 0; i < inventory.size(); i++) {
             this.inventory.set(i, inventory.get(i));
         }
     }
 
     @Override
     public void markDirty() {
-        if(!world.isClient()) {
+        if (!world.isClient()) {
             PacketByteBuf data = PacketByteBufs.create();
             data.writeInt(inventory.size());
             for (ItemStack itemStack : inventory) {

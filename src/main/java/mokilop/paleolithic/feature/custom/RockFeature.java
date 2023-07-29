@@ -26,10 +26,10 @@ public class RockFeature extends Feature<RockFeatureConfig> {
         StructureWorldAccess structureWorldAccess = context.getWorld();
         BlockPos originPos = context.getOrigin();
         RockFeatureConfig config = context.getConfig();
-        if(random.nextInt(100) > config.chanceToSpawnPercentage()) return false;
+        if (random.nextInt(100) > config.chanceToSpawnPercentage()) return false;
         int maxCountInCluster = config.maxNumberOfPiles();
         int countInCluster = random.nextInt(maxCountInCluster) + 1;
-        for(int i = 0; i < countInCluster; i++){
+        for (int i = 0; i < countInCluster; i++) {
             int xOffset = random.nextInt(config.spreadXZ()) - random.nextInt(config.spreadXZ());
             int zOffset = random.nextInt(config.spreadXZ()) - random.nextInt(config.spreadXZ());
             int currentX = originPos.getX() + xOffset;
@@ -51,13 +51,17 @@ public class RockFeature extends Feature<RockFeatureConfig> {
         return amountGenerated > 0;
     }
 
-    private Direction getRandomHorizontalDirection(Random r){
+    private Direction getRandomHorizontalDirection(Random r) {
         int randomDirectionNumber = r.nextInt(4);
-        switch (randomDirectionNumber){
-            case 1: return Direction.WEST;
-            case 2: return Direction.SOUTH;
-            case 3: return Direction.EAST;
-            default: return Direction.NORTH;
+        switch (randomDirectionNumber) {
+            case 1:
+                return Direction.WEST;
+            case 2:
+                return Direction.SOUTH;
+            case 3:
+                return Direction.EAST;
+            default:
+                return Direction.NORTH;
         }
     }
 }

@@ -30,5 +30,7 @@ public enum StoneSharpeningStationBlockMode implements StringIdentifiable {
         return this.text;
     }
 
-    public Item getItem() { return this.item; }
+    public Item getItem() {
+        return this.item;
+    }
 }

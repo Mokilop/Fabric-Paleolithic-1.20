@@ -22,20 +22,22 @@ public class ModItems {
     public static final Item STONE_PICKAXE_HEAD_FRAGMENT = registerItem("stone_pickaxe_head_fragment", new Item(new FabricItemSettings()));
     public static final Item STONE_LUMBER_AXE_HEAD_FRAGMENT = registerItem("stone_lumber_axe_head_fragment", new Item(new FabricItemSettings()));
     public static final Item STONE_HATCHET = registerItem("stone_hatchet", new AxeItem(ToolMaterials.STONE, 4.0f, -2f, new FabricItemSettings()));
-    private static Item registerItem(String name, Item item){
+
+    private static Item registerItem(String name, Item item) {
         addItemToGroup(ModItemGroup.PALEOLITHIC_ITEMS, item);
         return Registry.register(Registries.ITEM, new Identifier(Paleolithic.MOD_ID, name), item);
     }
-    private static Item registerItem(String name, Item item, RegistryKey<ItemGroup> group){
+
+    private static Item registerItem(String name, Item item, RegistryKey<ItemGroup> group) {
         addItemToGroup(group, item);
         return Registry.register(Registries.ITEM, new Identifier(Paleolithic.MOD_ID, name), item);
     }
 
-    private static void addItemToGroup(RegistryKey<ItemGroup> group, Item item){
+    private static void addItemToGroup(RegistryKey<ItemGroup> group, Item item) {
         ItemGroupEvents.modifyEntriesEvent(group).register(entries -> entries.add(item));
     }
 
-    public static void registerModItems(){
+    public static void registerModItems() {
         Paleolithic.LOGGER.info("Registering items for " + Paleolithic.MOD_ID);
     }
 }

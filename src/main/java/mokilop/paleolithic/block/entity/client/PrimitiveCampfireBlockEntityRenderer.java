@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 
 
 public class PrimitiveCampfireBlockEntityRenderer implements BlockEntityRenderer<PrimitiveCampfireBlockEntity> {
-    public PrimitiveCampfireBlockEntityRenderer(BlockEntityRendererFactory.Context context){
+    public PrimitiveCampfireBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
 
     }
 
@@ -29,7 +29,7 @@ public class PrimitiveCampfireBlockEntityRenderer implements BlockEntityRenderer
         ItemStack itemStack = entity.getRenderStack();
         matrices.push();
         matrices.translate(0.499f, 0.22f, 0.499f);
-        switch(entity.getCachedState().get(PrimitiveCampfireBlock.FACING)){
+        switch (entity.getCachedState().get(PrimitiveCampfireBlock.FACING)) {
             case NORTH -> matrices.multiply(RotationAxis.POSITIVE_Y.rotation(0));
             case WEST -> matrices.multiply(RotationAxis.POSITIVE_Y.rotation(1.5708f));
             case SOUTH -> matrices.multiply(RotationAxis.POSITIVE_Y.rotation(3.14159f));

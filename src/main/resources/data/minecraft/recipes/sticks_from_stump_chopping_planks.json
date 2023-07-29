@@ -3,11 +3,9 @@
   "tool": {
     "tag": "minecraft:axes"
   },
-  "input":
-    {
-      "tag": "minecraft:planks"
-    }
-  ,
+  "input": {
+    "tag": "minecraft:planks"
+  },
   "result": "minecraft:stick",
   "count": "3"
 }

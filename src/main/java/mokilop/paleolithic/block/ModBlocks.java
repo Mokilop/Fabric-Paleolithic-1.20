@@ -26,18 +26,9 @@ import java.util.stream.Stream;
 
 public class ModBlocks {
     public static final Block ROCK = registerRockBlock();
-    //region Rock Sharpening Stations
-    private static Block registerRockSharpeningStation(WoodType type, boolean isStripped){
-        String name = (isStripped ? "stripped_" : "") + type.name() + "_rock_sharpening_station";
-        Block L = Constants.LOGS_MAP.get(type);
-        FabricBlockSettings settings = FabricBlockSettings.create()
-                .strength(L.getHardness(), L.getBlastResistance());
-        Block sharpeningStation = registerBlock(name, new RockSharpeningStationBlock(settings, type, isStripped), ModItemGroup.PALEOLITHIC_BLOCKS);
-        ROCKS_SHARPENING_STATIONS.add(sharpeningStation);
-        return sharpeningStation;
-    }
+    //endregion
+    public static final Block PRIMITIVE_CAMPFIRE = registerPrimitiveCampfire();
     private static final Set<Block> ROCKS_SHARPENING_STATIONS = new ObjectArraySet<>();
-    public static Stream<Block> getAllRockSharpeningStations() {return ROCKS_SHARPENING_STATIONS.stream();}
     public static final Block OAK_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.OAK, false);
     public static final Block SPRUCE_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.SPRUCE, false);
     public static final Block BIRCH_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.BIRCH, false);
@@ -60,19 +51,6 @@ public class ModBlocks {
     public static final Block STRIPPED_WARPED_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.WARPED, true);
     public static final Block STRIPPED_MANGROVE_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.MANGROVE, true);
     public static final Block STRIPPED_BAMBOO_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.BAMBOO, true);
-
-    //endregion
-    //region Stumps
-    private static Block registerStump(WoodType type, boolean isStripped){
-        String name = (isStripped ? "stripped_" : "") + type.name() + "_stump";
-        Block L = Constants.LOGS_MAP.get(type);
-        FabricBlockSettings settings = FabricBlockSettings.create()
-                .strength(L.getHardness(), L.getBlastResistance());
-        Block stump = registerBlock(name, new StumpBlock(settings, type, isStripped), ModItemGroup.PALEOLITHIC_BLOCKS);
-        STUMPS.add(stump);
-        return stump;
-    }
-    public static Stream<Block> getAllStumps() {return STUMPS.stream();}
     private static final Set<Block> STUMPS = new ObjectArraySet<>();
     public static final Block OAK_STUMP = registerStump(WoodType.OAK, false);
     public static final Block SPRUCE_STUMP = registerStump(WoodType.SPRUCE, false);
@@ -96,18 +74,6 @@ public class ModBlocks {
     public static final Block STRIPPED_WARPED_STUMP = registerStump(WoodType.WARPED, true);
     public static final Block STRIPPED_MANGROVE_STUMP = registerStump(WoodType.MANGROVE, true);
     public static final Block STRIPPED_BAMBOO_STUMP = registerStump(WoodType.BAMBOO, true);
-    //endregion
-    //region Crafting Stumps
-    private static Block registerCraftingStump(WoodType type, boolean isStripped){
-        String name = (isStripped ? "stripped_" : "") + type.name() + "_crafting_stump";
-        Block L = Constants.LOGS_MAP.get(type);
-        FabricBlockSettings settings = FabricBlockSettings.create()
-                .strength(L.getHardness(), L.getBlastResistance());
-        Block crafting_stump = registerBlock(name, new CraftingStumpBlock(settings, type, isStripped), ModItemGroup.PALEOLITHIC_BLOCKS);
-        CRAFTING_STUMPS.add(crafting_stump);
-        return crafting_stump;
-    }
-    public static Stream<Block> getAllCraftingStumps() {return CRAFTING_STUMPS.stream();}
     private static final Set<Block> CRAFTING_STUMPS = new ObjectArraySet<>();
     public static final Block OAK_CRAFTING_STUMP = registerCraftingStump(WoodType.OAK, false);
     public static final Block SPRUCE_CRAFTING_STUMP = registerCraftingStump(WoodType.SPRUCE, false);
@@ -132,20 +98,65 @@ public class ModBlocks {
     public static final Block STRIPPED_MANGROVE_CRAFTING_STUMP = registerCraftingStump(WoodType.MANGROVE, true);
     public static final Block STRIPPED_BAMBOO_CRAFTING_STUMP = registerCraftingStump(WoodType.BAMBOO, true);
 
-    //endregion
-    public static final Block PRIMITIVE_CAMPFIRE = registerPrimitiveCampfire();
+    //region Rock Sharpening Stations
+    private static Block registerRockSharpeningStation(WoodType type, boolean isStripped) {
+        String name = (isStripped ? "stripped_" : "") + type.name() + "_rock_sharpening_station";
+        Block L = Constants.LOGS_MAP.get(type);
+        FabricBlockSettings settings = FabricBlockSettings.create()
+                .strength(L.getHardness(), L.getBlastResistance());
+        Block sharpeningStation = registerBlock(name, new RockSharpeningStationBlock(settings, type, isStripped), ModItemGroup.PALEOLITHIC_BLOCKS);
+        ROCKS_SHARPENING_STATIONS.add(sharpeningStation);
+        return sharpeningStation;
+    }
 
-    private  static Block registerBlock(String name, Block block, RegistryKey<ItemGroup> group){
+    public static Stream<Block> getAllRockSharpeningStations() {
+        return ROCKS_SHARPENING_STATIONS.stream();
+    }
+
+    //endregion
+    //region Stumps
+    private static Block registerStump(WoodType type, boolean isStripped) {
+        String name = (isStripped ? "stripped_" : "") + type.name() + "_stump";
+        Block L = Constants.LOGS_MAP.get(type);
+        FabricBlockSettings settings = FabricBlockSettings.create()
+                .strength(L.getHardness(), L.getBlastResistance());
+        Block stump = registerBlock(name, new StumpBlock(settings, type, isStripped), ModItemGroup.PALEOLITHIC_BLOCKS);
+        STUMPS.add(stump);
+        return stump;
+    }
+
+    public static Stream<Block> getAllStumps() {
+        return STUMPS.stream();
+    }
+
+    //endregion
+    //region Crafting Stumps
+    private static Block registerCraftingStump(WoodType type, boolean isStripped) {
+        String name = (isStripped ? "stripped_" : "") + type.name() + "_crafting_stump";
+        Block L = Constants.LOGS_MAP.get(type);
+        FabricBlockSettings settings = FabricBlockSettings.create()
+                .strength(L.getHardness(), L.getBlastResistance());
+        Block crafting_stump = registerBlock(name, new CraftingStumpBlock(settings, type, isStripped), ModItemGroup.PALEOLITHIC_BLOCKS);
+        CRAFTING_STUMPS.add(crafting_stump);
+        return crafting_stump;
+    }
+
+    public static Stream<Block> getAllCraftingStumps() {
+        return CRAFTING_STUMPS.stream();
+    }
+
+    private static Block registerBlock(String name, Block block, RegistryKey<ItemGroup> group) {
         registerBlockItem(name, block, group);
         return Registry.register(Registries.BLOCK, new Identifier(Paleolithic.MOD_ID, name), block);
     }
 
-    private static Item registerBlockItem(String name, Block block, RegistryKey<ItemGroup> group){
+    private static Item registerBlockItem(String name, Block block, RegistryKey<ItemGroup> group) {
         Item item = Registry.register(Registries.ITEM, new Identifier(Paleolithic.MOD_ID, name),
                 new BlockItem(block, new FabricItemSettings()));
         ItemGroupEvents.modifyEntriesEvent(group).register(entries -> entries.add(item));
         return item;
     }
+
     private static Block registerPrimitiveCampfire() {
         return registerBlock("primitive_campfire",
                 new PrimitiveCampfireBlock(FabricBlockSettings.create()
@@ -154,7 +165,8 @@ public class ModBlocks {
                         .luminance(state -> state.get(PrimitiveCampfireBlock.LIT) ? state.get(PrimitiveCampfireBlock.FIRE_STRENGTH) * 3 + 2 : 0)),
                 ModItemGroup.PALEOLITHIC_BLOCKS);
     }
-    private static Block registerRockBlock(){
+
+    private static Block registerRockBlock() {
         String name = "rock";
         Block block = Registry.register(Registries.BLOCK, new Identifier(Paleolithic.MOD_ID, name), new RockBlock(
                 FabricBlockSettings
@@ -169,7 +181,8 @@ public class ModBlocks {
         ItemGroupEvents.modifyEntriesEvent(ModItemGroup.PALEOLITHIC_ITEMS).register(entries -> entries.add(item));
         return block;
     }
-    public static void registerModBlocks(){
+
+    public static void registerModBlocks() {
         Paleolithic.LOGGER.info("Registering ModBlocks for " + Paleolithic.MOD_ID);
     }
 }

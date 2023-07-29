@@ -31,13 +31,13 @@ public class ModModelProvider extends FabricModelProvider {
 
     }
 
-    private void registerStump(BlockStateModelGenerator blockStateModelGenerator, StumpBlock stump){
+    private void registerStump(BlockStateModelGenerator blockStateModelGenerator, StumpBlock stump) {
         blockStateModelGenerator.blockStateCollector
                 .accept(BlockStateModelGenerator.createSingletonBlockState(stump, StumpBlock.PARENT_MODEL
                         .upload(stump, stump.getTextureMap(), blockStateModelGenerator.modelCollector)));
     }
-    private void registerRockSharpeningStation(BlockStateModelGenerator blockStateModelGenerator, RockSharpeningStationBlock stationBlock)
-    {
+
+    private void registerRockSharpeningStation(BlockStateModelGenerator blockStateModelGenerator, RockSharpeningStationBlock stationBlock) {
         blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier
                 .create(stationBlock, BlockStateVariant.create()
                         .put(VariantSettings.MODEL, RockSharpeningStationBlock.PARENT_MODEL
@@ -46,8 +46,8 @@ public class ModModelProvider extends FabricModelProvider {
                 .coordinate(BlockStateModelGenerator
                         .createNorthDefaultHorizontalRotationStates()));
     }
-    private void registerCraftingStump(BlockStateModelGenerator blockStateModelGenerator, CraftingStumpBlock craftingStump)
-    {
+
+    private void registerCraftingStump(BlockStateModelGenerator blockStateModelGenerator, CraftingStumpBlock craftingStump) {
         blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier
                 .create(craftingStump, BlockStateVariant.create()
                         .put(VariantSettings.MODEL, CraftingStumpBlock.PARENT_MODEL
@@ -57,17 +57,17 @@ public class ModModelProvider extends FabricModelProvider {
                         .createNorthDefaultHorizontalRotationStates()));
     }
 
-    private void registerRockSharpeningStations(BlockStateModelGenerator blockStateModelGenerator){
-        ModBlocks.getAllRockSharpeningStations().forEach((s)->registerRockSharpeningStation(blockStateModelGenerator, (RockSharpeningStationBlock) s));
+    private void registerRockSharpeningStations(BlockStateModelGenerator blockStateModelGenerator) {
+        ModBlocks.getAllRockSharpeningStations().forEach((s) -> registerRockSharpeningStation(blockStateModelGenerator, (RockSharpeningStationBlock) s));
     }
 
-    private void registerStumps(BlockStateModelGenerator blockStateModelGenerator){
+    private void registerStumps(BlockStateModelGenerator blockStateModelGenerator) {
         ModBlocks.getAllStumps().forEach((s) -> registerStump(blockStateModelGenerator, ((StumpBlock) s)));
     }
-    private void registerCraftingStumps(BlockStateModelGenerator blockStateModelGenerator){
+
+    private void registerCraftingStumps(BlockStateModelGenerator blockStateModelGenerator) {
         ModBlocks.getAllCraftingStumps().forEach((s) -> registerCraftingStump(blockStateModelGenerator, ((CraftingStumpBlock) s)));
     }
-
 
 
 }

@@ -1,4 +1,5 @@
 package mokilop.paleolithic.block.entity;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
@@ -17,20 +18,13 @@ import java.util.List;
  * <h2>Reading and writing to tags</h2>
  * Use {@link Inventories#writeNbt(NbtCompound, DefaultedList)} and {@link Inventories#readNbt(NbtCompound, DefaultedList)}
  * on {@linkplain #getItems() the item list}.
- *
+ * <p>
  * License: <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>
+ *
  * @author Juuz
  */
 @FunctionalInterface
 public interface ImplementedInventory extends SidedInventory {
-    /**
-     * Gets the item list of this inventory.
-     * Must return the same instance every time it's called.
-     *
-     * @return the item list
-     */
-    DefaultedList<ItemStack> getItems();
-
     /**
      * Creates an inventory from the item list.
      *
@@ -50,6 +44,14 @@ public interface ImplementedInventory extends SidedInventory {
     static ImplementedInventory ofSize(int size) {
         return of(DefaultedList.ofSize(size, ItemStack.EMPTY));
     }
+
+    /**
+     * Gets the item list of this inventory.
+     * Must return the same instance every time it's called.
+     *
+     * @return the item list
+     */
+    DefaultedList<ItemStack> getItems();
 
     // SidedInventory
 
@@ -76,9 +78,9 @@ public interface ImplementedInventory extends SidedInventory {
      *
      * <p>The default implementation returns true.
      *
-     * @param slot the slot
+     * @param slot  the slot
      * @param stack the stack
-     * @param side the side
+     * @param side  the side
      * @return true if the stack can be inserted
      */
     @Override
@@ -91,9 +93,9 @@ public interface ImplementedInventory extends SidedInventory {
      *
      * <p>The default implementation returns true.
      *
-     * @param slot the slot
+     * @param slot  the slot
      * @param stack the stack
-     * @param side the side
+     * @param side  the side
      * @return true if the stack can be extracted
      */
     @Override
@@ -147,7 +149,7 @@ public interface ImplementedInventory extends SidedInventory {
      * <p>(default implementation) If there are fewer items in the slot than what are requested,
      * takes all items in that slot.
      *
-     * @param slot the slot
+     * @param slot  the slot
      * @param count the item count
      * @return a stack
      */
@@ -180,7 +182,7 @@ public interface ImplementedInventory extends SidedInventory {
      * <p>If the stack is too big for this inventory ({@link Inventory#getMaxCountPerStack()}),
      * it gets resized to this inventory's maximum amount.
      *
-     * @param slot the slot
+     * @param slot  the slot
      * @param stack the stack
      */
     @Override

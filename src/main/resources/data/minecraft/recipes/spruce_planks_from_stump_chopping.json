@@ -3,11 +3,9 @@
   "tool": {
     "tag": "minecraft:axes"
   },
-  "input":
-    {
-      "tag": "minecraft:spruce_logs"
-    }
-  ,
+  "input": {
+    "tag": "minecraft:spruce_logs"
+  },
   "result": "minecraft:spruce_planks",
   "count": "2"
 }

@@ -8,6 +8,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class CraftingStumpBlockEntity extends BlockEntity implements ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(9, ItemStack.EMPTY);
+
     public CraftingStumpBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.CRAFTING_STUMP, pos, state);
     }

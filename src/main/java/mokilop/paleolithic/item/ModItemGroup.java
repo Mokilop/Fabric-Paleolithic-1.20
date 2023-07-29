@@ -16,14 +16,14 @@ public class ModItemGroup {
     public static RegistryKey<ItemGroup> PALEOLITHIC_ITEMS =
             RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(Paleolithic.MOD_ID, "paleolithic_items"));
     public static RegistryKey<ItemGroup> PALEOLITHIC_BLOCKS =
-                RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(Paleolithic.MOD_ID, "paleolithic_blocks"));
+            RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(Paleolithic.MOD_ID, "paleolithic_blocks"));
 
     public static void registerItemGroups() {
         Registry.register(Registries.ITEM_GROUP, PALEOLITHIC_BLOCKS, FabricItemGroup.builder()
                 .displayName(Text.translatable("itemgroup.paleolithic_blocks"))
-                .icon(()->new ItemStack(ModBlocks.PRIMITIVE_CAMPFIRE.asItem())).build());
+                .icon(() -> new ItemStack(ModBlocks.PRIMITIVE_CAMPFIRE.asItem())).build());
         Registry.register(Registries.ITEM_GROUP, PALEOLITHIC_ITEMS, FabricItemGroup.builder()
                 .displayName(Text.translatable("itemgroup.paleolithic_items"))
-                .icon(()->new ItemStack(ModBlocks.ROCK.asItem())).build());
+                .icon(() -> new ItemStack(ModBlocks.ROCK.asItem())).build());
     }
 }
