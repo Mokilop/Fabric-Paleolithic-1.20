@@ -35,9 +35,9 @@ public class StumpBlock extends BlockWithEntity implements BlockEntityProvider {
     public static final Model PARENT_MODEL = new Model(Optional.of(new Identifier(Paleolithic.MOD_ID, "block/stump")),
             Optional.empty());
     public static final VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 6, 16);
-    private WoodType woodType;
-    private boolean isStripped;
-    private TextureMap textureMap;
+    private final WoodType woodType;
+    private final boolean isStripped;
+    private final TextureMap textureMap;
 
     public StumpBlock(Settings settings, WoodType woodType, boolean stripped) {
         super(settings.sounds(woodType.soundType()));

@@ -40,9 +40,9 @@ public class CraftingStumpBlock extends BlockWithEntity {
             Block.createCuboidShape(1, 15, 0, 15, 16, 1),
             Block.createCuboidShape(3, 3, 3, 13, 13, 13)
     ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, BooleanBiFunction.OR)).get();
-    private WoodType woodType;
-    private boolean isStripped;
-    private TextureMap textureMap;
+    private final WoodType woodType;
+    private final boolean isStripped;
+    private final TextureMap textureMap;
 
     public CraftingStumpBlock(Settings settings, WoodType woodType, boolean isStripped) {
         super(settings.sounds(woodType.soundType()));
