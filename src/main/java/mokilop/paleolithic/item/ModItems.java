@@ -1,6 +1,7 @@
 package mokilop.paleolithic.item;
 
 import mokilop.paleolithic.Paleolithic;
+import mokilop.paleolithic.item.custom.HammerItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.AxeItem;
@@ -16,7 +17,7 @@ public class ModItems {
     public static final Item PLANT_FIBER = registerItem("plant_fiber", new Item(new FabricItemSettings()));
     public static final Item PLANT_TWINE = registerItem("plant_twine", new Item(new FabricItemSettings()));
     public static final Item STONE_HAMMER = registerItem("stone_hammer",
-            new AxeItem(ModToolMaterial.UNSHARPENED_ROCK, 3.0f, -2.4f, new FabricItemSettings()));
+            new HammerItem(ModToolMaterial.UNSHARPENED_ROCK, 3.0f, -2.4f, 1, new FabricItemSettings()));
     public static final Item STONE_HATCHET_HEAD = registerItem("stone_hatchet_head", new Item(new FabricItemSettings()));
     public static final Item STONE_SPEAR_HEAD = registerItem("stone_spear_head", new Item(new FabricItemSettings()));
     public static final Item STONE_PICKAXE_HEAD_FRAGMENT = registerItem("stone_pickaxe_head_fragment", new Item(new FabricItemSettings()));

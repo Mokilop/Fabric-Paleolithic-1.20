@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 
 public enum ModToolMaterial implements ToolMaterial {
 
-    UNSHARPENED_ROCK(MiningLevels.WOOD, 9, 1.5f, 0.0f, 5, () -> Ingredient.ofItems(ModBlocks.ROCK.asItem())),
+    UNSHARPENED_ROCK(MiningLevels.WOOD, 49, 1.5f, 0.0f, 5, () -> Ingredient.ofItems(ModBlocks.ROCK.asItem())),
     SHARPENED_ROCK(MiningLevels.STONE, 131, 4.0f, 1.0f, 5, () -> Ingredient.empty());
 
     private final int miningLevel;

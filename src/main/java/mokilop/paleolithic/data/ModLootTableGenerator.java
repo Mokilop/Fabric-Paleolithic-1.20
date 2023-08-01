@@ -38,6 +38,7 @@ public class ModLootTableGenerator extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.PRIMITIVE_CAMPFIRE);
         ModBlocks.getAllStumps().forEach(this::addDrop);
         ModBlocks.getAllRockSharpeningStations().forEach(this::addDrop);
+        ModBlocks.getAllCraftingStumps().forEach(this::addDrop);
     }
 
     @Override

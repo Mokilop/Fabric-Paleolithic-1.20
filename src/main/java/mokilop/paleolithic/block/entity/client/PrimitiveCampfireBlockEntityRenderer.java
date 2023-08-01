@@ -29,13 +29,8 @@ public class PrimitiveCampfireBlockEntityRenderer implements BlockEntityRenderer
         ItemStack itemStack = entity.getRenderStack();
         matrices.push();
         matrices.translate(0.499f, 0.22f, 0.499f);
-        switch (entity.getCachedState().get(PrimitiveCampfireBlock.FACING)) {
-            case NORTH -> matrices.multiply(RotationAxis.POSITIVE_Y.rotation(0));
-            case WEST -> matrices.multiply(RotationAxis.POSITIVE_Y.rotation(1.5708f));
-            case SOUTH -> matrices.multiply(RotationAxis.POSITIVE_Y.rotation(3.14159f));
-            case EAST -> matrices.multiply(RotationAxis.POSITIVE_Y.rotation(4.71239f));
-        }
-
+        float rotation = entity.getCachedState().get(PrimitiveCampfireBlock.FACING).getOpposite().asRotation();
+        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(rotation));
         itemRenderer.renderItem(itemStack, ModelTransformationMode.GROUND, getLightLevel(entity.getWorld(), entity.getPos()),
                 OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, entity.getWorld(), 1);
         matrices.pop();

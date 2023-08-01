@@ -1,27 +1,37 @@
 package mokilop.paleolithic.block.custom;
 
 import mokilop.paleolithic.Paleolithic;
+import mokilop.paleolithic.block.ModBlocks;
 import mokilop.paleolithic.block.entity.CraftingStumpBlockEntity;
+import mokilop.paleolithic.block.entity.ModBlockEntities;
+import mokilop.paleolithic.block.entity.PrimitiveCampfireBlockEntity;
 import mokilop.paleolithic.data.Constants;
+import mokilop.paleolithic.item.custom.HammerItem;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.data.client.Model;
 import net.minecraft.data.client.TextureKey;
 import net.minecraft.data.client.TextureMap;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.*;
 import net.minecraft.util.function.BooleanBiFunction;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -96,6 +106,56 @@ public class CraftingStumpBlock extends BlockWithEntity {
         builder.add(FACING);
     }
 
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if(world.isClient())return ActionResult.CONSUME;
+        if(world.getBlockEntity(pos) instanceof CraftingStumpBlockEntity entity){
+            ItemStack mhs = player.getMainHandStack();
+            if(hit.getSide() == Direction.UP) {
+                return onUseTopSide(state, pos, player, hit, entity, mhs);
+            }
+            return ActionResult.PASS;
+        }
+        return ActionResult.PASS;
+    }
+
+    @NotNull
+    private ActionResult onUseTopSide(BlockState state, BlockPos pos, PlayerEntity player, BlockHitResult hit, CraftingStumpBlockEntity entity, ItemStack mhs) {
+        if(mhs.isEmpty()){
+            ItemStack removed = entity.removeStack(getSlot(hit, pos, state));
+            if(!player.isCreative()) player.giveItemStack(removed);
+            entity.markDirty();
+            return ActionResult.SUCCESS;
+        }
+        mhs.decrement(entity.addStack(getSlot(hit, pos, state), mhs) && !player.isCreative() ? 1 : 0);
+        return ActionResult.SUCCESS;
+    }
+
+    private int getSlot(BlockHitResult hit, BlockPos pos, BlockState state){
+        float oneStep = 0.3125f;
+        float threeSteps = 0.6875f;
+        double xOffset = hit.getPos().x - pos.getX();
+        double zOffset = hit.getPos().z - pos.getZ();
+        int xSlot = xOffset < oneStep ? 0 : xOffset > threeSteps ? 2 : 1;
+        int zSlot = zOffset < oneStep ? 0 : zOffset > threeSteps ? 2 : 1;
+        switch (state.get(FACING)){
+            case NORTH: return 8 - xSlot - 3 * zSlot;
+            case EAST: return 2 - zSlot + 3 * xSlot;
+            case WEST: return zSlot + 3 * (2 - xSlot);
+            default: return xSlot + 3 * zSlot;
+        }
+    }
+    @Override
+    public void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
+        if(world.getBlockEntity(pos) instanceof CraftingStumpBlockEntity entity) {
+            ItemStack mhs = player.getMainHandStack();
+            if (mhs.getItem() instanceof HammerItem hammer) {
+                if(CraftingStumpBlockEntity.craft(entity, hammer))mhs.damage(player.isCreative() ? 0 : 1,
+                        world.getRandom(), (ServerPlayerEntity) player);
+            }
+        }
+        super.onBlockBreakStart(state, world, pos, player);
+    }
     // BLOCK ENTITY
 
     @Nullable
@@ -121,4 +181,9 @@ public class CraftingStumpBlock extends BlockWithEntity {
         }
     }
 
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return checkType(type, ModBlockEntities.CRAFTING_STUMP, CraftingStumpBlockEntity::tick);
+    }
 }
