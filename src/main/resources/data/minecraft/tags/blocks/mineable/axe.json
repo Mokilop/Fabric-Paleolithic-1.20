@@ -20,7 +20,7 @@
     "paleolithic:bamboo_rock_sharpening_station",
     "paleolithic:stripped_bamboo_rock_sharpening_station",
     "paleolithic:acacia_stump",
-    "paleolithic:bamboo_block_stump",
+    "paleolithic:bamboo_stump",
     "paleolithic:birch_stump",
     "paleolithic:cherry_stump",
     "paleolithic:dark_oak_stump",
@@ -29,14 +29,13 @@
     "paleolithic:oak_stump",
     "paleolithic:spruce_stump",
     "paleolithic:stripped_acacia_stump",
-    "paleolithic:stripped_bamboo_block_stump",
+    "paleolithic:stripped_bamboo_stump",
     "paleolithic:stripped_birch_stump",
     "paleolithic:stripped_cherry_stump",
     "paleolithic:stripped_dark_oak_stump",
     "paleolithic:stripped_jungle_stump",
     "paleolithic:stripped_mangrove_stump",
     "paleolithic:stripped_oak_stump",
-    "paleolithic:stripped_spruce_stump",
-    "paleolithic:primitive_oak_crafting_bench"
+    "paleolithic:stripped_spruce_stump"
   ]
 }
