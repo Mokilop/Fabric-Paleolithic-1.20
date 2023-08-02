@@ -1,10 +1,8 @@
 package mokilop.paleolithic.block.custom;
 
 import mokilop.paleolithic.Paleolithic;
-import mokilop.paleolithic.block.ModBlocks;
 import mokilop.paleolithic.block.entity.CraftingStumpBlockEntity;
 import mokilop.paleolithic.block.entity.ModBlockEntities;
-import mokilop.paleolithic.block.entity.PrimitiveCampfireBlockEntity;
 import mokilop.paleolithic.data.Constants;
 import mokilop.paleolithic.item.custom.HammerItem;
 import net.minecraft.block.*;
@@ -114,6 +112,18 @@ public class CraftingStumpBlock extends BlockWithEntity {
             if(hit.getSide() == Direction.UP) {
                 return onUseTopSide(state, pos, player, hit, entity, mhs);
             }
+            if(state.get(FACING) == hit.getSide()){
+                if(mhs.isEmpty()){
+                    ItemStack removed = entity.removeStack(9);
+                    if(!player.isCreative())player.giveItemStack(removed);
+                    entity.markDirty();
+                    return  ActionResult.SUCCESS;
+                }
+                if(mhs.getItem() instanceof HammerItem){
+                    mhs.decrement(entity.addStack(9, mhs.copyWithCount(1)) && !player.isCreative() ? 1 : 0);
+                    return ActionResult.SUCCESS;
+                }
+            }
             return ActionResult.PASS;
         }
         return ActionResult.PASS;
@@ -127,7 +137,7 @@ public class CraftingStumpBlock extends BlockWithEntity {
             entity.markDirty();
             return ActionResult.SUCCESS;
         }
-        mhs.decrement(entity.addStack(getSlot(hit, pos, state), mhs) && !player.isCreative() ? 1 : 0);
+        mhs.decrement(entity.addStack(getSlot(hit, pos, state), mhs.copyWithCount(1)) && !player.isCreative() ? 1 : 0);
         return ActionResult.SUCCESS;
     }
 
@@ -150,7 +160,7 @@ public class CraftingStumpBlock extends BlockWithEntity {
         if(world.getBlockEntity(pos) instanceof CraftingStumpBlockEntity entity) {
             ItemStack mhs = player.getMainHandStack();
             if (mhs.getItem() instanceof HammerItem hammer) {
-                if(CraftingStumpBlockEntity.craft(entity, hammer))mhs.damage(player.isCreative() ? 0 : 1,
+                if(CraftingStumpBlockEntity.attemptCraft(entity, hammer))mhs.damage(player.isCreative() ? 0 : 1,
                         world.getRandom(), (ServerPlayerEntity) player);
             }
         }

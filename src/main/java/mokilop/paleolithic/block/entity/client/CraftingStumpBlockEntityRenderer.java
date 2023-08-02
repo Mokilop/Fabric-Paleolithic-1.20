@@ -28,19 +28,43 @@ public class CraftingStumpBlockEntityRenderer implements BlockEntityRenderer<Cra
     @Override
     public void render(CraftingStumpBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
-        for (int i = 0; i < entity.size(); i++){
+        float rotDeg = entity.getCachedState().get(CraftingStumpBlock.FACING).getOpposite().asRotation();
+        for (int i = 0; i < entity.size() - 1; i++){
             ItemStack toRender = entity.getStack(i);
             matrices.push();
             matrices.translate(getXOffset(i, entity), getYOffset(entity, tickDelta), getZOffset(i, entity));
             matrices.scale(0.25f, 0.25f, 0.25f);
             matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
-            float rotDeg = entity.getCachedState().get(CraftingStumpBlock.FACING).getOpposite().asRotation();
             matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(rotDeg + entity.getRandomRotationAmounts(entity)[i]));
             itemRenderer.renderItem(toRender, ModelTransformationMode.FIXED, getLightLevel(entity.getWorld(), entity.getPos()),
                     OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, entity.getWorld(), 1);
             matrices.pop();
         }
-        Paleolithic.LOGGER.info("render");
+        ItemStack extraItem = entity.getStack(9);
+        matrices.push();
+        switch (entity.getCachedState().get(CraftingStumpBlock.FACING)) {
+            case NORTH:
+                matrices.translate(0.485, 0.485, 0.4);
+                matrices.multiply(RotationAxis.NEGATIVE_Z.rotationDegrees(225));
+                break;
+            case SOUTH:
+                matrices.translate(0.515, 0.485, 0.6);
+                matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(225));
+                break;
+            case WEST:
+                matrices.translate(0.4, 0.485, 0.485);
+                matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(225));
+                break;
+            case EAST:
+                matrices.translate(0.6, 0.485, 0.515);
+                matrices.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(225));
+                break;
+        }
+        matrices.scale(0.35f, 0.35f, 0.35f);
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotDeg));
+        itemRenderer.renderItem(extraItem, ModelTransformationMode.FIXED, getLightLevel(entity.getWorld(), entity.getPos()),
+                OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, entity.getWorld(), 1);
+        matrices.pop();
     }
     private float getXOffset(int slot, CraftingStumpBlockEntity e){
         Direction f = e.getCachedState().get(CraftingStumpBlock.FACING);
