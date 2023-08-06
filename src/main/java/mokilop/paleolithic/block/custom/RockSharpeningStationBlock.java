@@ -160,7 +160,7 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING).add(MODE);
+        builder.add(FACING, MODE);
     }
 
 

@@ -1,0 +1,6 @@
+{
+  "parent": "paleolithic:block/drying_rack_on_ceiling",
+  "textures": {
+    "plank": "minecraft:block/oak_planks"
+  }
+}

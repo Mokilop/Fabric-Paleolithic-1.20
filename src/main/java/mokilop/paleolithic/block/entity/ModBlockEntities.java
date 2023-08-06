@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 
 public class ModBlockEntities {
     public static BlockEntityType<CraftingStumpBlockEntity> CRAFTING_STUMP;
+    public static BlockEntityType<DryingRackBlockEntity> DRYING_RACK;
     public static BlockEntityType<PrimitiveCampfireBlockEntity> PRIMITIVE_CAMPFIRE;
     public static BlockEntityType<StumpBlockEntity> STUMP;
 
@@ -29,6 +30,11 @@ public class ModBlockEntities {
                 new Identifier(Paleolithic.MOD_ID, "stump"),
                 FabricBlockEntityTypeBuilder.create(StumpBlockEntity::new,
                         ModBlocks.getAllStumps().toArray(Block[]::new)).build(null));
+
+        DRYING_RACK = Registry.register(Registries.BLOCK_ENTITY_TYPE,
+                new Identifier(Paleolithic.MOD_ID, "drying_rack"),
+                FabricBlockEntityTypeBuilder.create(DryingRackBlockEntity::new,
+                        ModBlocks.getAllDryingRacks().toArray(Block[]::new)).build(null));
 
     }
 }

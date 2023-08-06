@@ -2,12 +2,19 @@ package mokilop.paleolithic.data;
 
 import mokilop.paleolithic.block.ModBlocks;
 import mokilop.paleolithic.block.custom.CraftingStumpBlock;
+import mokilop.paleolithic.block.custom.DryingRackBlock;
 import mokilop.paleolithic.block.custom.RockSharpeningStationBlock;
 import mokilop.paleolithic.block.custom.StumpBlock;
 import mokilop.paleolithic.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.enums.Attachment;
 import net.minecraft.data.client.*;
+import net.minecraft.item.Items;
+import net.minecraft.state.property.Properties;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Direction;
 
 public class ModModelProvider extends FabricModelProvider {
 
@@ -20,6 +27,7 @@ public class ModModelProvider extends FabricModelProvider {
         registerStumps(blockStateModelGenerator);
         registerRockSharpeningStations(blockStateModelGenerator);
         registerCraftingStumps(blockStateModelGenerator);
+        registerDryingRacks(blockStateModelGenerator);
     }
 
     @Override
@@ -56,7 +64,44 @@ public class ModModelProvider extends FabricModelProvider {
                 .coordinate(BlockStateModelGenerator
                         .createNorthDefaultHorizontalRotationStates()));
     }
+    private void registerDryingRack(BlockStateModelGenerator blockStateModelGenerator, DryingRackBlock dryingRack){
+        Identifier floorId = DryingRackBlock.PARENT_MODEL
+                .upload(dryingRack, dryingRack.getTextureMap(),
+                        blockStateModelGenerator.modelCollector);
 
+        Identifier wallId = DryingRackBlock.PARENT_MODEL_ON_WALL
+                .upload(dryingRack, dryingRack.getTextureMap(),
+                        blockStateModelGenerator.modelCollector);
+
+        Identifier ceilingId = DryingRackBlock.PARENT_MODEL_ON_CEILING
+                .upload(dryingRack, dryingRack.getTextureMap(),
+                        blockStateModelGenerator.modelCollector);
+
+        blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(dryingRack).coordinate(BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, Properties.ATTACHMENT)
+
+                .register(Direction.NORTH, Attachment.FLOOR, BlockStateVariant.create().put(VariantSettings.MODEL, floorId)).register(Direction.SOUTH, Attachment.FLOOR, BlockStateVariant.create().put(VariantSettings.MODEL, floorId).put(VariantSettings.Y, VariantSettings.Rotation.R180)).register(Direction.EAST, Attachment.FLOOR, BlockStateVariant.create().put(VariantSettings.MODEL, floorId).put(VariantSettings.Y, VariantSettings.Rotation.R90)).register(Direction.WEST, Attachment.FLOOR, BlockStateVariant.create().put(VariantSettings.MODEL, floorId).put(VariantSettings.Y, VariantSettings.Rotation.R270))
+
+                .register(Direction.NORTH, Attachment.CEILING, BlockStateVariant.create().put(VariantSettings.MODEL, ceilingId)).register(Direction.SOUTH, Attachment.CEILING, BlockStateVariant.create().put(VariantSettings.MODEL, ceilingId).put(VariantSettings.Y, VariantSettings.Rotation.R180)).register(Direction.EAST, Attachment.CEILING, BlockStateVariant.create().put(VariantSettings.MODEL, ceilingId).put(VariantSettings.Y, VariantSettings.Rotation.R90)).register(Direction.WEST, Attachment.CEILING, BlockStateVariant.create().put(VariantSettings.MODEL, ceilingId).put(VariantSettings.Y, VariantSettings.Rotation.R270))
+
+                .register(Direction.EAST, Attachment.SINGLE_WALL, BlockStateVariant.create()
+                        .put(VariantSettings.MODEL, wallId)
+                        .put(VariantSettings.Y, VariantSettings.Rotation.R270))
+                .register(Direction.WEST, Attachment.SINGLE_WALL, BlockStateVariant.create()
+                        .put(VariantSettings.MODEL, wallId)
+                        .put(VariantSettings.Y, VariantSettings.Rotation.R90))
+                .register(Direction.SOUTH, Attachment.SINGLE_WALL, BlockStateVariant.create()
+                        .put(VariantSettings.MODEL, wallId))
+                .register(Direction.NORTH, Attachment.SINGLE_WALL, BlockStateVariant.create()
+                        .put(VariantSettings.MODEL, wallId)
+                        .put(VariantSettings.Y, VariantSettings.Rotation.R180))
+
+                .register(Direction.NORTH, Attachment.DOUBLE_WALL, BlockStateVariant.create().put(VariantSettings.MODEL, ceilingId).put(VariantSettings.Y, VariantSettings.Rotation.R90)).register(Direction.EAST, Attachment.DOUBLE_WALL, BlockStateVariant.create().put(VariantSettings.MODEL, ceilingId).put(VariantSettings.Y, VariantSettings.Rotation.R270)).register(Direction.WEST, Attachment.DOUBLE_WALL, BlockStateVariant.create().put(VariantSettings.MODEL, ceilingId)).register(Direction.SOUTH, Attachment.DOUBLE_WALL, BlockStateVariant.create().put(VariantSettings.MODEL, ceilingId).put(VariantSettings.Y, VariantSettings.Rotation.R180))));
+
+    }
+
+    private void registerDryingRacks(BlockStateModelGenerator blockStateModelGenerator){
+        ModBlocks.getAllDryingRacks().forEach((dr) -> registerDryingRack(blockStateModelGenerator, (DryingRackBlock) dr));
+    }
     private void registerRockSharpeningStations(BlockStateModelGenerator blockStateModelGenerator) {
         ModBlocks.getAllRockSharpeningStations().forEach((s) -> registerRockSharpeningStation(blockStateModelGenerator, (RockSharpeningStationBlock) s));
     }

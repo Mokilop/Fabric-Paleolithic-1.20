@@ -1,6 +1,5 @@
 package mokilop.paleolithic.block.entity.client;
 
-import mokilop.paleolithic.Paleolithic;
 import mokilop.paleolithic.block.custom.CraftingStumpBlock;
 import mokilop.paleolithic.block.entity.CraftingStumpBlockEntity;
 import net.minecraft.client.MinecraftClient;
@@ -35,7 +34,7 @@ public class CraftingStumpBlockEntityRenderer implements BlockEntityRenderer<Cra
             matrices.translate(getXOffset(i, entity), getYOffset(entity, tickDelta), getZOffset(i, entity));
             matrices.scale(0.25f, 0.25f, 0.25f);
             matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
-            matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(rotDeg + entity.getRandomRotationAmounts(entity)[i]));
+            matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(rotDeg + CraftingStumpBlockEntity.getRandomRotationAmounts(entity)[i]));
             itemRenderer.renderItem(toRender, ModelTransformationMode.FIXED, getLightLevel(entity.getWorld(), entity.getPos()),
                     OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, entity.getWorld(), 1);
             matrices.pop();
@@ -43,22 +42,22 @@ public class CraftingStumpBlockEntityRenderer implements BlockEntityRenderer<Cra
         ItemStack extraItem = entity.getStack(9);
         matrices.push();
         switch (entity.getCachedState().get(CraftingStumpBlock.FACING)) {
-            case NORTH:
+            case NORTH -> {
                 matrices.translate(0.485, 0.485, 0.4);
                 matrices.multiply(RotationAxis.NEGATIVE_Z.rotationDegrees(225));
-                break;
-            case SOUTH:
+            }
+            case SOUTH -> {
                 matrices.translate(0.515, 0.485, 0.6);
                 matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(225));
-                break;
-            case WEST:
+            }
+            case WEST -> {
                 matrices.translate(0.4, 0.485, 0.485);
                 matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(225));
-                break;
-            case EAST:
+            }
+            case EAST -> {
                 matrices.translate(0.6, 0.485, 0.515);
                 matrices.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(225));
-                break;
+            }
         }
         matrices.scale(0.35f, 0.35f, 0.35f);
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotDeg));

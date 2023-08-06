@@ -73,10 +73,6 @@ public class CraftingStumpBlock extends BlockWithEntity {
         return textureMap;
     }
 
-    public Model getParentModel() {
-        return PARENT_MODEL;
-    }
-
     public Block getLogBlock() {
         return (isStripped ? Constants.STRIPPED_LOGS_MAP : Constants.LOGS_MAP).get(woodType);
     }

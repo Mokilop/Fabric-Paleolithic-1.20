@@ -1,0 +1,33 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"particle": "#plank"
+	},
+	"elements": [
+		{
+			"from": [6, 4, 14],
+			"to": [10, 16, 16],
+			"faces": {
+				"north": {"uv": [6, 0, 10, 12], "texture": "#plank"},
+				"east": {"uv": [0, 0, 2, 12], "texture": "#plank"},
+				"south": {"uv": [6, 0, 10, 12], "texture": "#plank"},
+				"west": {"uv": [14, 0, 16, 12], "texture": "#plank"},
+				"up": {"uv": [6, 0, 10, 2], "texture": "#plank"},
+				"down": {"uv": [6, 0, 10, 2], "texture": "#plank"}
+			}
+		},
+		{
+			"from": [7, 13, 4],
+			"to": [9, 15, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 14, 8]},
+			"faces": {
+				"north": {"uv": [13, 1, 15, 3], "texture": "#plank"},
+				"east": {"uv": [3, 1, 13, 3], "texture": "#plank"},
+				"south": {"uv": [1, 1, 3, 3], "texture": "#plank"},
+				"west": {"uv": [3, 4, 13, 6], "texture": "#plank"},
+				"up": {"uv": [3, 12, 13, 14], "rotation": 270, "texture": "#plank"},
+				"down": {"uv": [3, 8, 13, 10], "rotation": 90, "texture": "#plank"}
+			}
+		}
+	]
+}

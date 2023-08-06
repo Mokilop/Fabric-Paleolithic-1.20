@@ -26,9 +26,9 @@ import java.util.stream.Stream;
 
 public class ModBlocks {
     public static final Block ROCK = registerRockBlock();
-    //endregion
     public static final Block PRIMITIVE_CAMPFIRE = registerPrimitiveCampfire();
-    private static final Set<Block> ROCKS_SHARPENING_STATIONS = new ObjectArraySet<>();
+    // region RockSharpeningStations
+    private static final Set<Block> ROCK_SHARPENING_STATIONS = new ObjectArraySet<>();
     public static final Block OAK_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.OAK, false);
     public static final Block SPRUCE_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.SPRUCE, false);
     public static final Block BIRCH_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.BIRCH, false);
@@ -51,6 +51,9 @@ public class ModBlocks {
     public static final Block STRIPPED_WARPED_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.WARPED, true);
     public static final Block STRIPPED_MANGROVE_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.MANGROVE, true);
     public static final Block STRIPPED_BAMBOO_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.BAMBOO, true);
+    //endregion
+
+    //region Stumps
     private static final Set<Block> STUMPS = new ObjectArraySet<>();
     public static final Block OAK_STUMP = registerStump(WoodType.OAK, false);
     public static final Block SPRUCE_STUMP = registerStump(WoodType.SPRUCE, false);
@@ -74,6 +77,9 @@ public class ModBlocks {
     public static final Block STRIPPED_WARPED_STUMP = registerStump(WoodType.WARPED, true);
     public static final Block STRIPPED_MANGROVE_STUMP = registerStump(WoodType.MANGROVE, true);
     public static final Block STRIPPED_BAMBOO_STUMP = registerStump(WoodType.BAMBOO, true);
+    //endregion
+
+    //region CraftingStumps
     private static final Set<Block> CRAFTING_STUMPS = new ObjectArraySet<>();
     public static final Block OAK_CRAFTING_STUMP = registerCraftingStump(WoodType.OAK, false);
     public static final Block SPRUCE_CRAFTING_STUMP = registerCraftingStump(WoodType.SPRUCE, false);
@@ -97,24 +103,28 @@ public class ModBlocks {
     public static final Block STRIPPED_WARPED_CRAFTING_STUMP = registerCraftingStump(WoodType.WARPED, true);
     public static final Block STRIPPED_MANGROVE_CRAFTING_STUMP = registerCraftingStump(WoodType.MANGROVE, true);
     public static final Block STRIPPED_BAMBOO_CRAFTING_STUMP = registerCraftingStump(WoodType.BAMBOO, true);
+    // endregion
 
-    //region Rock Sharpening Stations
+    //region DryingRacks
+    private static final Set<Block> DRYING_RACKS = new ObjectArraySet<>();
+    public static final Block OAK_DRYING_RACK = registerDryingRack(WoodType.OAK);
+
+    //endregion
+
     private static Block registerRockSharpeningStation(WoodType type, boolean isStripped) {
         String name = (isStripped ? "stripped_" : "") + type.name() + "_rock_sharpening_station";
         Block L = Constants.LOGS_MAP.get(type);
         FabricBlockSettings settings = FabricBlockSettings.create()
                 .strength(L.getHardness(), L.getBlastResistance());
         Block sharpeningStation = registerBlock(name, new RockSharpeningStationBlock(settings, type, isStripped), ModItemGroup.PALEOLITHIC_BLOCKS);
-        ROCKS_SHARPENING_STATIONS.add(sharpeningStation);
+        ROCK_SHARPENING_STATIONS.add(sharpeningStation);
         return sharpeningStation;
     }
 
     public static Stream<Block> getAllRockSharpeningStations() {
-        return ROCKS_SHARPENING_STATIONS.stream();
+        return ROCK_SHARPENING_STATIONS.stream();
     }
 
-    //endregion
-    //region Stumps
     private static Block registerStump(WoodType type, boolean isStripped) {
         String name = (isStripped ? "stripped_" : "") + type.name() + "_stump";
         Block L = Constants.LOGS_MAP.get(type);
@@ -129,8 +139,6 @@ public class ModBlocks {
         return STUMPS.stream();
     }
 
-    //endregion
-    //region Crafting Stumps
     private static Block registerCraftingStump(WoodType type, boolean isStripped) {
         String name = (isStripped ? "stripped_" : "") + type.name() + "_crafting_stump";
         Block L = Constants.LOGS_MAP.get(type);
@@ -144,6 +152,17 @@ public class ModBlocks {
     public static Stream<Block> getAllCraftingStumps() {
         return CRAFTING_STUMPS.stream();
     }
+    private static Block registerDryingRack(WoodType type){
+        String name = type.name() + "_drying_rack";
+        Block p = Constants.PLANKS_MAP.get(type);
+        FabricBlockSettings settings = FabricBlockSettings.create()
+                .strength(p.getHardness(), p.getBlastResistance())
+                .sounds(type.soundType());
+        Block rack = registerBlock(name, new DryingRackBlock(settings, type), ModItemGroup.PALEOLITHIC_BLOCKS);
+        DRYING_RACKS.add(rack);
+        return rack;
+    }
+    public static Stream<Block> getAllDryingRacks(){ return DRYING_RACKS.stream(); }
 
     private static Block registerBlock(String name, Block block, RegistryKey<ItemGroup> group) {
         registerBlockItem(name, block, group);
