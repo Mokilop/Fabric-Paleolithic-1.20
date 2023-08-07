@@ -8,13 +8,10 @@ import mokilop.paleolithic.block.custom.StumpBlock;
 import mokilop.paleolithic.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.enums.Attachment;
 import net.minecraft.data.client.*;
-import net.minecraft.item.Items;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Direction;
 
 public class ModModelProvider extends FabricModelProvider {
 
@@ -77,25 +74,17 @@ public class ModModelProvider extends FabricModelProvider {
                 .upload(dryingRack, dryingRack.getTextureMap(),
                         blockStateModelGenerator.modelCollector);
 
-        blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(dryingRack).coordinate(BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, Properties.ATTACHMENT)
-
-                .register(Direction.NORTH, Attachment.FLOOR, BlockStateVariant.create().put(VariantSettings.MODEL, floorId)).register(Direction.SOUTH, Attachment.FLOOR, BlockStateVariant.create().put(VariantSettings.MODEL, floorId).put(VariantSettings.Y, VariantSettings.Rotation.R180)).register(Direction.EAST, Attachment.FLOOR, BlockStateVariant.create().put(VariantSettings.MODEL, floorId).put(VariantSettings.Y, VariantSettings.Rotation.R90)).register(Direction.WEST, Attachment.FLOOR, BlockStateVariant.create().put(VariantSettings.MODEL, floorId).put(VariantSettings.Y, VariantSettings.Rotation.R270))
-
-                .register(Direction.NORTH, Attachment.CEILING, BlockStateVariant.create().put(VariantSettings.MODEL, ceilingId)).register(Direction.SOUTH, Attachment.CEILING, BlockStateVariant.create().put(VariantSettings.MODEL, ceilingId).put(VariantSettings.Y, VariantSettings.Rotation.R180)).register(Direction.EAST, Attachment.CEILING, BlockStateVariant.create().put(VariantSettings.MODEL, ceilingId).put(VariantSettings.Y, VariantSettings.Rotation.R90)).register(Direction.WEST, Attachment.CEILING, BlockStateVariant.create().put(VariantSettings.MODEL, ceilingId).put(VariantSettings.Y, VariantSettings.Rotation.R270))
-
-                .register(Direction.EAST, Attachment.SINGLE_WALL, BlockStateVariant.create()
-                        .put(VariantSettings.MODEL, wallId)
-                        .put(VariantSettings.Y, VariantSettings.Rotation.R270))
-                .register(Direction.WEST, Attachment.SINGLE_WALL, BlockStateVariant.create()
-                        .put(VariantSettings.MODEL, wallId)
-                        .put(VariantSettings.Y, VariantSettings.Rotation.R90))
-                .register(Direction.SOUTH, Attachment.SINGLE_WALL, BlockStateVariant.create()
-                        .put(VariantSettings.MODEL, wallId))
-                .register(Direction.NORTH, Attachment.SINGLE_WALL, BlockStateVariant.create()
-                        .put(VariantSettings.MODEL, wallId)
-                        .put(VariantSettings.Y, VariantSettings.Rotation.R180))
-
-                .register(Direction.NORTH, Attachment.DOUBLE_WALL, BlockStateVariant.create().put(VariantSettings.MODEL, ceilingId).put(VariantSettings.Y, VariantSettings.Rotation.R90)).register(Direction.EAST, Attachment.DOUBLE_WALL, BlockStateVariant.create().put(VariantSettings.MODEL, ceilingId).put(VariantSettings.Y, VariantSettings.Rotation.R270)).register(Direction.WEST, Attachment.DOUBLE_WALL, BlockStateVariant.create().put(VariantSettings.MODEL, ceilingId)).register(Direction.SOUTH, Attachment.DOUBLE_WALL, BlockStateVariant.create().put(VariantSettings.MODEL, ceilingId).put(VariantSettings.Y, VariantSettings.Rotation.R180))));
+        blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(dryingRack)
+                .coordinate(BlockStateVariantMap.create(Properties.ATTACHMENT)
+                    .register(Attachment.FLOOR, BlockStateVariant.create()
+                            .put(VariantSettings.MODEL, floorId))
+                    .register(Attachment.CEILING, BlockStateVariant.create()
+                            .put(VariantSettings.MODEL, ceilingId))
+                    .register(Attachment.SINGLE_WALL, BlockStateVariant.create()
+                            .put(VariantSettings.MODEL, wallId))
+                    .register(Attachment.DOUBLE_WALL, BlockStateVariant.create()
+                            .put(VariantSettings.MODEL, ceilingId)))
+                    .coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates()));
 
     }
 

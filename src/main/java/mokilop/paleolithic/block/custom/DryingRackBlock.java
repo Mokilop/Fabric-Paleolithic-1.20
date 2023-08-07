@@ -5,6 +5,7 @@ import mokilop.paleolithic.block.entity.DryingRackBlockEntity;
 import mokilop.paleolithic.block.entity.ModBlockEntities;
 import mokilop.paleolithic.block.entity.PrimitiveCampfireBlockEntity;
 import mokilop.paleolithic.data.Constants;
+import mokilop.paleolithic.util.ModTags;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BellBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -19,6 +20,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
+import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.function.BooleanBiFunction;
@@ -39,6 +41,8 @@ import java.util.stream.Stream;
 public class DryingRackBlock extends BlockWithEntity {
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
     public static final EnumProperty<Attachment> ATTACHMENT = Properties.ATTACHMENT;
+
+    //region Models and Shapes
     public static final Model PARENT_MODEL = new Model(Optional.of(
             new Identifier(Paleolithic.MOD_ID, "block/drying_rack")),
             Optional.empty());
@@ -58,16 +62,16 @@ public class DryingRackBlock extends BlockWithEntity {
             Block.createCuboidShape(6, 0, 13, 10, 16, 16),
             Block.createCuboidShape(7, 13, 3, 9, 15, 13)
             ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, BooleanBiFunction.OR)).get();
-    private static final VoxelShape S_SHAPE_ON_WALL = VoxelShapes.combineAndSimplify(
+    private static final VoxelShape N_SHAPE_ON_WALL = VoxelShapes.combineAndSimplify(
             Block.createCuboidShape(6, 4, 14, 10, 16, 16),
             Block.createCuboidShape(7, 13, 4, 9, 15, 14), BooleanBiFunction.OR);
-    private static final VoxelShape E_SHAPE_ON_WALL = VoxelShapes.combineAndSimplify(
+    private static final VoxelShape W_SHAPE_ON_WALL = VoxelShapes.combineAndSimplify(
             Block.createCuboidShape(14, 4, 6, 16, 16, 10),
             Block.createCuboidShape(4, 13, 7, 14, 15, 9), BooleanBiFunction.OR);
-    private static final VoxelShape N_SHAPE_ON_WALL = VoxelShapes.combineAndSimplify(
+    private static final VoxelShape S_SHAPE_ON_WALL = VoxelShapes.combineAndSimplify(
             Block.createCuboidShape(6, 4, 0, 10, 16, 2),
             Block.createCuboidShape(7, 13, 2, 9, 15, 12), BooleanBiFunction.OR);
-    private static final VoxelShape W_SHAPE_ON_WALL = VoxelShapes.combineAndSimplify(
+    private static final VoxelShape E_SHAPE_ON_WALL = VoxelShapes.combineAndSimplify(
             Block.createCuboidShape(0, 4, 6, 2, 16, 10),
             Block.createCuboidShape(2, 13, 7, 12, 15, 9), BooleanBiFunction.OR);
     private static final VoxelShape NS_SHAPE_ON_CEILING = Stream.of(
@@ -80,6 +84,8 @@ public class DryingRackBlock extends BlockWithEntity {
             Block.createCuboidShape(6, 12, 13, 10, 16, 16),
             Block.createCuboidShape(7, 13, 3, 9, 15, 13)
     ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, BooleanBiFunction.OR)).get();
+    //endregion
+
     private final WoodType woodType;
     private final TextureMap textureMap;
     public DryingRackBlock(Settings settings, WoodType woodType) {
@@ -88,13 +94,14 @@ public class DryingRackBlock extends BlockWithEntity {
         textureMap = new TextureMap().register(TextureKey.of("plank"), TextureMap.getId(Constants.PLANKS_MAP.get(woodType)));
     }
 
+    public TextureMap getTextureMap() {
+        return textureMap;
+    }
+
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return null;
-    }
-    public TextureMap getTextureMap() {
-        return textureMap;
     }
 
     @Nullable
@@ -105,22 +112,12 @@ public class DryingRackBlock extends BlockWithEntity {
         World world = ctx.getWorld();
         Direction.Axis axis = direction.getAxis();
         if (axis == Direction.Axis.Y) {
-            BlockState blockState = this.getDefaultState().with(ATTACHMENT, direction == Direction.DOWN ? Attachment.CEILING : Attachment.FLOOR).with(FACING, ctx.getHorizontalPlayerFacing());
-            if (blockState.canPlaceAt(ctx.getWorld(), blockPos)) {
-                return blockState;
-            }
-        } else {
-            boolean bl = axis == Direction.Axis.X && world.getBlockState(blockPos.west()).isSideSolidFullSquare(world, blockPos.west(), Direction.EAST) && world.getBlockState(blockPos.east()).isSideSolidFullSquare(world, blockPos.east(), Direction.WEST) || axis == Direction.Axis.Z && world.getBlockState(blockPos.north()).isSideSolidFullSquare(world, blockPos.north(), Direction.SOUTH) && world.getBlockState(blockPos.south()).isSideSolidFullSquare(world, blockPos.south(), Direction.NORTH);
-            BlockState blockState = this.getDefaultState().with(FACING, direction.getOpposite()).with(ATTACHMENT, bl ? Attachment.DOUBLE_WALL : Attachment.SINGLE_WALL);
-            if (blockState.canPlaceAt(ctx.getWorld(), ctx.getBlockPos())) {
-                return blockState;
-            }
-            boolean bl2 = world.getBlockState(blockPos.down()).isSideSolidFullSquare(world, blockPos.down(), Direction.UP);
-            if ((blockState = blockState.with(ATTACHMENT, bl2 ? Attachment.FLOOR : Attachment.CEILING)).canPlaceAt(ctx.getWorld(), ctx.getBlockPos())) {
-                return blockState;
-            }
+            Attachment att = direction == Direction.DOWN ? Attachment.CEILING : Attachment.FLOOR;
+            BlockState blockState = this.getDefaultState().with(ATTACHMENT, att).with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
+            return blockState.canPlaceAt(ctx.getWorld(), blockPos) ? blockState : null;
         }
-        return null;
+        BlockState state = getDefaultState().with(FACING, direction).with(ATTACHMENT, Attachment.SINGLE_WALL);
+        return state.canPlaceAt(world, blockPos) ? state : null;
     }
     @Override
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
@@ -146,6 +143,9 @@ public class DryingRackBlock extends BlockWithEntity {
         if (direction == Direction.UP) {
             return Block.sideCoversSmallSquare(world, pos.up(), Direction.DOWN);
         }
+        if(direction == Direction.DOWN){
+            return Block.sideCoversSmallSquare(world, pos.down(), Direction.UP);
+        }
         return WallMountedBlock.canPlaceAt(world, pos, direction);
     }
 
@@ -158,7 +158,7 @@ public class DryingRackBlock extends BlockWithEntity {
                 return Direction.UP;
             }
         }
-        return state.get(FACING).getOpposite();
+        return state.get(FACING);
     }
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {

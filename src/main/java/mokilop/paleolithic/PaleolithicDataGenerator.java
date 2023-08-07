@@ -1,9 +1,6 @@
 package mokilop.paleolithic;
 
-import mokilop.paleolithic.data.ModLootTableGenerator;
-import mokilop.paleolithic.data.ModModelProvider;
-import mokilop.paleolithic.data.ModRecipeGenerator;
-import mokilop.paleolithic.data.ModWorldGenerator;
+import mokilop.paleolithic.data.*;
 import mokilop.paleolithic.world.ModConfiguredFeatures;
 import mokilop.paleolithic.world.ModPlacedFeatures;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
@@ -19,6 +16,8 @@ public class PaleolithicDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(ModRecipeGenerator::new);
         pack.addProvider(ModModelProvider::new);
         pack.addProvider(ModWorldGenerator::new);
+        pack.addProvider(ModBlockTagProvider::new);
+        pack.addProvider(ModItemTagProvider::new);
     }
 
     @Override

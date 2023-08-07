@@ -1,0 +1,27 @@
+{
+  "replace": false,
+  "values": [
+    "paleolithic:oak_crafting_stump",
+    "paleolithic:spruce_crafting_stump",
+    "paleolithic:birch_crafting_stump",
+    "paleolithic:acacia_crafting_stump",
+    "paleolithic:cherry_crafting_stump",
+    "paleolithic:jungle_crafting_stump",
+    "paleolithic:dark_oak_crafting_stump",
+    "paleolithic:crimson_crafting_stump",
+    "paleolithic:warped_crafting_stump",
+    "paleolithic:mangrove_crafting_stump",
+    "paleolithic:bamboo_crafting_stump",
+    "paleolithic:stripped_oak_crafting_stump",
+    "paleolithic:stripped_spruce_crafting_stump",
+    "paleolithic:stripped_birch_crafting_stump",
+    "paleolithic:stripped_acacia_crafting_stump",
+    "paleolithic:stripped_cherry_crafting_stump",
+    "paleolithic:stripped_jungle_crafting_stump",
+    "paleolithic:stripped_dark_oak_crafting_stump",
+    "paleolithic:stripped_crimson_crafting_stump",
+    "paleolithic:stripped_warped_crafting_stump",
+    "paleolithic:stripped_mangrove_crafting_stump",
+    "paleolithic:stripped_bamboo_crafting_stump"
+  ]
+}

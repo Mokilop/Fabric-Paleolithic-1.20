@@ -1,4 +1,4 @@
-// 1.20	2023-08-06T17:05:40.0714048	paleolithic/Block Loot Tables
+// 1.20	2023-08-07T18:03:32.7300161	paleolithic/Block Loot Tables
 4b8b585f6db231218596c1e68774dab7caef4222 data\paleolithic\loot_tables\blocks\mangrove_stump.json
 7c3591b75c8f6000d8b12f66a5e9058155ebaf70 data\paleolithic\loot_tables\blocks\stripped_acacia_crafting_stump.json
 c858bd5b26661af2f20afb2d6a2d1f00c8a8e4f6 data\paleolithic\loot_tables\blocks\stripped_dark_oak_stump.json
@@ -63,8 +63,8 @@ a1fcbb626cc7fdf9dfc647b5e1d323040f0549c7 data\paleolithic\loot_tables\blocks\str
 2aee6ac2148ff50bef3da7cba1b8207a8dbce77a data\paleolithic\loot_tables\blocks\warped_crafting_stump.json
 0a292416cfc732cf848e2baed8bfd28aa65ee485 data\paleolithic\loot_tables\blocks\stripped_bamboo_stump.json
 f5f662958c3bd1cb0fbcf41f0ebd85f264b9609b data\paleolithic\loot_tables\blocks\dark_oak_crafting_stump.json
-ae838907dbecf4316814d5350be3390115fa111c data\paleolithic\loot_tables\blocks\mangrove_crafting_stump.json
 ec7e0a68f4e970e9a50f98a701b287f390ae25c1 data\paleolithic\loot_tables\blocks\birch_stump.json
+ae838907dbecf4316814d5350be3390115fa111c data\paleolithic\loot_tables\blocks\mangrove_crafting_stump.json
 25a7e3f9660f48ce1a135289260afa74f633e0dc data\paleolithic\loot_tables\blocks\oak_stump.json
 6789beee6f73bf0dfb0189d77448c32438292f21 data\paleolithic\loot_tables\blocks\acacia_crafting_stump.json
 adbe877e4f0ae9c5b3c76beeb5ae3077e70f9854 data\paleolithic\loot_tables\blocks\bamboo_rock_sharpening_station.json

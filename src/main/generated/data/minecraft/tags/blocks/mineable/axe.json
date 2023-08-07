@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "#paleolithic:rock_sharpening_stations",
+    "#paleolithic:stumps",
+    "#paleolithic:crafting_stumps",
+    "#paleolithic:drying_racks"
+  ]
+}

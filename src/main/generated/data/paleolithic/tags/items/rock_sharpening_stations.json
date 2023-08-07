@@ -1,0 +1,27 @@
+{
+  "replace": false,
+  "values": [
+    "paleolithic:oak_rock_sharpening_station",
+    "paleolithic:spruce_rock_sharpening_station",
+    "paleolithic:birch_rock_sharpening_station",
+    "paleolithic:acacia_rock_sharpening_station",
+    "paleolithic:cherry_rock_sharpening_station",
+    "paleolithic:jungle_rock_sharpening_station",
+    "paleolithic:dark_oak_rock_sharpening_station",
+    "paleolithic:crimson_rock_sharpening_station",
+    "paleolithic:warped_rock_sharpening_station",
+    "paleolithic:mangrove_rock_sharpening_station",
+    "paleolithic:bamboo_rock_sharpening_station",
+    "paleolithic:stripped_oak_rock_sharpening_station",
+    "paleolithic:stripped_spruce_rock_sharpening_station",
+    "paleolithic:stripped_birch_rock_sharpening_station",
+    "paleolithic:stripped_acacia_rock_sharpening_station",
+    "paleolithic:stripped_cherry_rock_sharpening_station",
+    "paleolithic:stripped_jungle_rock_sharpening_station",
+    "paleolithic:stripped_dark_oak_rock_sharpening_station",
+    "paleolithic:stripped_crimson_rock_sharpening_station",
+    "paleolithic:stripped_warped_rock_sharpening_station",
+    "paleolithic:stripped_mangrove_rock_sharpening_station",
+    "paleolithic:stripped_bamboo_rock_sharpening_station"
+  ]
+}

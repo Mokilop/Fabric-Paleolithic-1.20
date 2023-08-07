@@ -1,0 +1,27 @@
+{
+  "replace": false,
+  "values": [
+    "paleolithic:oak_stump",
+    "paleolithic:spruce_stump",
+    "paleolithic:birch_stump",
+    "paleolithic:acacia_stump",
+    "paleolithic:cherry_stump",
+    "paleolithic:jungle_stump",
+    "paleolithic:dark_oak_stump",
+    "paleolithic:crimson_stump",
+    "paleolithic:warped_stump",
+    "paleolithic:mangrove_stump",
+    "paleolithic:bamboo_stump",
+    "paleolithic:stripped_oak_stump",
+    "paleolithic:stripped_spruce_stump",
+    "paleolithic:stripped_birch_stump",
+    "paleolithic:stripped_acacia_stump",
+    "paleolithic:stripped_cherry_stump",
+    "paleolithic:stripped_jungle_stump",
+    "paleolithic:stripped_dark_oak_stump",
+    "paleolithic:stripped_crimson_stump",
+    "paleolithic:stripped_warped_stump",
+    "paleolithic:stripped_mangrove_stump",
+    "paleolithic:stripped_bamboo_stump"
+  ]
+}
