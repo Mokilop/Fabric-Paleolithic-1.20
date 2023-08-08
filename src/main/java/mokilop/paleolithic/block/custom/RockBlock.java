@@ -25,6 +25,7 @@ public class RockBlock extends HorizontalFacingBlock implements Waterloggable {
     private static VoxelShape SHAPE_EAST_1 = Block.createCuboidShape(7, 0, 3, 12, 2, 7);
     private static VoxelShape SHAPE_2 = Block.createCuboidShape(2, 0, 2, 13, 2, 13);
     private static VoxelShape SHAPE_3 = Block.createCuboidShape(1, 0, 1, 15, 2, 15);
+
     public RockBlock(Settings settings) {
         super(settings);
         setDefaultState(getDefaultState()

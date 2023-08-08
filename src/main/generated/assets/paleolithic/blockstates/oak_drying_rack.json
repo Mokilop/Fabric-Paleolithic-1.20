@@ -1,63 +1,153 @@
 {
   "variants": {
-    "attachment=ceiling,facing=east": {
+    "drying_rack_attachment=ceiling,facing=east": {
       "model": "paleolithic:block/oak_drying_rack_on_ceiling",
       "y": 90
     },
-    "attachment=ceiling,facing=north": {
+    "drying_rack_attachment=ceiling,facing=north": {
       "model": "paleolithic:block/oak_drying_rack_on_ceiling"
     },
-    "attachment=ceiling,facing=south": {
+    "drying_rack_attachment=ceiling,facing=south": {
       "model": "paleolithic:block/oak_drying_rack_on_ceiling",
       "y": 180
     },
-    "attachment=ceiling,facing=west": {
+    "drying_rack_attachment=ceiling,facing=west": {
       "model": "paleolithic:block/oak_drying_rack_on_ceiling",
       "y": 270
     },
-    "attachment=double_wall,facing=east": {
-      "model": "paleolithic:block/oak_drying_rack_on_ceiling",
+    "drying_rack_attachment=ceiling_close,facing=east": {
+      "model": "paleolithic:block/oak_drying_rack_on_ceiling_close",
       "y": 90
     },
-    "attachment=double_wall,facing=north": {
-      "model": "paleolithic:block/oak_drying_rack_on_ceiling"
+    "drying_rack_attachment=ceiling_close,facing=north": {
+      "model": "paleolithic:block/oak_drying_rack_on_ceiling_close"
     },
-    "attachment=double_wall,facing=south": {
-      "model": "paleolithic:block/oak_drying_rack_on_ceiling",
+    "drying_rack_attachment=ceiling_close,facing=south": {
+      "model": "paleolithic:block/oak_drying_rack_on_ceiling_close",
       "y": 180
     },
-    "attachment=double_wall,facing=west": {
-      "model": "paleolithic:block/oak_drying_rack_on_ceiling",
+    "drying_rack_attachment=ceiling_close,facing=west": {
+      "model": "paleolithic:block/oak_drying_rack_on_ceiling_close",
       "y": 270
     },
-    "attachment=floor,facing=east": {
+    "drying_rack_attachment=ceiling_far,facing=east": {
+      "model": "paleolithic:block/oak_drying_rack_on_ceiling_far",
+      "y": 90
+    },
+    "drying_rack_attachment=ceiling_far,facing=north": {
+      "model": "paleolithic:block/oak_drying_rack_on_ceiling_far"
+    },
+    "drying_rack_attachment=ceiling_far,facing=south": {
+      "model": "paleolithic:block/oak_drying_rack_on_ceiling_far",
+      "y": 180
+    },
+    "drying_rack_attachment=ceiling_far,facing=west": {
+      "model": "paleolithic:block/oak_drying_rack_on_ceiling_far",
+      "y": 270
+    },
+    "drying_rack_attachment=floor,facing=east": {
       "model": "paleolithic:block/oak_drying_rack",
       "y": 90
     },
-    "attachment=floor,facing=north": {
+    "drying_rack_attachment=floor,facing=north": {
       "model": "paleolithic:block/oak_drying_rack"
     },
-    "attachment=floor,facing=south": {
+    "drying_rack_attachment=floor,facing=south": {
       "model": "paleolithic:block/oak_drying_rack",
       "y": 180
     },
-    "attachment=floor,facing=west": {
+    "drying_rack_attachment=floor,facing=west": {
       "model": "paleolithic:block/oak_drying_rack",
       "y": 270
     },
-    "attachment=single_wall,facing=east": {
+    "drying_rack_attachment=floor_close,facing=east": {
+      "model": "paleolithic:block/oak_drying_rack_close",
+      "y": 90
+    },
+    "drying_rack_attachment=floor_close,facing=north": {
+      "model": "paleolithic:block/oak_drying_rack_close"
+    },
+    "drying_rack_attachment=floor_close,facing=south": {
+      "model": "paleolithic:block/oak_drying_rack_close",
+      "y": 180
+    },
+    "drying_rack_attachment=floor_close,facing=west": {
+      "model": "paleolithic:block/oak_drying_rack_close",
+      "y": 270
+    },
+    "drying_rack_attachment=floor_far,facing=east": {
+      "model": "paleolithic:block/oak_drying_rack_far",
+      "y": 90
+    },
+    "drying_rack_attachment=floor_far,facing=north": {
+      "model": "paleolithic:block/oak_drying_rack_far"
+    },
+    "drying_rack_attachment=floor_far,facing=south": {
+      "model": "paleolithic:block/oak_drying_rack_far",
+      "y": 180
+    },
+    "drying_rack_attachment=floor_far,facing=west": {
+      "model": "paleolithic:block/oak_drying_rack_far",
+      "y": 270
+    },
+    "drying_rack_attachment=wall,facing=east": {
       "model": "paleolithic:block/oak_drying_rack_on_wall",
       "y": 90
     },
-    "attachment=single_wall,facing=north": {
+    "drying_rack_attachment=wall,facing=north": {
       "model": "paleolithic:block/oak_drying_rack_on_wall"
     },
-    "attachment=single_wall,facing=south": {
+    "drying_rack_attachment=wall,facing=south": {
       "model": "paleolithic:block/oak_drying_rack_on_wall",
       "y": 180
     },
-    "attachment=single_wall,facing=west": {
+    "drying_rack_attachment=wall,facing=west": {
       "model": "paleolithic:block/oak_drying_rack_on_wall",
+      "y": 270
+    },
+    "drying_rack_attachment=wall_left,facing=east": {
+      "model": "paleolithic:block/oak_drying_rack_on_wall_left",
+      "y": 90
+    },
+    "drying_rack_attachment=wall_left,facing=north": {
+      "model": "paleolithic:block/oak_drying_rack_on_wall_left"
+    },
+    "drying_rack_attachment=wall_left,facing=south": {
+      "model": "paleolithic:block/oak_drying_rack_on_wall_left",
+      "y": 180
+    },
+    "drying_rack_attachment=wall_left,facing=west": {
+      "model": "paleolithic:block/oak_drying_rack_on_wall_left",
+      "y": 270
+    },
+    "drying_rack_attachment=wall_right,facing=east": {
+      "model": "paleolithic:block/oak_drying_rack_on_wall_right",
+      "y": 90
+    },
+    "drying_rack_attachment=wall_right,facing=north": {
+      "model": "paleolithic:block/oak_drying_rack_on_wall_right"
+    },
+    "drying_rack_attachment=wall_right,facing=south": {
+      "model": "paleolithic:block/oak_drying_rack_on_wall_right",
+      "y": 180
+    },
+    "drying_rack_attachment=wall_right,facing=west": {
+      "model": "paleolithic:block/oak_drying_rack_on_wall_right",
+      "y": 270
+    },
+    "drying_rack_attachment=wall_up,facing=east": {
+      "model": "paleolithic:block/oak_drying_rack_on_wall_up",
+      "y": 90
+    },
+    "drying_rack_attachment=wall_up,facing=north": {
+      "model": "paleolithic:block/oak_drying_rack_on_wall_up"
+    },
+    "drying_rack_attachment=wall_up,facing=south": {
+      "model": "paleolithic:block/oak_drying_rack_on_wall_up",
+      "y": 180
+    },
+    "drying_rack_attachment=wall_up,facing=west": {
+      "model": "paleolithic:block/oak_drying_rack_on_wall_up",
       "y": 270
     }
   }

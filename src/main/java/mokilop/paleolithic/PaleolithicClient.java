@@ -1,6 +1,5 @@
 package mokilop.paleolithic;
 
-import mokilop.paleolithic.block.entity.CraftingStumpBlockEntity;
 import mokilop.paleolithic.block.entity.ModBlockEntities;
 import mokilop.paleolithic.block.entity.client.CraftingStumpBlockEntityRenderer;
 import mokilop.paleolithic.block.entity.client.PrimitiveCampfireBlockEntityRenderer;

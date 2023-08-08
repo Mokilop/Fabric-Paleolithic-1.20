@@ -1,6 +1,5 @@
 package mokilop.paleolithic.block.entity.client;
 
-import mokilop.paleolithic.block.custom.PrimitiveCampfireBlock;
 import mokilop.paleolithic.block.custom.StumpBlock;
 import mokilop.paleolithic.block.entity.StumpBlockEntity;
 import net.minecraft.client.MinecraftClient;

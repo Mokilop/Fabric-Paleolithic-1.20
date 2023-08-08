@@ -28,7 +28,7 @@ public class CraftingStumpBlockEntityRenderer implements BlockEntityRenderer<Cra
     public void render(CraftingStumpBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
         float rotDeg = entity.getCachedState().get(CraftingStumpBlock.FACING).getOpposite().asRotation();
-        for (int i = 0; i < entity.size() - 1; i++){
+        for (int i = 0; i < entity.size() - 1; i++) {
             ItemStack toRender = entity.getStack(i);
             matrices.push();
             matrices.translate(getXOffset(i, entity), getYOffset(entity, tickDelta), getZOffset(i, entity));
@@ -65,25 +65,29 @@ public class CraftingStumpBlockEntityRenderer implements BlockEntityRenderer<Cra
                 OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, entity.getWorld(), 1);
         matrices.pop();
     }
-    private float getXOffset(int slot, CraftingStumpBlockEntity e){
+
+    private float getXOffset(int slot, CraftingStumpBlockEntity e) {
         Direction f = e.getCachedState().get(CraftingStumpBlock.FACING);
         int xSlot = f == Direction.EAST || f == Direction.WEST ? slot / 3 : slot % 3;
         float temp = xSlot == 0 ? 0.1875f : xSlot == 1 ? 0.5f : 0.8125f;
         return f == Direction.NORTH || f == Direction.WEST ? 1 - temp : temp;
     }
-    private float getZOffset(int slot, CraftingStumpBlockEntity e){
+
+    private float getZOffset(int slot, CraftingStumpBlockEntity e) {
         Direction f = e.getCachedState().get(CraftingStumpBlock.FACING);
         int zSlot = f == Direction.EAST || f == Direction.WEST ? slot % 3 : slot / 3;
         float temp = zSlot == 0 ? 0.1875f : zSlot == 1 ? 0.5f : 0.8125f;
         return f == Direction.NORTH || f == Direction.EAST ? 1 - temp : temp;
     }
-    private float getYOffset(CraftingStumpBlockEntity e, float delta){
+
+    private float getYOffset(CraftingStumpBlockEntity e, float delta) {
         float base = 0.9375f;
-        if(e.crafting){
+        if (e.crafting) {
             return base + (CraftingStumpBlockEntity.maxCraftingTicks + 1 - e.craftingTicks - delta) / (50f * CraftingStumpBlockEntity.maxCraftingTicks);
         }
         return base;
     }
+
     private int getLightLevel(World world, BlockPos pos) {
         int bLight = world.getLightLevel(LightType.BLOCK, pos);
         int sLight = world.getLightLevel(LightType.SKY, pos);

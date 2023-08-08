@@ -36,6 +36,5 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .addTag(ModTags.Blocks.DRYING_RACKS);
 
 
-
     }
 }

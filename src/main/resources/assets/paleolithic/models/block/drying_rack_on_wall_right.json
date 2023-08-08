@@ -1,20 +1,30 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "particle": "#plank"
+    "particle": "block/oak_planks",
+    "plank": "block/oak_planks"
   },
   "elements": [
     {
       "from": [
-        6,
+        0,
         4,
         14
       ],
       "to": [
-        10,
+        4,
         16,
         16
       ],
+      "rotation": {
+        "angle": 0,
+        "axis": "y",
+        "origin": [
+          8,
+          0,
+          8
+        ]
+      },
       "faces": {
         "north": {
           "uv": [
@@ -74,12 +84,12 @@
     },
     {
       "from": [
-        7,
+        1,
         13,
         4
       ],
       "to": [
-        9,
+        3,
         15,
         14
       ],
@@ -88,7 +98,7 @@
         "axis": "y",
         "origin": [
           8,
-          14,
+          9,
           8
         ]
       },
@@ -150,6 +160,21 @@
           "texture": "#plank"
         }
       }
+    }
+  ],
+  "groups": [
+    {
+      "name": "VoxelShapes",
+      "origin": [
+        8,
+        14,
+        8
+      ],
+      "color": 0,
+      "children": [
+        0,
+        1
+      ]
     }
   ]
 }

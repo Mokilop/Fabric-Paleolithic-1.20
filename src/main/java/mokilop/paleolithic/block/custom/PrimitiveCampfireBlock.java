@@ -39,6 +39,7 @@ public class PrimitiveCampfireBlock extends BlockWithEntity implements BlockEnti
     public static final BooleanProperty USED = BooleanProperty.of("used");
     public static final IntProperty FIRE_STRENGTH = IntProperty.of("fire_strength", 0, 4);
     private static VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 2, 16);
+
     public PrimitiveCampfireBlock(Settings settings) {
         super(settings);
     }

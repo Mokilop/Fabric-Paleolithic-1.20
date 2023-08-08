@@ -74,6 +74,7 @@ public class StumpChoppingRecipe implements Recipe<SimpleInventory> {
     public static class Type implements RecipeType<StumpChoppingRecipe> {
         public static final Type INSTANCE = new Type();
         public static final String ID = "stump_chopping";
+
         private Type() {
         }
     }

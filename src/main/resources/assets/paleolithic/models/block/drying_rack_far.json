@@ -5,15 +5,16 @@
   },
   "elements": [
     {
+      "name": "leg",
       "from": [
         13,
-        12,
-        6
+        0,
+        12
       ],
       "to": [
         16,
         16,
-        10
+        16
       ],
       "faces": {
         "north": {
@@ -21,7 +22,7 @@
             0,
             0,
             3,
-            4
+            16
           ],
           "texture": "#plank"
         },
@@ -30,7 +31,7 @@
             6,
             0,
             10,
-            4
+            16
           ],
           "texture": "#plank"
         },
@@ -39,7 +40,7 @@
             13,
             0,
             16,
-            4
+            16
           ],
           "texture": "#plank"
         },
@@ -48,7 +49,7 @@
             6,
             0,
             10,
-            4
+            16
           ],
           "texture": "#plank"
         },
@@ -73,15 +74,16 @@
       }
     },
     {
+      "name": "leg",
       "from": [
         0,
-        12,
-        6
+        0,
+        12
       ],
       "to": [
         3,
         16,
-        10
+        16
       ],
       "faces": {
         "north": {
@@ -89,7 +91,7 @@
             13,
             0,
             16,
-            4
+            16
           ],
           "texture": "#plank"
         },
@@ -98,7 +100,7 @@
             6,
             0,
             10,
-            4
+            16
           ],
           "texture": "#plank"
         },
@@ -107,7 +109,7 @@
             0,
             0,
             3,
-            4
+            16
           ],
           "texture": "#plank"
         },
@@ -116,7 +118,7 @@
             6,
             0,
             10,
-            4
+            16
           ],
           "texture": "#plank"
         },
@@ -144,42 +146,15 @@
       "from": [
         3,
         13,
-        7
+        13
       ],
       "to": [
         13,
         15,
-        9
+        15
       ],
-      "rotation": {
-        "angle": 0,
-        "axis": "y",
-        "origin": [
-          8,
-          12,
-          8
-        ]
-      },
       "faces": {
         "north": {
-          "uv": [
-            3,
-            1,
-            13,
-            3
-          ],
-          "texture": "#plank"
-        },
-        "east": {
-          "uv": [
-            1,
-            1,
-            3,
-            3
-          ],
-          "texture": "#plank"
-        },
-        "south": {
           "uv": [
             3,
             4,
@@ -188,11 +163,29 @@
           ],
           "texture": "#plank"
         },
-        "west": {
+        "east": {
           "uv": [
             13,
             1,
             15,
+            3
+          ],
+          "texture": "#plank"
+        },
+        "south": {
+          "uv": [
+            3,
+            1,
+            13,
+            3
+          ],
+          "texture": "#plank"
+        },
+        "west": {
+          "uv": [
+            1,
+            1,
+            3,
             3
           ],
           "texture": "#plank"
@@ -204,7 +197,6 @@
             13,
             14
           ],
-          "rotation": 180,
           "texture": "#plank"
         },
         "down": {
@@ -214,10 +206,123 @@
             13,
             10
           ],
-          "rotation": 180,
           "texture": "#plank"
         }
       }
+    }
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        75,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        0
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        0,
+        225,
+        0
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.25,
+        0.25,
+        0.25
+      ]
+    },
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "scale": [
+        0.625,
+        0.625,
+        0.625
+      ]
+    },
+    "head": {
+      "translation": [
+        0,
+        1,
+        0
+      ]
+    },
+    "fixed": {
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    }
+  },
+  "groups": [
+    {
+      "name": "VoxelShapes",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "children": [
+        0,
+        1,
+        2
+      ]
     }
   ]
 }

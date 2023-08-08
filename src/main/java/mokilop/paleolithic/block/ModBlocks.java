@@ -152,7 +152,8 @@ public class ModBlocks {
     public static Stream<Block> getAllCraftingStumps() {
         return CRAFTING_STUMPS.stream();
     }
-    private static Block registerDryingRack(WoodType type){
+
+    private static Block registerDryingRack(WoodType type) {
         String name = type.name() + "_drying_rack";
         Block p = Constants.PLANKS_MAP.get(type);
         FabricBlockSettings settings = FabricBlockSettings.create()
@@ -162,7 +163,10 @@ public class ModBlocks {
         DRYING_RACKS.add(rack);
         return rack;
     }
-    public static Stream<Block> getAllDryingRacks(){ return DRYING_RACKS.stream(); }
+
+    public static Stream<Block> getAllDryingRacks() {
+        return DRYING_RACKS.stream();
+    }
 
     private static Block registerBlock(String name, Block block, RegistryKey<ItemGroup> group) {
         registerBlockItem(name, block, group);

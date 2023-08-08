@@ -13,7 +13,6 @@ import net.minecraft.data.client.Model;
 import net.minecraft.data.client.TextureKey;
 import net.minecraft.data.client.TextureMap;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -61,14 +60,6 @@ public class CraftingStumpBlock extends BlockWithEntity {
                 .register(TextureKey.of("stripped_log"), TextureMap.getId(Constants.STRIPPED_LOGS_MAP.get(woodType)));
     }
 
-    public WoodType getWoodType() {
-        return woodType;
-    }
-
-    public boolean getIsStripped() {
-        return isStripped;
-    }
-
     public TextureMap getTextureMap() {
         return textureMap;
     }
@@ -102,20 +93,20 @@ public class CraftingStumpBlock extends BlockWithEntity {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if(world.isClient())return ActionResult.CONSUME;
-        if(world.getBlockEntity(pos) instanceof CraftingStumpBlockEntity entity){
+        if (world.isClient()) return ActionResult.CONSUME;
+        if (world.getBlockEntity(pos) instanceof CraftingStumpBlockEntity entity) {
             ItemStack mhs = player.getMainHandStack();
-            if(hit.getSide() == Direction.UP) {
+            if (hit.getSide() == Direction.UP) {
                 return onUseTopSide(state, pos, player, hit, entity, mhs);
             }
-            if(state.get(FACING) == hit.getSide()){
-                if(mhs.isEmpty()){
+            if (state.get(FACING) == hit.getSide()) {
+                if (mhs.isEmpty()) {
                     ItemStack removed = entity.removeStack(9);
-                    if(!player.isCreative())player.giveItemStack(removed);
+                    if (!player.isCreative()) player.giveItemStack(removed);
                     entity.markDirty();
-                    return  ActionResult.SUCCESS;
+                    return ActionResult.SUCCESS;
                 }
-                if(mhs.getItem() instanceof HammerItem){
+                if (mhs.getItem() instanceof HammerItem) {
                     mhs.decrement(entity.addStack(9, mhs.copyWithCount(1)) && !player.isCreative() ? 1 : 0);
                     return ActionResult.SUCCESS;
                 }
@@ -127,9 +118,9 @@ public class CraftingStumpBlock extends BlockWithEntity {
 
     @NotNull
     private ActionResult onUseTopSide(BlockState state, BlockPos pos, PlayerEntity player, BlockHitResult hit, CraftingStumpBlockEntity entity, ItemStack mhs) {
-        if(mhs.isEmpty()){
+        if (mhs.isEmpty()) {
             ItemStack removed = entity.removeStack(getSlot(hit, pos, state));
-            if(!player.isCreative()) player.giveItemStack(removed);
+            if (!player.isCreative()) player.giveItemStack(removed);
             entity.markDirty();
             return ActionResult.SUCCESS;
         }
@@ -137,26 +128,31 @@ public class CraftingStumpBlock extends BlockWithEntity {
         return ActionResult.SUCCESS;
     }
 
-    private int getSlot(BlockHitResult hit, BlockPos pos, BlockState state){
+    private int getSlot(BlockHitResult hit, BlockPos pos, BlockState state) {
         float oneStep = 0.3125f;
         float threeSteps = 0.6875f;
         double xOffset = hit.getPos().x - pos.getX();
         double zOffset = hit.getPos().z - pos.getZ();
         int xSlot = xOffset < oneStep ? 0 : xOffset > threeSteps ? 2 : 1;
         int zSlot = zOffset < oneStep ? 0 : zOffset > threeSteps ? 2 : 1;
-        switch (state.get(FACING)){
-            case NORTH: return 8 - xSlot - 3 * zSlot;
-            case EAST: return 2 - zSlot + 3 * xSlot;
-            case WEST: return zSlot + 3 * (2 - xSlot);
-            default: return xSlot + 3 * zSlot;
+        switch (state.get(FACING)) {
+            case NORTH:
+                return 8 - xSlot - 3 * zSlot;
+            case EAST:
+                return 2 - zSlot + 3 * xSlot;
+            case WEST:
+                return zSlot + 3 * (2 - xSlot);
+            default:
+                return xSlot + 3 * zSlot;
         }
     }
+
     @Override
     public void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
-        if(world.getBlockEntity(pos) instanceof CraftingStumpBlockEntity entity) {
+        if (world.getBlockEntity(pos) instanceof CraftingStumpBlockEntity entity) {
             ItemStack mhs = player.getMainHandStack();
             if (mhs.getItem() instanceof HammerItem hammer) {
-                if(CraftingStumpBlockEntity.attemptCraft(entity, hammer))mhs.damage(player.isCreative() ? 0 : 1,
+                if (CraftingStumpBlockEntity.attemptCraft(entity, hammer)) mhs.damage(player.isCreative() ? 0 : 1,
                         world.getRandom(), (ServerPlayerEntity) player);
             }
         }
