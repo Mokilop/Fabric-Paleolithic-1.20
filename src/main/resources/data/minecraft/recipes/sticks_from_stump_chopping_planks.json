@@ -6,6 +6,8 @@
   "input": {
     "tag": "minecraft:planks"
   },
-  "result": "minecraft:stick",
-  "count": "3"
+  "output": {
+    "item": "minecraft:stick",
+    "count": 3
+  }
 }

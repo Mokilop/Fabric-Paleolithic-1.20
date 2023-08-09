@@ -1,13 +1,18 @@
 package mokilop.paleolithic.block.entity;
 
+import mokilop.paleolithic.inventory.CraftingStumpCraftingInventory;
 import mokilop.paleolithic.item.custom.HammerItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.CraftingRecipe;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.screen.CraftingScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -15,12 +20,17 @@ import java.util.Optional;
 
 public class CraftingStumpBlockEntity extends BlockEntityWithDisplayableInventory {
     private static final int maxProgress = 8;
+    public static final int width = 3;
+    public static final int height = 3;
+    public static final int numberOfCraftingSlots = width * height;
     private int progress = 0;
-    private final int[] randomRotationAmounts = new int[9];
+    private final int[] randomRotationAmounts = new int[numberOfCraftingSlots];
     private static final int maxRandomRotationAmount = 6;
     public boolean crafting = false;
     public int craftingTicks = 0;
     public static final int maxCraftingTicks = 1;
+    public final CraftingStumpCraftingInventory craftingInventory = new CraftingStumpCraftingInventory(this);
+    public final CraftingResultInventory craftingResultInventory = new CraftingResultInventory();
 
     public CraftingStumpBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.CRAFTING_STUMP, pos, state, 10);
@@ -39,15 +49,9 @@ public class CraftingStumpBlockEntity extends BlockEntityWithDisplayableInventor
         progress = nbt.getInt("crafting_stump.progress");
     }
 
-    private static Optional<CraftingRecipe> getMatch(CraftingStumpBlockEntity entity) {
-        CraftingInventory inv = new CraftingInventory(null, 3, 3, entity.getItems());
-        return entity.getWorld().getRecipeManager()
-                .getFirstMatch(RecipeType.CRAFTING, inv, entity.getWorld());
-    }
-
     public static void updateRandomRotationAmounts(CraftingStumpBlockEntity entity) {
         if (!entity.hasWorld()) return;
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < entity.randomRotationAmounts.length; i++) {
             entity.randomRotationAmounts[i] = entity.getWorld().getRandom().nextBetween(-maxRandomRotationAmount, maxRandomRotationAmount);
         }
     }
@@ -56,27 +60,45 @@ public class CraftingStumpBlockEntity extends BlockEntityWithDisplayableInventor
         return entity.randomRotationAmounts;
     }
 
-    public static boolean attemptCraft(CraftingStumpBlockEntity entity, HammerItem hammer) {
+    private static Optional<CraftingRecipe> getMatch(CraftingStumpBlockEntity entity) {
+        return entity.getWorld().getRecipeManager()
+                .getFirstMatch(RecipeType.CRAFTING, entity.craftingInventory, entity.getWorld());
+    }
+
+    public static boolean attemptCraft(CraftingStumpBlockEntity entity, HammerItem hammer, PlayerEntity player) {
         if (entity.crafting) return false;
         entity.crafting = true;
-        if (getMatch(entity).isEmpty() || entity.getWorld().isClient()) return false;
+
+        if (entity.getWorld().isClient()) return false;
+        ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
         entity.progress += hammer.CRAFTING_EFFICIENCY;
-        if (!entity.getWorld().isClient() && entity.progress >= maxProgress) {
-            return craft(entity);
+        if (entity.progress >= maxProgress) {
+            return craft(entity, serverPlayer);
         }
         return false;
     }
 
-    private static boolean craft(CraftingStumpBlockEntity entity) {
+    private static boolean craft(CraftingStumpBlockEntity entity, ServerPlayerEntity player) {
         entity.progress = 0;
-        ItemEntity result = new ItemEntity(entity.getWorld(), entity.getPos().getX() + 0.5, entity.getPos().getY() + 1, entity.getPos().getZ() + 0.5,
-                getMatch(entity).get().getOutput(null), 0, 0, 0);
-        entity.getWorld().spawnEntity(result);
-        ItemStack extraItem = entity.getStack(9);
-        entity.clear();
-        entity.setStack(9, extraItem);
+        Optional<CraftingRecipe> match = getMatch(entity);
+        World world = entity.getWorld();
+        CraftingRecipe recipe;
+        ItemStack result = ItemStack.EMPTY;
+        boolean shouldCraft = match.isPresent() && entity.craftingResultInventory.shouldCraftRecipe(world, player, recipe = match.get())
+                && (result = recipe.craft(entity.craftingInventory, world.getRegistryManager())).isItemEnabled(world.getEnabledFeatures());
+        if(!shouldCraft)return false;
+        ItemEntity resultE = new ItemEntity(entity.getWorld(), entity.getPos().getX() + 0.5, entity.getPos().getY() + 1, entity.getPos().getZ() + 0.5,
+                result);
+        entity.getWorld().spawnEntity(resultE);
+        clearCraftingGrid(entity);
         entity.markDirty();
         return true;
+    }
+
+    public static void clearCraftingGrid(CraftingStumpBlockEntity entity) {
+        for (int i = 0; i<numberOfCraftingSlots; i++){
+            entity.removeStack(i);
+        }
     }
 
     public boolean addStack(int slot, ItemStack stack) {

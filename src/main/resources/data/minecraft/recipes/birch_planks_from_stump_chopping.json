@@ -6,6 +6,8 @@
   "input": {
     "tag": "minecraft:birch_logs"
   },
-  "result": "minecraft:birch_planks",
-  "count": "2"
+  "output": {
+    "item": "minecraft:birch_planks",
+    "count": 2
+  }
 }

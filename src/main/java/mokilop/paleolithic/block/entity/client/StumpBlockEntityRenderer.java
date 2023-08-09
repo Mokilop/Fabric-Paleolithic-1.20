@@ -31,7 +31,7 @@ public class StumpBlockEntityRenderer implements BlockEntityRenderer<StumpBlockE
         matrices.translate(0.5f, 0.7f, 0.5f);
         matrices.scale(1.3f, 1.3f, 1.3f);
         float rotation = entity.getCachedState().get(StumpBlock.FACING).getOpposite().asRotation();
-        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(rotation));
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotation));
         itemRenderer.renderItem(itemStack, ModelTransformationMode.FIXED, getLightLevel(entity.getWorld(), entity.getPos()),
                 OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, entity.getWorld(), 1);
         matrices.pop();

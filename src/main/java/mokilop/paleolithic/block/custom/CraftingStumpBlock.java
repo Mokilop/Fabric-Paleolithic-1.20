@@ -152,7 +152,7 @@ public class CraftingStumpBlock extends BlockWithEntity {
         if (world.getBlockEntity(pos) instanceof CraftingStumpBlockEntity entity) {
             ItemStack mhs = player.getMainHandStack();
             if (mhs.getItem() instanceof HammerItem hammer) {
-                if (CraftingStumpBlockEntity.attemptCraft(entity, hammer)) mhs.damage(player.isCreative() ? 0 : 1,
+                if (CraftingStumpBlockEntity.attemptCraft(entity, hammer, player)) mhs.damage(player.isCreative() ? 0 : 1,
                         world.getRandom(), (ServerPlayerEntity) player);
             }
         }

@@ -6,6 +6,8 @@
   "input": {
     "tag": "minecraft:dark_oak_logs"
   },
-  "result": "minecraft:dark_oak_planks",
-  "count": "2"
+  "output": {
+    "item": "minecraft:dark_oak_planks",
+    "count": 2
+  }
 }

@@ -6,6 +6,8 @@
   "input": {
     "tag": "minecraft:mangrove_logs"
   },
-  "result": "minecraft:mangrove_planks",
-  "count": "2"
+  "output": {
+    "item": "minecraft:mangrove_planks",
+    "count": 2
+  }
 }

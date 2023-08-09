@@ -6,6 +6,8 @@
   "input": {
     "tag": "minecraft:cherry_logs"
   },
-  "result": "minecraft:cherry_planks",
-  "count": "2"
+  "output": {
+    "item": "minecraft:cherry_planks",
+    "count": 2
+  }
 }

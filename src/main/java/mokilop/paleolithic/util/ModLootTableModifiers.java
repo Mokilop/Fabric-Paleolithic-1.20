@@ -23,6 +23,5 @@ public class ModLootTableModifiers {
                 tableBuilder.pool(poolBuilder.build());
             }
         });
-
     }
 }

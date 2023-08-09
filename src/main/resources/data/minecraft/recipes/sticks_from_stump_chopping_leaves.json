@@ -6,6 +6,8 @@
   "input": {
     "tag": "minecraft:leaves"
   },
-  "result": "minecraft:stick",
-  "count": "2"
+  "output": {
+    "item": "minecraft:stick",
+    "count": 2
+  }
 }
