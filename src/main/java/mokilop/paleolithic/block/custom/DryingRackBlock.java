@@ -3,6 +3,7 @@ package mokilop.paleolithic.block.custom;
 import mokilop.paleolithic.Paleolithic;
 import mokilop.paleolithic.block.entity.DryingRackBlockEntity;
 import mokilop.paleolithic.block.entity.ModBlockEntities;
+import mokilop.paleolithic.block.entity.StumpBlockEntity;
 import mokilop.paleolithic.block.enums.ComplexAttachment;
 import mokilop.paleolithic.data.Constants;
 import net.minecraft.block.*;
@@ -14,13 +15,19 @@ import net.minecraft.data.client.Model;
 import net.minecraft.data.client.TextureKey;
 import net.minecraft.data.client.TextureMap;
 import net.minecraft.entity.ai.pathing.NavigationType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.function.BooleanBiFunction;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
@@ -264,6 +271,18 @@ public class DryingRackBlock extends BlockWithEntity {
     }
 
     @Override
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (state.getBlock() != newState.getBlock()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof DryingRackBlockEntity entity) {
+                ItemScatterer.spawn(world, pos, entity);
+                world.updateComparators(pos, this);
+            }
+            super.onStateReplaced(state, world, pos, newState, moved);
+        }
+    }
+
+    @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
     }
@@ -274,4 +293,27 @@ public class DryingRackBlock extends BlockWithEntity {
         return checkType(type, ModBlockEntities.DRYING_RACK, DryingRackBlockEntity::tick);
     }
 
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if(world.isClient || hand == Hand.OFF_HAND)return ActionResult.CONSUME;
+        if(world.getBlockEntity(pos) instanceof DryingRackBlockEntity entity){
+            ItemStack mhs = player.getMainHandStack();
+            if(mhs.isEmpty()){
+                DryingRackBlockEntity.resetProgress(entity);
+                if(!player.isCreative()) player.giveItemStack(entity.getStack(0));
+                entity.clear();
+                entity.markDirty();
+                return ActionResult.SUCCESS;
+            }
+            if(entity.isEmpty()){
+                DryingRackBlockEntity.resetProgress(entity);
+                entity.setStack(0, mhs.copyWithCount(1));
+                mhs.decrement(player.isCreative() ? 0 : 1);
+                entity.markDirty();
+                return ActionResult.SUCCESS;
+            }
+            return ActionResult.FAIL;
+        }
+        return ActionResult.PASS;
+    }
 }

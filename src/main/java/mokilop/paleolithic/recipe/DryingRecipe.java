@@ -81,14 +81,9 @@ public class DryingRecipe implements Recipe<SimpleInventory> {
         @Override
         public DryingRecipe read(Identifier id, JsonObject json) {
             ItemStack output = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "output"));
-
-            JsonArray ingredients = JsonHelper.getArray(json, "ingredients");
+            JsonObject input = JsonHelper.getObject(json, "input");
             DefaultedList<Ingredient> inputs = DefaultedList.ofSize(1, Ingredient.EMPTY);
-
-            for (int i = 0; i < inputs.size(); i++) {
-                inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
-            }
-
+            inputs.set(0, Ingredient.fromJson(input));
             return new DryingRecipe(id, output, inputs);
         }
 

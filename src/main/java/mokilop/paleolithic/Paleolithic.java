@@ -8,6 +8,7 @@ import mokilop.paleolithic.networking.ModMessages;
 import mokilop.paleolithic.recipe.ModRecipes;
 import mokilop.paleolithic.sound.ModSounds;
 import mokilop.paleolithic.util.ModLootTableModifiers;
+import mokilop.paleolithic.util.ModRegistries;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,10 +33,12 @@ public class Paleolithic implements ModInitializer {
         ModItems.registerModItems();
         ModSounds.registerModSounds();
         ModRecipes.registerRecipes();
+        ModRegistries.registerModRegistryEntries();
         registerModFeatures();
         ModLootTableModifiers.modifyLootTables();
         ModMessages.registerC2SPackets();
         ModBlockEntities.registerBlocksEntities();
         generateModWorldGen();
+
     }
 }
