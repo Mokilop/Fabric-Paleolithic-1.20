@@ -1,6 +1,16 @@
 {
   "replace": false,
   "values": [
-    "paleolithic:oak_drying_rack"
+    "paleolithic:oak_drying_rack",
+    "paleolithic:spruce_drying_rack",
+    "paleolithic:birch_drying_rack",
+    "paleolithic:acacia_drying_rack",
+    "paleolithic:cherry_drying_rack",
+    "paleolithic:jungle_drying_rack",
+    "paleolithic:dark_oak_drying_rack",
+    "paleolithic:crimson_drying_rack",
+    "paleolithic:warped_drying_rack",
+    "paleolithic:mangrove_drying_rack",
+    "paleolithic:bamboo_drying_rack"
   ]
 }

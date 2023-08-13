@@ -16,8 +16,11 @@ import net.minecraft.data.client.TextureKey;
 import net.minecraft.data.client.TextureMap;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
@@ -300,9 +303,10 @@ public class DryingRackBlock extends BlockWithEntity {
             ItemStack mhs = player.getMainHandStack();
             if(mhs.isEmpty()){
                 DryingRackBlockEntity.resetProgress(entity);
-                if(!player.isCreative()) player.giveItemStack(entity.getStack(0));
-                entity.clear();
+                ItemStack removed = entity.removeStack(0);
+                if(!player.isCreative()) player.giveItemStack(removed);
                 entity.markDirty();
+                if(!removed.isEmpty()) world.playSound(null, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 0.5f, 2);
                 return ActionResult.SUCCESS;
             }
             if(entity.isEmpty()){
@@ -310,6 +314,8 @@ public class DryingRackBlock extends BlockWithEntity {
                 entity.setStack(0, mhs.copyWithCount(1));
                 mhs.decrement(player.isCreative() ? 0 : 1);
                 entity.markDirty();
+                //world.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, SoundCategory.BLOCKS);
+                world.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, SoundCategory.BLOCKS, 0.7f, 1.2f);
                 return ActionResult.SUCCESS;
             }
             return ActionResult.FAIL;

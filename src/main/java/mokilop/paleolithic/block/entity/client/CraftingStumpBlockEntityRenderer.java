@@ -19,9 +19,9 @@ import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 
 public class CraftingStumpBlockEntityRenderer implements BlockEntityRenderer<CraftingStumpBlockEntity> {
-
+    private final ItemRenderer itemRenderer;
     public CraftingStumpBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
-
+        itemRenderer = context.getItemRenderer();
     }
 
     @Override

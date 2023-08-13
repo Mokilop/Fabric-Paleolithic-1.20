@@ -8,7 +8,6 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.DefaultParticleType;
@@ -152,16 +151,22 @@ public class PrimitiveCampfireBlock extends BlockWithEntity implements BlockEnti
             return ActionResult.SUCCESS;
         }
         ItemStack mhs = player.getMainHandStack();
-        ItemStack ohs = player.getOffHandStack();
-        if (!state.get(LIT)) {
-
+        if(mhs.isEmpty()){
+            return handleItemRemove(world, pos, player, entity);
         }
         if (AbstractFurnaceBlockEntity.canUseAsFuel(mhs)) {
             return handleFuelAdding(state, world, pos, player, entity, mhs);
         }
-        boolean isSmeltable = entity.matchGetter.getFirstMatch(new SimpleInventory(mhs), world).isPresent();
-        if (!isSmeltable) return ActionResult.SUCCESS;
         return handleAddingItem(player, entity, mhs);
+    }
+
+    @NotNull
+    private static ActionResult handleItemRemove(World world, BlockPos pos, PlayerEntity player, PrimitiveCampfireBlockEntity entity) {
+        ItemStack removed = entity.removeStack(0);
+        if(!player.isCreative()) player.giveItemStack(removed);
+        if(!removed.isEmpty()) world.playSound(null, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 0.5f, 2);
+        entity.markDirty();
+        return ActionResult.SUCCESS;
     }
 
     @Override

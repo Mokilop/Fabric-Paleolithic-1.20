@@ -11,27 +11,39 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 
 public class StumpBlockEntityRenderer implements BlockEntityRenderer<StumpBlockEntity> {
 
+    private final ItemRenderer itemRenderer;
     public StumpBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
-
+        itemRenderer = context.getItemRenderer();
     }
 
     @Override
     public void render(StumpBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
         ItemStack itemStack = entity.getRenderStack();
         matrices.push();
-        matrices.translate(0.5f, 0.7f, 0.5f);
-        matrices.scale(1.3f, 1.3f, 1.3f);
-        float rotation = -entity.getCachedState().get(StumpBlock.FACING).getOpposite().asRotation();
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotation));
+        boolean hasDepth = itemRenderer.getModels().getModel(itemStack).hasDepth();
+        float yTranslate = hasDepth ? 0.6875f : 0.390625f;
+        matrices.translate(0.5f, yTranslate, 0.5f);
+        float scale = hasDepth ? 1.25f : 0.75f;
+        matrices.scale(scale, scale, scale);
+        Direction facing = entity.getCachedState().get(StumpBlock.FACING);
+        float rotation = facing.getOpposite().asRotation();
+        if(hasDepth){
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-rotation));
+        }
+        else{
+            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
+            matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(rotation));
+        }
         itemRenderer.renderItem(itemStack, ModelTransformationMode.FIXED, getLightLevel(entity.getWorld(), entity.getPos()),
                 OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, entity.getWorld(), 1);
         matrices.pop();

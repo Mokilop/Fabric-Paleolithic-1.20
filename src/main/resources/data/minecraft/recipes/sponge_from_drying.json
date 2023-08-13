@@ -1,0 +1,10 @@
+{
+  "type": "paleolithic:drying",
+  "category": "misc",
+  "input": {
+    "item": "minecraft:wet_sponge"
+  },
+  "output": {
+    "item": "minecraft:sponge"
+  }
+}

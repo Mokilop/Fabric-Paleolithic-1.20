@@ -108,6 +108,17 @@ public class ModBlocks {
     //region DryingRacks
     private static final Set<Block> DRYING_RACKS = new ObjectArraySet<>();
     public static final Block OAK_DRYING_RACK = registerDryingRack(WoodType.OAK);
+    public static final Block SPRUCE_DRYING_RACK = registerDryingRack(WoodType.SPRUCE);
+    public static final Block BIRCH_DRYING_RACK = registerDryingRack(WoodType.BIRCH);
+    public static final Block ACACIA_DRYING_RACK = registerDryingRack(WoodType.ACACIA);
+    public static final Block CHERRY_DRYING_RACK = registerDryingRack(WoodType.CHERRY);
+    public static final Block JUNGLE_DRYING_RACK = registerDryingRack(WoodType.JUNGLE);
+    public static final Block DARK_OAK_DRYING_RACK = registerDryingRack(WoodType.DARK_OAK);
+    public static final Block CRIMSON_DRYING_RACK = registerDryingRack(WoodType.CRIMSON);
+    public static final Block WARPED_DRYING_RACK = registerDryingRack(WoodType.WARPED);
+    public static final Block MANGROVE_DRYING_RACK = registerDryingRack(WoodType.MANGROVE);
+    public static final Block BAMBOO_DRYING_RACK = registerDryingRack(WoodType.BAMBOO);
+
 
     //endregion
 

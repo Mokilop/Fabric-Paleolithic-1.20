@@ -1,5 +1,6 @@
 {
   "type": "paleolithic:stump_chopping",
+  "category": "misc",
   "tool": {
     "tag": "minecraft:axes"
   },

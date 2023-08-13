@@ -1,6 +1,7 @@
 package mokilop.paleolithic.block.entity;
 
 import mokilop.paleolithic.block.custom.PrimitiveCampfireBlock;
+import mokilop.paleolithic.block.custom.StumpBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
@@ -16,8 +17,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
+import java.util.Optional;
+
+import static net.minecraft.recipe.BrewingRecipeRegistry.hasRecipe;
+
 public class PrimitiveCampfireBlockEntity extends BlockEntityWithDisplayableInventory {
-    private static int multiplier = 2;
+    private static final int multiplier = 2;
     private static final int maxProgress = 200 * multiplier;
     private static final int maxBurnTime = 200 * 128 * multiplier;
     public static final int acceptFuelBelowMax = 200 * multiplier;
@@ -29,41 +34,46 @@ public class PrimitiveCampfireBlockEntity extends BlockEntityWithDisplayableInve
     public PrimitiveCampfireBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.PRIMITIVE_CAMPFIRE, pos, state, 1);
     }
+    private boolean isBurning(){
+        return burnTime > 0;
+    }
 
-    public static void tick(World world, BlockPos blockPos, BlockState blockState,
+    public static void tick(World world, BlockPos pos, BlockState state,
                             PrimitiveCampfireBlockEntity entity) {
         if (world.isClient) return;
-        if (entity.burnTime <= 0) {
-            if (world.setBlockState(blockPos, blockState.with(PrimitiveCampfireBlock.LIT, false))) {
-                entity.markDirty();
-                markDirty(world, blockPos, blockState);
-            }
-            if (entity.progress > 0) entity.progress--;
+        boolean wasBurning = entity.isBurning();
+        int oldFireStrength = entity.fireStrength;
+        if(!entity.isBurning()){
+            entity.progress = Math.max(entity.progress - 1, 0);
             return;
         }
         entity.burnTime--;
-        int newFireStrength = Math.min(4, entity.burnTime * 128 / maxBurnTime);
-        if (newFireStrength != entity.fireStrength) {
-            entity.fireStrength = newFireStrength;
-            world.setBlockState(blockPos, blockState.with(PrimitiveCampfireBlock.FIRE_STRENGTH, entity.fireStrength));
+        entity.fireStrength = entity.burnTime >= 1200 ? 4 : entity.burnTime / 300;
+        Optional<CampfireCookingRecipe> match = getMatch(entity, world);
+        if(match.isPresent()){
+            if(++entity.progress >= match.get().getCookTime()){
+                craftItem(entity, world, pos, match);
+            }
         }
-        ItemStack itemInside = entity.inventory.get(0);
-        SimpleInventory inv;
-        boolean isSmeltable = entity.matchGetter.getFirstMatch(inv = new SimpleInventory(itemInside), world).isPresent();
-        if (!isSmeltable || maxProgress > ++entity.progress) {
-            entity.markDirty();
-            markDirty(world, blockPos, blockState);
-            return;
+        if(entity.fireStrength != oldFireStrength || entity.isBurning() != wasBurning){
+            state = state.with(PrimitiveCampfireBlock.LIT, entity.isBurning())
+                    .with(PrimitiveCampfireBlock.FIRE_STRENGTH, entity.fireStrength);
+            world.setBlockState(pos, state, Block.NOTIFY_ALL);
         }
-        ItemStack smeltedItem = entity.matchGetter.getFirstMatch(inv, world).map(recipe -> recipe.craft(inv, world.getRegistryManager())).orElse(itemInside);
-        entity.inventory.set(0, ItemStack.EMPTY);
-        ItemEntity cookedItemEntity = new ItemEntity(world, blockPos.getX() + 0.5, blockPos.getY() + 1, blockPos.getZ() + 0.5, smeltedItem);
-        cookedItemEntity.setVelocity(0, 0, 0);
-        world.spawnEntity(cookedItemEntity);
-        world.updateListeners(blockPos, blockState, blockState, Block.NOTIFY_ALL);
-        world.emitGameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Emitter.of(blockState));
+    }
+
+    private static void craftItem(PrimitiveCampfireBlockEntity entity, World world, BlockPos pos, Optional<CampfireCookingRecipe> match) {
+        assert match.isPresent();
+        ItemStack result = match.get().getOutput(world.getRegistryManager());
+        entity.clear();
+        entity.progress = 0;
+        world.spawnEntity(new ItemEntity(world, pos.getX(), pos.getY() + 1, pos.getZ(), result, 0, 1, 0));
         entity.markDirty();
-        markDirty(world, blockPos, blockState);
+    }
+
+    public static Optional<CampfireCookingRecipe> getMatch(PrimitiveCampfireBlockEntity e, World world){
+        return world.getRecipeManager()
+                .getFirstMatch(RecipeType.CAMPFIRE_COOKING, new SimpleInventory(e.getStack(0)), world);
     }
 
     public ItemStack getRenderStack() {

@@ -16,6 +16,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
@@ -93,21 +95,27 @@ public class CraftingStumpBlock extends BlockWithEntity {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (world.isClient()) return ActionResult.CONSUME;
+
+        if (world.isClient()){
+            if(hit.getSide() == Direction.UP || hit.getSide() == state.get(FACING))return ActionResult.CONSUME;
+            return ActionResult.PASS;
+        }
         if (world.getBlockEntity(pos) instanceof CraftingStumpBlockEntity entity) {
             ItemStack mhs = player.getMainHandStack();
             if (hit.getSide() == Direction.UP) {
-                return onUseTopSide(state, pos, player, hit, entity, mhs);
+                return onUseTopSide(world, state, pos, player, hit, entity, mhs);
             }
             if (state.get(FACING) == hit.getSide()) {
                 if (mhs.isEmpty()) {
                     ItemStack removed = entity.removeStack(9);
                     if (!player.isCreative()) player.giveItemStack(removed);
                     entity.markDirty();
+                    world.playSound(null, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 0.5f, 2);
                     return ActionResult.SUCCESS;
                 }
                 if (mhs.getItem() instanceof HammerItem) {
                     mhs.decrement(entity.addStack(9, mhs.copyWithCount(1)) && !player.isCreative() ? 1 : 0);
+                    world.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, SoundCategory.BLOCKS, 0.5f, 1.2f);
                     return ActionResult.SUCCESS;
                 }
             }
@@ -117,14 +125,16 @@ public class CraftingStumpBlock extends BlockWithEntity {
     }
 
     @NotNull
-    private ActionResult onUseTopSide(BlockState state, BlockPos pos, PlayerEntity player, BlockHitResult hit, CraftingStumpBlockEntity entity, ItemStack mhs) {
+    private ActionResult onUseTopSide(World world, BlockState state, BlockPos pos, PlayerEntity player, BlockHitResult hit, CraftingStumpBlockEntity entity, ItemStack mhs) {
         if (mhs.isEmpty()) {
             ItemStack removed = entity.removeStack(getSlot(hit, pos, state));
             if (!player.isCreative()) player.giveItemStack(removed);
             entity.markDirty();
+            if(!removed.isEmpty()) world.playSound(null, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 0.5f, 2);
             return ActionResult.SUCCESS;
         }
         mhs.decrement(entity.addStack(getSlot(hit, pos, state), mhs.copyWithCount(1)) && !player.isCreative() ? 1 : 0);
+        world.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_PLACE, SoundCategory.BLOCKS, 0.33f, 1);
         return ActionResult.SUCCESS;
     }
 

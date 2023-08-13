@@ -3,6 +3,7 @@ package mokilop.paleolithic.block.entity.client;
 import mokilop.paleolithic.block.custom.PrimitiveCampfireBlock;
 import mokilop.paleolithic.block.entity.PrimitiveCampfireBlockEntity;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -16,23 +17,28 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
+import org.joml.Matrix4f;
 
 
 public class PrimitiveCampfireBlockEntityRenderer implements BlockEntityRenderer<PrimitiveCampfireBlockEntity> {
+    private final ItemRenderer itemRenderer;
     public PrimitiveCampfireBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
-
+        itemRenderer = context.getItemRenderer();
     }
 
     @Override
     public void render(PrimitiveCampfireBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
         ItemStack itemStack = entity.getRenderStack();
         matrices.push();
-        matrices.translate(0.499f, 0.22f, 0.499f);
-        float rotation = entity.getCachedState().get(PrimitiveCampfireBlock.FACING).getOpposite().asRotation();
-        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(rotation));
-        itemRenderer.renderItem(itemStack, ModelTransformationMode.GROUND, getLightLevel(entity.getWorld(), entity.getPos()),
+        float yOffset = itemRenderer.getModels().getModel(itemStack).hasDepth() ? .325f : .425f;
+        matrices.translate(.5f, yOffset, .5f);
+        float s = .5f;
+        matrices.scale(s,s,s);
+        float rotation = -entity.getCachedState().get(PrimitiveCampfireBlock.FACING).getOpposite().asRotation();
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotation - 15));
+        itemRenderer.renderItem(itemStack, ModelTransformationMode.FIXED, getLightLevel(entity.getWorld(), entity.getPos()),
                 OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, entity.getWorld(), 1);
+
         matrices.pop();
     }
 

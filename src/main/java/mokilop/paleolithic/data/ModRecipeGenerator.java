@@ -56,13 +56,12 @@ public class ModRecipeGenerator extends FabricRecipeProvider {
                 .input('R', ModBlocks.ROCK)
                 .input('S', Items.STICK)
                 .input('T', ModItems.PLANT_TWINE)
-                .pattern("SSS")
+                .pattern("SRS")
                 .pattern("RTR")
-                .pattern("RRR")
+                .pattern("SRS")
                 .criterion(FabricRecipeProvider.hasItem(ModBlocks.ROCK), FabricRecipeProvider.conditionsFromItem(ModBlocks.ROCK))
                 .group("primitive_campfire")
                 .offerTo(exporter, new Identifier(Paleolithic.MOD_ID, FabricRecipeProvider.getRecipeName(ModBlocks.PRIMITIVE_CAMPFIRE)));
-
     }
 
     @Override
