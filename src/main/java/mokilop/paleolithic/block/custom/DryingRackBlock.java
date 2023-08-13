@@ -3,7 +3,6 @@ package mokilop.paleolithic.block.custom;
 import mokilop.paleolithic.Paleolithic;
 import mokilop.paleolithic.block.entity.DryingRackBlockEntity;
 import mokilop.paleolithic.block.entity.ModBlockEntities;
-import mokilop.paleolithic.block.entity.StumpBlockEntity;
 import mokilop.paleolithic.block.enums.ComplexAttachment;
 import mokilop.paleolithic.data.Constants;
 import net.minecraft.block.*;
@@ -16,7 +15,6 @@ import net.minecraft.data.client.TextureKey;
 import net.minecraft.data.client.TextureMap;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
@@ -140,7 +138,7 @@ public class DryingRackBlock extends BlockWithEntity {
         Direction.Axis axis = direction.getAxis();
         Direction playerFacing = ctx.getHorizontalPlayerFacing();
 
-        if (axis == Direction.Axis.Y) {
+        if (axis.isVertical()) {
             BlockState state = getDefaultState().with(FACING, playerFacing.getOpposite());
             double offset = isNS(playerFacing) ? hitOffset.z : hitOffset.x;
             offset = (!isSE(playerFacing)) ? (1 - offset) : offset;
@@ -314,7 +312,6 @@ public class DryingRackBlock extends BlockWithEntity {
                 entity.setStack(0, mhs.copyWithCount(1));
                 mhs.decrement(player.isCreative() ? 0 : 1);
                 entity.markDirty();
-                //world.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, SoundCategory.BLOCKS);
                 world.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, SoundCategory.BLOCKS, 0.7f, 1.2f);
                 return ActionResult.SUCCESS;
             }

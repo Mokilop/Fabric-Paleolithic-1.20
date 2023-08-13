@@ -13,7 +13,6 @@ import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.RotationAxis;
@@ -31,13 +30,13 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
         ComplexAttachment att = entity.getCachedState().get(DryingRackBlock.ATTACHMENT);
         Direction facing = entity.getCachedState().get(DryingRackBlock.FACING);
         boolean isPerpendicular = att.getSimpleAttachment() == Attachment.SINGLE_WALL && att != ComplexAttachment.WALL_UP;
-        if(isPerpendicular)matrices.translate(facing.getAxis() == Direction.Axis.X ? -0.0625 * facing.getOffsetX() : 0, 0, facing.getAxis() == Direction.Axis.Z ? -0.0625 * facing.getOffsetZ() : 0);
+        if(isPerpendicular)matrices.translate(-0.0625 * facing.getOffsetX(), 0, -0.0625 * facing.getOffsetZ());
         facing = isPerpendicular ? facing.rotateYClockwise() : facing;
         float offset = att.getOffset() * 0.375f;
-        float xOffset = (facing.getAxis() == Direction.Axis.X ? offset : 0) * facing.getOpposite().getOffsetX();
-        float zOffset = (facing.getAxis() == Direction.Axis.Z ? offset : 0) * facing.getOpposite().getOffsetZ();
+        float xOffset = offset * facing.getOpposite().getOffsetX();
+        float zOffset = offset * facing.getOpposite().getOffsetZ();
         matrices.push();
-        matrices.translate(0.5f + xOffset, 0.5f + yOffset(itemStack, itemRenderer.getModels().getModel(itemStack).hasDepth()), 0.5f + zOffset);
+        matrices.translate(0.5f + xOffset, 0.5f + yOffset(itemRenderer.getModels().getModel(itemStack).hasDepth()), 0.5f + zOffset);
         matrices.scale(0.625f,0.625f,0.625f);
         float rotation = -facing.getOpposite().asRotation();
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotation));
@@ -52,9 +51,8 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
         return LightmapTextureManager.pack(bLight, sLight);
     }
 
-    private float yOffset(ItemStack stack, boolean hasDepth){
+    private float yOffset(boolean hasDepth){
         if(hasDepth)return 0.15f;
-        if(stack.isIn(ItemTags.SLABS))return 0.3125f;
         return 0;
     }
 }

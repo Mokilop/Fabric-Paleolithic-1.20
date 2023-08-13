@@ -2,6 +2,7 @@ package mokilop.paleolithic.block.entity.client;
 
 import mokilop.paleolithic.block.custom.CraftingStumpBlock;
 import mokilop.paleolithic.block.entity.CraftingStumpBlockEntity;
+import mokilop.paleolithic.util.Helpers;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.OverlayTexture;
@@ -26,12 +27,12 @@ public class CraftingStumpBlockEntityRenderer implements BlockEntityRenderer<Cra
 
     @Override
     public void render(CraftingStumpBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
-        float rotDeg = entity.getCachedState().get(CraftingStumpBlock.FACING).getOpposite().asRotation();
+        Direction facing = entity.getCachedState().get(CraftingStumpBlock.FACING);
+        float rotDeg = facing.getOpposite().asRotation();
         for (int i = 0; i < entity.size() - 1; i++) {
             ItemStack toRender = entity.getStack(i);
             matrices.push();
-            matrices.translate(getXOffset(i, entity), getYOffset(entity, tickDelta), getZOffset(i, entity));
+            matrices.translate(getXOffset(i, facing), getYOffset(entity, tickDelta), getZOffset(i, facing));
             matrices.scale(0.25f, 0.25f, 0.25f);
             matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
             matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(rotDeg + CraftingStumpBlockEntity.getRandomRotationAmounts(entity)[i]));
@@ -41,24 +42,10 @@ public class CraftingStumpBlockEntityRenderer implements BlockEntityRenderer<Cra
         }
         ItemStack extraItem = entity.getStack(9);
         matrices.push();
-        switch (entity.getCachedState().get(CraftingStumpBlock.FACING)) {
-            case NORTH -> {
-                matrices.translate(0.485, 0.485, 0.4);
-                matrices.multiply(RotationAxis.NEGATIVE_Z.rotationDegrees(225));
-            }
-            case SOUTH -> {
-                matrices.translate(0.515, 0.485, 0.6);
-                matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(225));
-            }
-            case WEST -> {
-                matrices.translate(0.4, 0.485, 0.485);
-                matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(225));
-            }
-            case EAST -> {
-                matrices.translate(0.6, 0.485, 0.515);
-                matrices.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(225));
-            }
-        }
+        float xOffset = 0.5f + 0.1f * facing.getOffsetX();
+        float zOffset = 0.5f + 0.1f * facing.getOffsetZ();
+        matrices.translate(xOffset, 0.465f, zOffset);
+        matrices.multiply(RotationAxis.of(facing.getUnitVector()).rotationDegrees(225));
         matrices.scale(0.35f, 0.35f, 0.35f);
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotDeg));
         itemRenderer.renderItem(extraItem, ModelTransformationMode.FIXED, getLightLevel(entity.getWorld(), entity.getPos()),
@@ -66,18 +53,16 @@ public class CraftingStumpBlockEntityRenderer implements BlockEntityRenderer<Cra
         matrices.pop();
     }
 
-    private float getXOffset(int slot, CraftingStumpBlockEntity e) {
-        Direction f = e.getCachedState().get(CraftingStumpBlock.FACING);
-        int xSlot = f == Direction.EAST || f == Direction.WEST ? slot / 3 : slot % 3;
-        float temp = xSlot == 0 ? 0.1875f : xSlot == 1 ? 0.5f : 0.8125f;
-        return f == Direction.NORTH || f == Direction.WEST ? 1 - temp : temp;
+    private float getXOffset(int slot, Direction f) {
+        int xSlot = f.getAxis() == Direction.Axis.X ? slot / 3 : slot % 3;
+        float temp = 0.1875f + xSlot * .3125f;
+        return Helpers.isSE(f) ? temp : 1 - temp;
     }
 
-    private float getZOffset(int slot, CraftingStumpBlockEntity e) {
-        Direction f = e.getCachedState().get(CraftingStumpBlock.FACING);
-        int zSlot = f == Direction.EAST || f == Direction.WEST ? slot % 3 : slot / 3;
-        float temp = zSlot == 0 ? 0.1875f : zSlot == 1 ? 0.5f : 0.8125f;
-        return f == Direction.NORTH || f == Direction.EAST ? 1 - temp : temp;
+    private float getZOffset(int slot, Direction f) {
+        int zSlot = f.getAxis() == Direction.Axis.X ? slot % 3 : slot / 3;
+        float temp = 0.1875f + zSlot * .3125f;
+        return Helpers.isNE(f) ? 1 - temp : temp;
     }
 
     private float getYOffset(CraftingStumpBlockEntity e, float delta) {

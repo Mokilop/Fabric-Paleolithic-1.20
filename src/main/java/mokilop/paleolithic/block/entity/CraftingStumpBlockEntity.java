@@ -68,31 +68,28 @@ public class CraftingStumpBlockEntity extends BlockEntityWithDisplayableInventor
     public static boolean attemptCraft(CraftingStumpBlockEntity entity, HammerItem hammer, PlayerEntity player) {
         if (entity.crafting) return false;
         entity.crafting = true;
-
-        if (entity.getWorld().isClient()) return false;
-        ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
-        entity.progress += hammer.CRAFTING_EFFICIENCY;
-        if (entity.progress >= maxProgress) {
-            return craft(entity, serverPlayer);
-        }
-        return false;
-    }
-
-    private static boolean craft(CraftingStumpBlockEntity entity, ServerPlayerEntity player) {
-        entity.progress = 0;
-        Optional<CraftingRecipe> match = getMatch(entity);
         World world = entity.getWorld();
+        assert world != null;
+        if (world.isClient) return false;
+        ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
+        Optional<CraftingRecipe> match = getMatch(entity);
         CraftingRecipe recipe;
         ItemStack result = ItemStack.EMPTY;
-        boolean shouldCraft = match.isPresent() && entity.craftingResultInventory.shouldCraftRecipe(world, player, recipe = match.get())
+        boolean shouldCraft = match.isPresent() && entity.craftingResultInventory.shouldCraftRecipe(world, serverPlayer, recipe = match.get())
                 && (result = recipe.craft(entity.craftingInventory, world.getRegistryManager())).isItemEnabled(world.getEnabledFeatures());
-        if(!shouldCraft)return false;
-        ItemEntity resultE = new ItemEntity(entity.getWorld(), entity.getPos().getX() + 0.5, entity.getPos().getY() + 1, entity.getPos().getZ() + 0.5,
-                result);
-        entity.getWorld().spawnEntity(resultE);
-        clearCraftingGrid(entity);
-        entity.markDirty();
-        return true;
+        if(!shouldCraft) return false;
+
+        entity.progress += hammer.CRAFTING_EFFICIENCY;
+        if (entity.progress >= maxProgress) {
+            entity.progress = 0;
+            ItemEntity resultE = new ItemEntity(entity.getWorld(), entity.getPos().getX() + 0.5,
+                    entity.getPos().getY() + 1, entity.getPos().getZ() + 0.5, result);
+            entity.getWorld().spawnEntity(resultE);
+            clearCraftingGrid(entity);
+            entity.markDirty();
+            return true;
+        }
+        return false;
     }
 
     public static void clearCraftingGrid(CraftingStumpBlockEntity entity) {

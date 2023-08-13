@@ -13,6 +13,7 @@ import net.minecraft.data.client.Model;
 import net.minecraft.data.client.TextureKey;
 import net.minecraft.data.client.TextureMap;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -21,6 +22,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
@@ -33,6 +35,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.*;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -71,7 +74,7 @@ public class CraftingStumpBlock extends BlockWithEntity {
     }
 
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return super.getPlacementState(ctx).with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
+        return getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
 
     @Override
@@ -97,7 +100,7 @@ public class CraftingStumpBlock extends BlockWithEntity {
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 
         if (world.isClient()){
-            if(hit.getSide() == Direction.UP || hit.getSide() == state.get(FACING))return ActionResult.CONSUME;
+            if(hit.getSide() == Direction.UP || hit.getSide() == state.get(FACING))return ActionResult.SUCCESS;
             return ActionResult.PASS;
         }
         if (world.getBlockEntity(pos) instanceof CraftingStumpBlockEntity entity) {
@@ -110,7 +113,7 @@ public class CraftingStumpBlock extends BlockWithEntity {
                     ItemStack removed = entity.removeStack(9);
                     if (!player.isCreative()) player.giveItemStack(removed);
                     entity.markDirty();
-                    world.playSound(null, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 0.5f, 2);
+                    if(!removed.isEmpty()) world.playSound(null, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 0.5f, 2);
                     return ActionResult.SUCCESS;
                 }
                 if (mhs.getItem() instanceof HammerItem) {
@@ -133,8 +136,9 @@ public class CraftingStumpBlock extends BlockWithEntity {
             if(!removed.isEmpty()) world.playSound(null, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 0.5f, 2);
             return ActionResult.SUCCESS;
         }
-        mhs.decrement(entity.addStack(getSlot(hit, pos, state), mhs.copyWithCount(1)) && !player.isCreative() ? 1 : 0);
-        world.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_PLACE, SoundCategory.BLOCKS, 0.33f, 1);
+        boolean addSuccess = entity.addStack(getSlot(hit, pos, state), mhs.copyWithCount(1));
+        mhs.decrement(addSuccess && !player.isCreative() ? 1 : 0);
+        if(addSuccess) world.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_PLACE, SoundCategory.BLOCKS, 0.33f, 1);
         return ActionResult.SUCCESS;
     }
 
@@ -159,14 +163,12 @@ public class CraftingStumpBlock extends BlockWithEntity {
 
     @Override
     public void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
-        if (world.getBlockEntity(pos) instanceof CraftingStumpBlockEntity entity) {
-            ItemStack mhs = player.getMainHandStack();
-            if (mhs.getItem() instanceof HammerItem hammer) {
-                if (CraftingStumpBlockEntity.attemptCraft(entity, hammer, player)) mhs.damage(player.isCreative() ? 0 : 1,
-                        world.getRandom(), (ServerPlayerEntity) player);
-            }
+        ItemStack mhs = player.getMainHandStack();
+        if (world.getBlockEntity(pos) instanceof CraftingStumpBlockEntity entity
+                && mhs.getItem() instanceof HammerItem hammer
+                && CraftingStumpBlockEntity.attemptCraft(entity, hammer, player)) {
+            mhs.damage(player.isCreative() ? 0 : 1, world.getRandom(), (ServerPlayerEntity) player);
         }
-        super.onBlockBreakStart(state, world, pos, player);
     }
     // BLOCK ENTITY
 

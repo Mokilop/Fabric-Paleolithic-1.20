@@ -2,6 +2,7 @@ package mokilop.paleolithic.block.entity;
 
 import mokilop.paleolithic.recipe.StumpChoppingRecipe;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
@@ -26,9 +27,7 @@ public class StumpBlockEntity extends BlockEntityWithDisplayableInventory {
     private static Optional<StumpChoppingRecipe> getMatchForChopping(StumpBlockEntity entity, ItemStack tool) {
         SimpleInventory inv = new SimpleInventory(entity.size() + 1);
         inv.setStack(0, tool);
-        for (int i = 0; i < entity.size(); i++) {
-            inv.setStack(i + 1, entity.getStack(i));
-        }
+        inv.setStack(1, entity.getStack(0));
         return entity.getWorld().getRecipeManager()
                 .getFirstMatch(StumpChoppingRecipe.Type.INSTANCE, inv, entity.getWorld());
     }
@@ -36,11 +35,11 @@ public class StumpBlockEntity extends BlockEntityWithDisplayableInventory {
     private static void craftItemFromChopping(StumpBlockEntity entity, ItemStack tool) {
         Optional<StumpChoppingRecipe> match = getMatchForChopping(entity, tool);
         if (match.isEmpty()) return;
-        ItemStack outputItems = match.get().getOutput(null);
+        ItemStack outputItems = match.get().getOutput(entity.getWorld().getRegistryManager());
         BlockPos pos = entity.pos;
         World world = entity.getWorld();
         ItemEntity outputEntity = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 0.7, pos.getZ() + 0.5, outputItems, 0, 0, 0);
-        entity.inventory.set(0, ItemStack.EMPTY);
+        entity.clear();
         world.spawnEntity(outputEntity);
     }
 
@@ -53,10 +52,8 @@ public class StumpBlockEntity extends BlockEntityWithDisplayableInventory {
         if (entity.progress >= maxProgress || (fullyCharged && highDamage)) {
             entity.progress = 0;
             craftItemFromChopping(entity, tool);
-            world.playSound(null, blockPos, SoundEvents.BLOCK_WOOD_BREAK, SoundCategory.BLOCKS, 1, 1.5f);
-            world.playSound(null, blockPos, SoundEvents.BLOCK_WOOD_BREAK, SoundCategory.BLOCKS, 1, 1.5f);
+            world.playSound(null, blockPos, SoundEvents.BLOCK_WOOD_BREAK, SoundCategory.BLOCKS, 1.5f, 1.5f);
             entity.markDirty();
-            markDirty(world, blockPos, blockState);
             return true;
         }
         return false;
