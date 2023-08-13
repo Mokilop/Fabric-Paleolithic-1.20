@@ -13,7 +13,6 @@ import net.minecraft.data.client.Model;
 import net.minecraft.data.client.TextureKey;
 import net.minecraft.data.client.TextureMap;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -22,7 +21,6 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
@@ -35,7 +33,6 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -117,8 +114,9 @@ public class CraftingStumpBlock extends BlockWithEntity {
                     return ActionResult.SUCCESS;
                 }
                 if (mhs.getItem() instanceof HammerItem) {
-                    mhs.decrement(entity.addStack(9, mhs.copyWithCount(1)) && !player.isCreative() ? 1 : 0);
-                    world.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, SoundCategory.BLOCKS, 0.5f, 1.2f);
+                    boolean success = entity.addStack(9, mhs.copyWithCount(1));
+                    mhs.decrement(success && !player.isCreative() ? 1 : 0);
+                    if(success) world.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, SoundCategory.BLOCKS, 0.5f, 1.2f);
                     return ActionResult.SUCCESS;
                 }
             }
@@ -127,6 +125,7 @@ public class CraftingStumpBlock extends BlockWithEntity {
         return ActionResult.PASS;
     }
 
+    @SuppressWarnings("SameReturnValue")
     @NotNull
     private ActionResult onUseTopSide(World world, BlockState state, BlockPos pos, PlayerEntity player, BlockHitResult hit, CraftingStumpBlockEntity entity, ItemStack mhs) {
         if (mhs.isEmpty()) {
@@ -149,16 +148,12 @@ public class CraftingStumpBlock extends BlockWithEntity {
         double zOffset = hit.getPos().z - pos.getZ();
         int xSlot = xOffset < oneStep ? 0 : xOffset > threeSteps ? 2 : 1;
         int zSlot = zOffset < oneStep ? 0 : zOffset > threeSteps ? 2 : 1;
-        switch (state.get(FACING)) {
-            case NORTH:
-                return 8 - xSlot - 3 * zSlot;
-            case EAST:
-                return 2 - zSlot + 3 * xSlot;
-            case WEST:
-                return zSlot + 3 * (2 - xSlot);
-            default:
-                return xSlot + 3 * zSlot;
-        }
+        return switch (state.get(FACING)) {
+            case NORTH -> 8 - xSlot - 3 * zSlot;
+            case EAST -> 2 - zSlot + 3 * xSlot;
+            case WEST -> zSlot + 3 * (2 - xSlot);
+            default -> xSlot + 3 * zSlot;
+        };
     }
 
     @Override

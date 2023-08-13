@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 
 public class ModLootTableModifiers {
 
-    private static Identifier GRASS_ID = new Identifier("minecraft", "blocks/grass");
+    private static final Identifier GRASS_ID = new Identifier("minecraft", "blocks/grass");
 
     public static void modifyLootTables() {
         LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {

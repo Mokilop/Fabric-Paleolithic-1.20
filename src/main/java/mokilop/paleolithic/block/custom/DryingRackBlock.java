@@ -72,7 +72,6 @@ public class DryingRackBlock extends BlockWithEntity {
     public static final Model PARENT_MODEL_ON_WALL_UP = new Model(Optional.of(
             new Identifier(Paleolithic.MOD_ID, "block/drying_rack_on_wall_up")),
             Optional.of("_on_wall_up"));
-    ;
 
     public static final Model PARENT_MODEL_ON_CEILING = new Model(Optional.of(
             new Identifier(Paleolithic.MOD_ID, "block/drying_rack_on_ceiling")),
@@ -85,38 +84,36 @@ public class DryingRackBlock extends BlockWithEntity {
             Optional.of("_on_ceiling_far"));
     //endregion
     // region Shapes
-    private static VoxelShape FLOOR_NS_SHAPE = Stream.of(
+    private static final VoxelShape FLOOR_NS_SHAPE = Stream.of(
             Block.createCuboidShape(0, 0, 6, 3, 16, 10),
             Block.createCuboidShape(13, 0, 6, 16, 16, 10),
             Block.createCuboidShape(3, 13, 7, 13, 15, 9)
     ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, BooleanBiFunction.OR)).get();
-    private static VoxelShape FLOOR_EW_SHAPE = Stream.of(
+    private static final VoxelShape FLOOR_EW_SHAPE = Stream.of(
             Block.createCuboidShape(6, 0, 0, 10, 16, 3),
             Block.createCuboidShape(6, 0, 13, 10, 16, 16),
             Block.createCuboidShape(7, 13, 3, 9, 15, 13)
     ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, BooleanBiFunction.OR)).get();
-    private static VoxelShape CEILING_NS_SHAPE = Stream.of(
+    private static final VoxelShape CEILING_NS_SHAPE = Stream.of(
             Block.createCuboidShape(13, 12, 6, 16, 16, 10),
             Block.createCuboidShape(0, 12, 6, 3, 16, 10),
             Block.createCuboidShape(3, 13, 7, 13, 15, 9)
     ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, BooleanBiFunction.OR)).get();
-    private static VoxelShape CEILING_EW_SHAPE = Stream.of(
+    private static final VoxelShape CEILING_EW_SHAPE = Stream.of(
             Block.createCuboidShape(6, 12, 0, 10, 16, 3),
             Block.createCuboidShape(6, 12, 13, 10, 16, 16),
             Block.createCuboidShape(7, 13, 3, 9, 15, 13)
     ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, BooleanBiFunction.OR)).get();
-    private static VoxelShape WALL_N_SHAPE = VoxelShapes.combineAndSimplify(Block.createCuboidShape(6, 4, 14, 10, 16, 16), Block.createCuboidShape(7, 13, 4, 9, 15, 14), BooleanBiFunction.OR);
-    private static VoxelShape WALL_E_SHAPE = VoxelShapes.combineAndSimplify(Block.createCuboidShape(0, 4, 6, 2, 16, 10), Block.createCuboidShape(2, 13, 7, 12, 15, 9), BooleanBiFunction.OR);
-    private static VoxelShape WALL_S_SHAPE = VoxelShapes.combineAndSimplify(Block.createCuboidShape(6, 4, 0, 10, 16, 2), Block.createCuboidShape(7, 13, 2, 9, 15, 12), BooleanBiFunction.OR);
-    private static VoxelShape WALL_W_SHAPE = VoxelShapes.combineAndSimplify(Block.createCuboidShape(14, 4, 6, 16, 16, 10), Block.createCuboidShape(4, 13, 7, 14, 15, 9), BooleanBiFunction.OR);
+    private static final VoxelShape WALL_N_SHAPE = VoxelShapes.combineAndSimplify(Block.createCuboidShape(6, 4, 14, 10, 16, 16), Block.createCuboidShape(7, 13, 4, 9, 15, 14), BooleanBiFunction.OR);
+    private static final VoxelShape WALL_E_SHAPE = VoxelShapes.combineAndSimplify(Block.createCuboidShape(0, 4, 6, 2, 16, 10), Block.createCuboidShape(2, 13, 7, 12, 15, 9), BooleanBiFunction.OR);
+    private static final VoxelShape WALL_S_SHAPE = VoxelShapes.combineAndSimplify(Block.createCuboidShape(6, 4, 0, 10, 16, 2), Block.createCuboidShape(7, 13, 2, 9, 15, 12), BooleanBiFunction.OR);
+    private static final VoxelShape WALL_W_SHAPE = VoxelShapes.combineAndSimplify(Block.createCuboidShape(14, 4, 6, 16, 16, 10), Block.createCuboidShape(4, 13, 7, 14, 15, 9), BooleanBiFunction.OR);
     //endregion
 
-    private final WoodType woodType;
     private final TextureMap textureMap;
 
     public DryingRackBlock(Settings settings, WoodType woodType) {
         super(settings);
-        this.woodType = woodType;
         textureMap = new TextureMap().register(TextureKey.of("plank"), TextureMap.getId(Constants.PLANKS_MAP.get(woodType)));
     }
 

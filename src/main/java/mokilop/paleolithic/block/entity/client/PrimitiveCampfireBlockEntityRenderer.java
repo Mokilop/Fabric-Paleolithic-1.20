@@ -2,8 +2,6 @@ package mokilop.paleolithic.block.entity.client;
 
 import mokilop.paleolithic.block.custom.PrimitiveCampfireBlock;
 import mokilop.paleolithic.block.entity.PrimitiveCampfireBlockEntity;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -17,7 +15,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
-import org.joml.Matrix4f;
 
 
 public class PrimitiveCampfireBlockEntityRenderer implements BlockEntityRenderer<PrimitiveCampfireBlockEntity> {

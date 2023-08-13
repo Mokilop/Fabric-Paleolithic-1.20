@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.feature.Feature;
 
 public class ModFeatures {
-    public static Feature ROCK = new RockFeature(RockFeatureConfig.CODEC);
+    public static final Feature ROCK = new RockFeature(RockFeatureConfig.CODEC);
 
     public static void registerModFeatures() {
         registerFeature("rock", ROCK);

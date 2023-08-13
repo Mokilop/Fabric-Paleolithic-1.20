@@ -1,7 +1,6 @@
 package mokilop.paleolithic.block.entity;
 
 import mokilop.paleolithic.block.custom.PrimitiveCampfireBlock;
-import mokilop.paleolithic.block.custom.StumpBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
@@ -15,11 +14,8 @@ import net.minecraft.recipe.RecipeManager;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
 
 import java.util.Optional;
-
-import static net.minecraft.recipe.BrewingRecipeRegistry.hasRecipe;
 
 public class PrimitiveCampfireBlockEntity extends BlockEntityWithDisplayableInventory {
     private static final int multiplier = 2;
@@ -51,8 +47,9 @@ public class PrimitiveCampfireBlockEntity extends BlockEntityWithDisplayableInve
         entity.fireStrength = entity.burnTime >= 1200 ? 4 : entity.burnTime / 300;
         Optional<CampfireCookingRecipe> match = getMatch(entity, world);
         if(match.isPresent()){
-            if(++entity.progress >= match.get().getCookTime()){
-                craftItem(entity, world, pos, match);
+            CampfireCookingRecipe recipe = match.get();
+            if(++entity.progress >= recipe.getCookTime()){
+                craftItem(entity, world, pos, recipe);
             }
         }
         if(entity.fireStrength != oldFireStrength || entity.isBurning() != wasBurning){
@@ -62,9 +59,8 @@ public class PrimitiveCampfireBlockEntity extends BlockEntityWithDisplayableInve
         }
     }
 
-    private static void craftItem(PrimitiveCampfireBlockEntity entity, World world, BlockPos pos, Optional<CampfireCookingRecipe> match) {
-        assert match.isPresent();
-        ItemStack result = match.get().getOutput(world.getRegistryManager());
+    private static void craftItem(PrimitiveCampfireBlockEntity entity, World world, BlockPos pos, CampfireCookingRecipe recipe) {
+        ItemStack result = recipe.getOutput(world.getRegistryManager());
         entity.clear();
         entity.progress = 0;
         world.spawnEntity(new ItemEntity(world, pos.getX(), pos.getY() + 1, pos.getZ(), result, 0, 1, 0));

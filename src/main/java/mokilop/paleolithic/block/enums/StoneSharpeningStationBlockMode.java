@@ -15,7 +15,7 @@ public enum StoneSharpeningStationBlockMode implements StringIdentifiable {
     private final Text text;
     private final Item item;
 
-    private StoneSharpeningStationBlockMode(String name, Item item) {
+    StoneSharpeningStationBlockMode(String name, Item item) {
         this.name = name;
         this.text = Text.translatable("stone_sharpening_station.mode_info." + name);
         this.item = item;

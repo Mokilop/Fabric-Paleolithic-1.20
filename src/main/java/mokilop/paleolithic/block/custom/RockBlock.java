@@ -19,12 +19,12 @@ import org.jetbrains.annotations.Nullable;
 public class RockBlock extends HorizontalFacingBlock implements Waterloggable {
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
     public static final IntProperty STONES = IntProperty.of("stones", 1, 3);
-    private static VoxelShape SHAPE_NORTH_1 = Block.createCuboidShape(3, 0, 4, 7, 2, 9);
-    private static VoxelShape SHAPE_WEST_1 = Block.createCuboidShape(4, 0, 9, 9, 2, 13);
-    private static VoxelShape SHAPE_SOUTH_1 = Block.createCuboidShape(9, 0, 7, 13, 2, 12);
-    private static VoxelShape SHAPE_EAST_1 = Block.createCuboidShape(7, 0, 3, 12, 2, 7);
-    private static VoxelShape SHAPE_2 = Block.createCuboidShape(2, 0, 2, 13, 2, 13);
-    private static VoxelShape SHAPE_3 = Block.createCuboidShape(1, 0, 1, 15, 2, 15);
+    private static final VoxelShape SHAPE_NORTH_1 = Block.createCuboidShape(3, 0, 4, 7, 2, 9);
+    private static final VoxelShape SHAPE_WEST_1 = Block.createCuboidShape(4, 0, 9, 9, 2, 13);
+    private static final VoxelShape SHAPE_SOUTH_1 = Block.createCuboidShape(9, 0, 7, 13, 2, 12);
+    private static final VoxelShape SHAPE_EAST_1 = Block.createCuboidShape(7, 0, 3, 12, 2, 7);
+    private static final VoxelShape SHAPE_2 = Block.createCuboidShape(2, 0, 2, 13, 2, 13);
+    private static final VoxelShape SHAPE_3 = Block.createCuboidShape(1, 0, 1, 15, 2, 15);
 
     public RockBlock(Settings settings) {
         super(settings);
@@ -76,7 +76,7 @@ public class RockBlock extends HorizontalFacingBlock implements Waterloggable {
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         BlockState blockState = ctx.getWorld().getBlockState(ctx.getBlockPos());
         if (blockState.isOf(this)) {
-            return (BlockState) blockState.with(STONES, Math.min(3, blockState.get(STONES) + 1));
+            return blockState.with(STONES, Math.min(3, blockState.get(STONES) + 1));
         }
         return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getHorizontalPlayerFacing().getOpposite())
                 .with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER);

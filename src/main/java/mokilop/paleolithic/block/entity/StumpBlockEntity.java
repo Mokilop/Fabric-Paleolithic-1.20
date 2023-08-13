@@ -2,7 +2,6 @@ package mokilop.paleolithic.block.entity;
 
 import mokilop.paleolithic.recipe.StumpChoppingRecipe;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
@@ -17,7 +16,7 @@ import java.util.Optional;
 
 public class StumpBlockEntity extends BlockEntityWithDisplayableInventory {
 
-    private static int maxProgress = 6;
+    private static final int maxProgress = 6;
     private int progress = 0;
 
     public StumpBlockEntity(BlockPos pos, BlockState state) {

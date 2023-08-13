@@ -59,6 +59,7 @@ public class StumpBlock extends BlockWithEntity implements BlockEntityProvider {
         return textureMap;
     }
 
+    @SuppressWarnings("SameReturnValue")
     public Model getParentModel() {
         return PARENT_MODEL;
     }

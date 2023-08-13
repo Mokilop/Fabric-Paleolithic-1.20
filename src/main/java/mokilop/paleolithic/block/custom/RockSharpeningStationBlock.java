@@ -17,7 +17,10 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.text.Text;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.BlockRotation;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -36,7 +39,7 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
     public static final Model PARENT_MODEL = new Model(Optional.of(new Identifier(Paleolithic.MOD_ID, "block/rock_sharpening_station")),
             Optional.empty());
     public static final EnumProperty<StoneSharpeningStationBlockMode> MODE = EnumProperty.of("mode", StoneSharpeningStationBlockMode.class);
-    private static VoxelShape SHAPE = Stream.of(
+    private static final VoxelShape SHAPE = Stream.of(
             Block.createCuboidShape(1, 10, 1, 15, 11, 15),
             Block.createCuboidShape(0, 2, 0, 16, 10, 16),
             Block.createCuboidShape(12, 0, 0, 16, 2, 4),
@@ -45,9 +48,9 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
             Block.createCuboidShape(0, 0, 0, 4, 2, 4)
     ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, BooleanBiFunction.OR)).get();
     private int sharpeningCounter = 0;
-    private WoodType woodType;
-    private boolean isStripped;
-    private TextureMap textureMap;
+    private final WoodType woodType;
+    private final boolean isStripped;
+    private final TextureMap textureMap;
 
     public RockSharpeningStationBlock(Settings settings, WoodType woodType, boolean isStripped) {
         super(settings.sounds(woodType.soundType()));
@@ -61,6 +64,7 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
         return player.getItemCooldownManager().isCoolingDown(player.getMainHandStack().getItem());
     }
 
+    @SuppressWarnings("SameReturnValue")
     @NotNull
     private static ActionResult handleSuccessfulSharpening(BlockState state, World world, BlockPos pos, PlayerEntity player) {
         player.sendMessage(Text.literal("Sharpening success"), true);
@@ -73,6 +77,7 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
         return ActionResult.SUCCESS;
     }
 
+    @SuppressWarnings("SameReturnValue")
     @NotNull
     private static ActionResult handleUnsuccessfulSharpening(World world, BlockPos pos, PlayerEntity player) {
         sendSharpeningMessage(player);
@@ -100,28 +105,15 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
         return (isStripped ? Constants.STRIPPED_LOGS_MAP : Constants.LOGS_MAP).get(woodType);
     }
 
-    public WoodType getWoodType() {
-        return woodType;
-    }
-
-    public boolean isStripped() {
-        return isStripped;
-    }
-
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return super.getPlacementState(ctx).with(FACING, ctx.getHorizontalPlayerFacing().getOpposite()).with(MODE, StoneSharpeningStationBlockMode.HATCHET_HEAD);
+        return getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite()).with(MODE, StoneSharpeningStationBlockMode.HATCHET_HEAD);
     }
 
     @Override
     public BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));
-    }
-
-    @Override
-    public BlockState mirror(BlockState state, BlockMirror mirror) {
-        return state.rotate(mirror.getRotation(state.get(FACING)));
     }
 
     @Override
@@ -144,6 +136,7 @@ public class RockSharpeningStationBlock extends HorizontalFacingBlock {
         return ActionResult.SUCCESS;
     }
 
+    @SuppressWarnings("SameReturnValue")
     private ActionResult handleModeCycling(BlockState state, World world, BlockPos pos, PlayerEntity player) {
         world.setBlockState(pos, state.cycle(MODE));
         sendSharpeningModeMessage(player, state.cycle(MODE));

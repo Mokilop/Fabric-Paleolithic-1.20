@@ -7,7 +7,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 
 public class ModSounds {
-    public static SoundEvent STUMP_SHATTER = registerSoundEvent("stump_shatter");
+    public static final SoundEvent STUMP_SHATTER = registerSoundEvent("stump_shatter");
 
     private static SoundEvent registerSoundEvent(String name) {
         Identifier id = new Identifier(Paleolithic.MOD_ID, name);

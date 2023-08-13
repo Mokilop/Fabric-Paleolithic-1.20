@@ -7,7 +7,7 @@ import net.minecraft.world.gen.feature.FeatureConfig;
 
 public record RockFeatureConfig(int maxInPile, int maxNumberOfPiles, int spreadXZ,
                                 int chanceToSpawnPercentage) implements FeatureConfig {
-    public static Codec<RockFeatureConfig> CODEC = RecordCodecBuilder.create(
+    public static final Codec<RockFeatureConfig> CODEC = RecordCodecBuilder.create(
             rockFeatureConfigInstance ->
                     rockFeatureConfigInstance.group(
                             Codecs.POSITIVE_INT.fieldOf("maxInPile").forGetter(RockFeatureConfig::maxInPile),

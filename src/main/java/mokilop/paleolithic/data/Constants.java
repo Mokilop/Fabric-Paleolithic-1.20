@@ -7,9 +7,9 @@ import net.minecraft.block.WoodType;
 import java.util.HashMap;
 
 public class Constants {
-    public static HashMap<WoodType, Block> LOGS_MAP = createLogsMap();
-    public static HashMap<WoodType, Block> STRIPPED_LOGS_MAP = createStrippedLogsMap();
-    public static HashMap<WoodType, Block> PLANKS_MAP = createPlanksMap();
+    public static final HashMap<WoodType, Block> LOGS_MAP = createLogsMap();
+    public static final HashMap<WoodType, Block> STRIPPED_LOGS_MAP = createStrippedLogsMap();
+    public static final HashMap<WoodType, Block> PLANKS_MAP = createPlanksMap();
 
     private static HashMap<WoodType, Block> createLogsMap() {
         HashMap<WoodType, Block> map = new HashMap<>();

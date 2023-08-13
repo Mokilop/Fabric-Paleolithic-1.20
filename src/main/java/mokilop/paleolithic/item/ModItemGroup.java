@@ -13,9 +13,9 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class ModItemGroup {
-    public static RegistryKey<ItemGroup> PALEOLITHIC_ITEMS =
+    public static final RegistryKey<ItemGroup> PALEOLITHIC_ITEMS =
             RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(Paleolithic.MOD_ID, "paleolithic_items"));
-    public static RegistryKey<ItemGroup> PALEOLITHIC_BLOCKS =
+    public static final RegistryKey<ItemGroup> PALEOLITHIC_BLOCKS =
             RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(Paleolithic.MOD_ID, "paleolithic_blocks"));
 
     public static void registerItemGroups() {

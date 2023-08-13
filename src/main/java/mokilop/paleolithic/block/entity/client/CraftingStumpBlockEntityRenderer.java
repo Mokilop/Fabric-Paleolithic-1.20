@@ -3,7 +3,6 @@ package mokilop.paleolithic.block.entity.client;
 import mokilop.paleolithic.block.custom.CraftingStumpBlock;
 import mokilop.paleolithic.block.entity.CraftingStumpBlockEntity;
 import mokilop.paleolithic.util.Helpers;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;

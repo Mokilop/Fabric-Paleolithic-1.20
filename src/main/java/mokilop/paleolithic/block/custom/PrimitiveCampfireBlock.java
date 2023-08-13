@@ -37,12 +37,13 @@ public class PrimitiveCampfireBlock extends BlockWithEntity implements BlockEnti
     public static final BooleanProperty LIT = BooleanProperty.of("lit");
     public static final BooleanProperty USED = BooleanProperty.of("used");
     public static final IntProperty FIRE_STRENGTH = IntProperty.of("fire_strength", 0, 4);
-    private static VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 2, 16);
+    private static final VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 2, 16);
 
     public PrimitiveCampfireBlock(Settings settings) {
         super(settings);
     }
 
+    @SuppressWarnings("SameReturnValue")
     @NotNull
     private static ActionResult handleAddingItem(PlayerEntity player, PrimitiveCampfireBlockEntity entity, ItemStack itemToAdd) {
         boolean success = entity.addItem(itemToAdd);
@@ -51,6 +52,7 @@ public class PrimitiveCampfireBlock extends BlockWithEntity implements BlockEnti
         return ActionResult.SUCCESS;
     }
 
+    @SuppressWarnings("SameReturnValue")
     @NotNull
     private static ActionResult handleFuelAdding(BlockState state, World world, BlockPos pos, PlayerEntity player, PrimitiveCampfireBlockEntity entity, ItemStack mhs) {
         boolean success = entity.addFuel(mhs);
@@ -160,6 +162,7 @@ public class PrimitiveCampfireBlock extends BlockWithEntity implements BlockEnti
         return handleAddingItem(player, entity, mhs);
     }
 
+    @SuppressWarnings("SameReturnValue")
     @NotNull
     private static ActionResult handleItemRemove(World world, BlockPos pos, PlayerEntity player, PrimitiveCampfireBlockEntity entity) {
         ItemStack removed = entity.removeStack(0);
