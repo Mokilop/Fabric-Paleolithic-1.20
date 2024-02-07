@@ -17,8 +17,8 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup arg) {
-        getOrCreateTagBuilder(ModTags.Blocks.ROCK_SHARPENING_STATIONS)
-                .add(ModBlocks.getAllRockSharpeningStations().toArray(Block[]::new));
+        getOrCreateTagBuilder(ModTags.Blocks.SHARPENING_STUMPS)
+                .add(ModBlocks.getAllSharpeningStumps().toArray(Block[]::new));
 
         getOrCreateTagBuilder(ModTags.Blocks.STUMPS)
                 .add(ModBlocks.getAllStumps().toArray(Block[]::new));
@@ -30,7 +30,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(ModBlocks.getAllDryingRacks().toArray(Block[]::new));
 
         getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
-                .addTag(ModTags.Blocks.ROCK_SHARPENING_STATIONS)
+                .addTag(ModTags.Blocks.SHARPENING_STUMPS)
                 .addTag(ModTags.Blocks.STUMPS)
                 .addTag(ModTags.Blocks.CRAFTING_STUMPS)
                 .addTag(ModTags.Blocks.DRYING_RACKS);

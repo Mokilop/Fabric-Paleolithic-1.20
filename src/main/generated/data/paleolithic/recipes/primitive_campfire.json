@@ -14,9 +14,9 @@
     }
   },
   "pattern": [
-    "SSS",
+    "SRS",
     "RTR",
-    "RRR"
+    "SRS"
   ],
   "result": {
     "item": "paleolithic:primitive_campfire"

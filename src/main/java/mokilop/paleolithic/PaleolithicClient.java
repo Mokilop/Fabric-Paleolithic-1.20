@@ -1,10 +1,7 @@
 package mokilop.paleolithic;
 
 import mokilop.paleolithic.block.entity.ModBlockEntities;
-import mokilop.paleolithic.block.entity.client.CraftingStumpBlockEntityRenderer;
-import mokilop.paleolithic.block.entity.client.DryingRackBlockEntityRenderer;
-import mokilop.paleolithic.block.entity.client.PrimitiveCampfireBlockEntityRenderer;
-import mokilop.paleolithic.block.entity.client.StumpBlockEntityRenderer;
+import mokilop.paleolithic.block.entity.client.*;
 import mokilop.paleolithic.networking.ModMessages;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
@@ -19,5 +16,6 @@ public class PaleolithicClient implements ClientModInitializer {
         BlockEntityRendererFactories.register(ModBlockEntities.STUMP, StumpBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.CRAFTING_STUMP, CraftingStumpBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.DRYING_RACK, DryingRackBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(ModBlockEntities.SHARPENING_STUMP, SharpeningStumpBlockEntityRenderer::new);
     }
 }

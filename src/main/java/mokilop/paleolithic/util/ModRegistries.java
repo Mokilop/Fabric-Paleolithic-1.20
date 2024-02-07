@@ -2,6 +2,8 @@ package mokilop.paleolithic.util;
 
 import mokilop.paleolithic.item.ModItems;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.BlockTags;
 
 public class ModRegistries {
     public static void registerModRegistryEntries() {

@@ -34,11 +34,10 @@ public class Paleolithic implements ModInitializer {
         ModSounds.registerModSounds();
         ModRecipes.registerRecipes();
         ModRegistries.registerModRegistryEntries();
-        registerModFeatures();
         ModLootTableModifiers.modifyLootTables();
+        registerModFeatures();
         ModMessages.registerC2SPackets();
         ModBlockEntities.registerBlocksEntities();
         generateModWorldGen();
-
     }
 }

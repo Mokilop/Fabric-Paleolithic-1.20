@@ -14,6 +14,7 @@ public class ModBlockEntities {
     public static BlockEntityType<DryingRackBlockEntity> DRYING_RACK;
     public static BlockEntityType<PrimitiveCampfireBlockEntity> PRIMITIVE_CAMPFIRE;
     public static BlockEntityType<StumpBlockEntity> STUMP;
+    public static BlockEntityType<SharpeningStumpBlockEntity> SHARPENING_STUMP;
 
     public static void registerBlocksEntities() {
         CRAFTING_STUMP = Registry.register(Registries.BLOCK_ENTITY_TYPE,
@@ -36,5 +37,9 @@ public class ModBlockEntities {
                 FabricBlockEntityTypeBuilder.create(DryingRackBlockEntity::new,
                         ModBlocks.getAllDryingRacks().toArray(Block[]::new)).build(null));
 
+        SHARPENING_STUMP = Registry.register(Registries.BLOCK_ENTITY_TYPE,
+                new Identifier(Paleolithic.MOD_ID, "sharpening_stump"),
+                FabricBlockEntityTypeBuilder.create(SharpeningStumpBlockEntity::new,
+                        ModBlocks.getAllSharpeningStumps().toArray(Block[]::new)).build(null));
     }
 }

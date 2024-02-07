@@ -3,7 +3,7 @@ package mokilop.paleolithic.data;
 import mokilop.paleolithic.block.ModBlocks;
 import mokilop.paleolithic.block.custom.CraftingStumpBlock;
 import mokilop.paleolithic.block.custom.DryingRackBlock;
-import mokilop.paleolithic.block.custom.RockSharpeningStationBlock;
+import mokilop.paleolithic.block.custom.SharpeningStumpBlock;
 import mokilop.paleolithic.block.custom.StumpBlock;
 import mokilop.paleolithic.block.enums.ComplexAttachment;
 import mokilop.paleolithic.item.ModItems;
@@ -41,10 +41,10 @@ public class ModModelProvider extends FabricModelProvider {
                         .upload(stump, stump.getTextureMap(), blockStateModelGenerator.modelCollector)));
     }
 
-    private void registerRockSharpeningStation(BlockStateModelGenerator blockStateModelGenerator, RockSharpeningStationBlock stationBlock) {
+    private void registerSharpeningStump(BlockStateModelGenerator blockStateModelGenerator, SharpeningStumpBlock stationBlock) {
         blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier
                 .create(stationBlock, BlockStateVariant.create()
-                        .put(VariantSettings.MODEL, RockSharpeningStationBlock.PARENT_MODEL
+                        .put(VariantSettings.MODEL, SharpeningStumpBlock.PARENT_MODEL
                                 .upload(stationBlock, stationBlock.getTextureMap(),
                                         blockStateModelGenerator.modelCollector)))
                 .coordinate(BlockStateModelGenerator
@@ -129,7 +129,7 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     private void registerRockSharpeningStations(BlockStateModelGenerator blockStateModelGenerator) {
-        ModBlocks.getAllRockSharpeningStations().forEach((s) -> registerRockSharpeningStation(blockStateModelGenerator, (RockSharpeningStationBlock) s));
+        ModBlocks.getAllSharpeningStumps().forEach((s) -> registerSharpeningStump(blockStateModelGenerator, (SharpeningStumpBlock) s));
     }
 
     private void registerStumps(BlockStateModelGenerator blockStateModelGenerator) {

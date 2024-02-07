@@ -24,7 +24,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModBlocks.getAllStumps().map(Block::asItem).toArray(Item[]::new));
 
         getOrCreateTagBuilder(ModTags.Items.ROCK_SHARPENING_STATIONS)
-                .add(ModBlocks.getAllRockSharpeningStations().map(Block::asItem).toArray(Item[]::new));
+                .add(ModBlocks.getAllSharpeningStumps().map(Block::asItem).toArray(Item[]::new));
 
         getOrCreateTagBuilder(ModTags.Items.DRYING_RACKS)
                 .add(ModBlocks.getAllDryingRacks().map(Block::asItem).toArray(Item[]::new));

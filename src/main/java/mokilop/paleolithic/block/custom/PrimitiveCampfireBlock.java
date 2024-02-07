@@ -2,6 +2,7 @@ package mokilop.paleolithic.block.custom;
 
 import mokilop.paleolithic.block.entity.ModBlockEntities;
 import mokilop.paleolithic.block.entity.PrimitiveCampfireBlockEntity;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -85,7 +86,7 @@ public class PrimitiveCampfireBlock extends BlockWithEntity implements BlockEnti
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return super.getPlacementState(ctx)
+        return getDefaultState()
                 .with(FACING, ctx.getHorizontalPlayerFacing().getOpposite())
                 .with(LIT, false)
                 .with(USED, false)

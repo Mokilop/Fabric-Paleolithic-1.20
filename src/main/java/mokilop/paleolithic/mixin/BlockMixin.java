@@ -1,9 +1,7 @@
 package mokilop.paleolithic.mixin;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.MapColor;
-import net.minecraft.block.PillarBlock;
+import mokilop.paleolithic.util.MixinCollections;
+import net.minecraft.block.*;
 import net.minecraft.block.enums.Instrument;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.Direction;
@@ -19,4 +17,11 @@ public class BlockMixin {
         PillarBlock r = new PillarBlock(AbstractBlock.Settings.create().mapColor(state -> state.get(PillarBlock.AXIS) == Direction.Axis.Y ? topMapColor : sideMapColor).instrument(Instrument.BASS).strength(2.0f).requiresTool().sounds(BlockSoundGroup.WOOD).burnable());
         cir.setReturnValue(r);
     }
+
+/*    @Inject(at = @At("TAIL"), method = "createLeavesBlock")
+    private static void createLeavesBlock(BlockSoundGroup soundGroup, CallbackInfoReturnable<LeavesBlock> cir){
+        LeavesBlock l = cir.getReturnValue();
+        MixinCollections.LEAVES_BLOCKS.add(l);
+    }*/
 }
+

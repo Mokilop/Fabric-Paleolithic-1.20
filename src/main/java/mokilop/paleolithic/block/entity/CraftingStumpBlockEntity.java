@@ -47,6 +47,11 @@ public class CraftingStumpBlockEntity extends BlockEntityWithDisplayableInventor
         progress = nbt.getInt("crafting_stump.progress");
     }
 
+    @Override
+    public ItemStack getRenderStack() {
+        return getStack(9);
+    }
+
     public static void updateRandomRotationAmounts(CraftingStumpBlockEntity entity) {
         if (!entity.hasWorld()) return;
         for (int i = 0; i < entity.randomRotationAmounts.length; i++) {

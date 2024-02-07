@@ -2,7 +2,7 @@ package mokilop.paleolithic.data;
 
 import mokilop.paleolithic.Paleolithic;
 import mokilop.paleolithic.block.ModBlocks;
-import mokilop.paleolithic.block.custom.RockSharpeningStationBlock;
+import mokilop.paleolithic.block.custom.SharpeningStumpBlock;
 import mokilop.paleolithic.block.custom.StumpBlock;
 import mokilop.paleolithic.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -32,7 +32,7 @@ public class ModRecipeGenerator extends FabricRecipeProvider {
                 .offerTo(exporter, new Identifier(Paleolithic.MOD_ID, FabricRecipeProvider.getRecipeName(stump)));
     }
 
-    private static void generateRockSharpeningStationRecipe(Consumer<RecipeJsonProvider> exporter, RockSharpeningStationBlock stationBlock) {
+    private static void generateRockSharpeningStationRecipe(Consumer<RecipeJsonProvider> exporter, SharpeningStumpBlock stationBlock) {
         Block logBlock = stationBlock.getLogBlock();
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, stationBlock)
                 .input(logBlock)
@@ -48,7 +48,7 @@ public class ModRecipeGenerator extends FabricRecipeProvider {
     }
 
     private static void generateRockSharpeningStationRecipes(Consumer<RecipeJsonProvider> exporter) {
-        ModBlocks.getAllRockSharpeningStations().forEach((s) -> generateRockSharpeningStationRecipe(exporter, (RockSharpeningStationBlock) s));
+        ModBlocks.getAllSharpeningStumps().forEach((s) -> generateRockSharpeningStationRecipe(exporter, (SharpeningStumpBlock) s));
     }
 
     private static void generateCampfireRecipe(Consumer<RecipeJsonProvider> exporter) {

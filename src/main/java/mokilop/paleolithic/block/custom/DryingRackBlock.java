@@ -288,7 +288,7 @@ public class DryingRackBlock extends BlockWithEntity {
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModBlockEntities.DRYING_RACK, DryingRackBlockEntity::tick);
+        return world.isClient ? null : checkType(type, ModBlockEntities.DRYING_RACK, DryingRackBlockEntity::tick);
     }
 
     @Override

@@ -9,9 +9,12 @@ import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
+import net.minecraft.client.render.item.ItemModels;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
+import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.data.client.TexturedModel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -35,8 +38,10 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
         float offset = att.getOffset() * 0.375f;
         float xOffset = offset * facing.getOpposite().getOffsetX();
         float zOffset = offset * facing.getOpposite().getOffsetZ();
+        boolean hasDepth = itemRenderer.getModels().getModel(itemStack).hasDepth();
+
         matrices.push();
-        matrices.translate(0.5f + xOffset, 0.5f + yOffset(itemRenderer.getModels().getModel(itemStack).hasDepth()), 0.5f + zOffset);
+        matrices.translate(0.5f + xOffset, 0.5f + yOffset(hasDepth), 0.5f + zOffset);
         matrices.scale(0.625f,0.625f,0.625f);
         float rotation = -facing.getOpposite().asRotation();
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotation));

@@ -78,4 +78,6 @@ public abstract class BlockEntityWithDisplayableInventory extends BlockEntity im
     public NbtCompound toInitialChunkDataNbt() {
         return createNbt();
     }
+
+    public abstract ItemStack getRenderStack();
 }

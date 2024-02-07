@@ -27,12 +27,13 @@ public class PrimitiveCampfireBlockEntityRenderer implements BlockEntityRenderer
     public void render(PrimitiveCampfireBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         ItemStack itemStack = entity.getRenderStack();
         matrices.push();
-        float yOffset = itemRenderer.getModels().getModel(itemStack).hasDepth() ? .325f : .425f;
+        boolean hasDepth = itemRenderer.getModels().getModel(itemStack).hasDepth();
+        float yOffset = hasDepth ? .3f : .325f;
         matrices.translate(.5f, yOffset, .5f);
-        float s = .5f;
+        float s = hasDepth ? .417f : .33f;
         matrices.scale(s,s,s);
         float rotation = -entity.getCachedState().get(PrimitiveCampfireBlock.FACING).getOpposite().asRotation();
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotation - 15));
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotation - (hasDepth ? 0 : 15)));
         itemRenderer.renderItem(itemStack, ModelTransformationMode.FIXED, getLightLevel(entity.getWorld(), entity.getPos()),
                 OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, entity.getWorld(), 1);
 

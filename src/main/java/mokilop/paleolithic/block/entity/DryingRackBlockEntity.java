@@ -8,10 +8,10 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class DryingRackBlockEntity extends BlockEntityWithDisplayableInventory {
-    private static final int maxProgress = 3600;
     private int progress = 0;
     public DryingRackBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DRYING_RACK, pos, state, 1);
@@ -31,19 +31,19 @@ public class DryingRackBlockEntity extends BlockEntityWithDisplayableInventory {
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState,
                             DryingRackBlockEntity entity) {
-        Optional<DryingRecipe> match = getMatch(entity);
-        if(world.isClient || match.isEmpty())return;
+        Optional<DryingRecipe> match = getMatch(entity, world);
+        if(match.isEmpty())return;
         entity.progress++;
-        if(entity.progress >= maxProgress){
+        DryingRecipe recipe = match.get();
+        if(entity.progress >= recipe.dryingTicks){
             entity.progress = 0;
-            entity.setStack(0, match.get().getOutput(null));
+            entity.setStack(0, recipe.getOutput(world.getRegistryManager()));
             entity.markDirty();
         }
     }
 
-    private static Optional<DryingRecipe> getMatch(DryingRackBlockEntity entity) {
+    private static Optional<DryingRecipe> getMatch(DryingRackBlockEntity entity, World w) {
         SimpleInventory inv = new SimpleInventory(entity.getStack(0));
-        World w = entity.getWorld();
         return w.getRecipeManager().getFirstMatch(DryingRecipe.Type.INSTANCE, inv, w);
     }
     public static void resetProgress(DryingRackBlockEntity entity){

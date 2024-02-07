@@ -11,7 +11,7 @@ public class ModTags {
     public static class Blocks {
         public static final TagKey<Block> STUMPS = createBlockTag("stumps");
         public static final TagKey<Block> CRAFTING_STUMPS = createBlockTag("crafting_stumps");
-        public static final TagKey<Block> ROCK_SHARPENING_STATIONS = createBlockTag("rock_sharpening_stations");
+        public static final TagKey<Block> SHARPENING_STUMPS = createBlockTag("rock_sharpening_stations");
         public static final TagKey<Block> DRYING_RACKS = createBlockTag("drying_racks");
 
         private static TagKey<Block> createBlockTag(String name) {

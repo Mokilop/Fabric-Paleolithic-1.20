@@ -35,9 +35,7 @@ public class StumpBlockEntityRenderer implements BlockEntityRenderer<StumpBlockE
         matrices.scale(scale, scale, scale);
         Direction facing = entity.getCachedState().get(StumpBlock.FACING);
         float rotation = facing.getOpposite().asRotation();
-        if(hasDepth){
-            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-rotation));
-        }
+        if(hasDepth) matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-rotation));
         else{
             matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
             matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(rotation));

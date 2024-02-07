@@ -1,0 +1,12 @@
+{
+  "type": "paleolithic:sharpening",
+  "category": "misc",
+  "input": {
+    "item": "paleolithic:rock"
+  },
+  "sharpen_times": 5,
+  "output": {
+    "item": "paleolithic:stone_hatchet_head",
+    "count": 1
+  }
+}

@@ -31,8 +31,10 @@ public class CraftingStumpBlockEntityRenderer implements BlockEntityRenderer<Cra
         for (int i = 0; i < entity.size() - 1; i++) {
             ItemStack toRender = entity.getStack(i);
             matrices.push();
+            boolean hasDepth = itemRenderer.getModels().getModel(toRender).hasDepth();
             matrices.translate(getXOffset(i, facing), getYOffset(entity, tickDelta), getZOffset(i, facing));
-            matrices.scale(0.25f, 0.25f, 0.25f);
+            float scale = hasDepth ? 0.45f : 0.225f;
+            matrices.scale(scale, scale, scale);
             matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
             matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(rotDeg + CraftingStumpBlockEntity.getRandomRotationAmounts(entity)[i]));
             itemRenderer.renderItem(toRender, ModelTransformationMode.FIXED, getLightLevel(entity.getWorld(), entity.getPos()),

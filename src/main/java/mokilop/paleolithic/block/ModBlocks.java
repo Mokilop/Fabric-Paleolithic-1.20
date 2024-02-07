@@ -28,29 +28,29 @@ public class ModBlocks {
     public static final Block ROCK = registerRockBlock();
     public static final Block PRIMITIVE_CAMPFIRE = registerPrimitiveCampfire();
     // region RockSharpeningStations
-    private static final Set<Block> ROCK_SHARPENING_STATIONS = new ObjectArraySet<>();
-    public static final Block OAK_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.OAK, false);
-    public static final Block SPRUCE_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.SPRUCE, false);
-    public static final Block BIRCH_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.BIRCH, false);
-    public static final Block ACACIA_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.ACACIA, false);
-    public static final Block CHERRY_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.CHERRY, false);
-    public static final Block JUNGLE_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.JUNGLE, false);
-    public static final Block DARK_OAK_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.DARK_OAK, false);
-    public static final Block CRIMSON_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.CRIMSON, false);
-    public static final Block WARPED_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.WARPED, false);
-    public static final Block MANGROVE_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.MANGROVE, false);
-    public static final Block BAMBOO_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.BAMBOO, false);
-    public static final Block STRIPPED_OAK_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.OAK, true);
-    public static final Block STRIPPED_SPRUCE_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.SPRUCE, true);
-    public static final Block STRIPPED_BIRCH_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.BIRCH, true);
-    public static final Block STRIPPED_ACACIA_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.ACACIA, true);
-    public static final Block STRIPPED_CHERRY_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.CHERRY, true);
-    public static final Block STRIPPED_JUNGLE_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.JUNGLE, true);
-    public static final Block STRIPPED_DARK_OAK_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.DARK_OAK, true);
-    public static final Block STRIPPED_CRIMSON_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.CRIMSON, true);
-    public static final Block STRIPPED_WARPED_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.WARPED, true);
-    public static final Block STRIPPED_MANGROVE_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.MANGROVE, true);
-    public static final Block STRIPPED_BAMBOO_ROCK_SHARPENING_STATION = registerRockSharpeningStation(WoodType.BAMBOO, true);
+    private static final Set<Block> SHARPENING_STUMPS = new ObjectArraySet<>();
+    public static final Block OAK_SHARPENING_STUMP = registerSharpeningStump(WoodType.OAK, false);
+    public static final Block SPRUCE_SHARPENING_STUMP = registerSharpeningStump(WoodType.SPRUCE, false);
+    public static final Block BIRCH_SHARPENING_STUMP = registerSharpeningStump(WoodType.BIRCH, false);
+    public static final Block ACACIA_SHARPENING_STUMP = registerSharpeningStump(WoodType.ACACIA, false);
+    public static final Block CHERRY_SHARPENING_STUMP = registerSharpeningStump(WoodType.CHERRY, false);
+    public static final Block JUNGLE_SHARPENING_STUMP = registerSharpeningStump(WoodType.JUNGLE, false);
+    public static final Block DARK_OAK_SHARPENING_STUMP = registerSharpeningStump(WoodType.DARK_OAK, false);
+    public static final Block CRIMSON_SHARPENING_STUMP = registerSharpeningStump(WoodType.CRIMSON, false);
+    public static final Block WARPED_SHARPENING_STUMP = registerSharpeningStump(WoodType.WARPED, false);
+    public static final Block MANGROVE_SHARPENING_STUMP = registerSharpeningStump(WoodType.MANGROVE, false);
+    public static final Block BAMBOO_SHARPENING_STUMP = registerSharpeningStump(WoodType.BAMBOO, false);
+    public static final Block STRIPPED_OAK_SHARPENING_STUMP = registerSharpeningStump(WoodType.OAK, true);
+    public static final Block STRIPPED_SPRUCE_SHARPENING_STUMP = registerSharpeningStump(WoodType.SPRUCE, true);
+    public static final Block STRIPPED_BIRCH_SHARPENING_STUMP = registerSharpeningStump(WoodType.BIRCH, true);
+    public static final Block STRIPPED_ACACIA_SHARPENING_STUMP = registerSharpeningStump(WoodType.ACACIA, true);
+    public static final Block STRIPPED_CHERRY_SHARPENING_STUMP = registerSharpeningStump(WoodType.CHERRY, true);
+    public static final Block STRIPPED_JUNGLE_SHARPENING_STUMP = registerSharpeningStump(WoodType.JUNGLE, true);
+    public static final Block STRIPPED_DARK_OAK_SHARPENING_STUMP = registerSharpeningStump(WoodType.DARK_OAK, true);
+    public static final Block STRIPPED_CRIMSON_SHARPENING_STUMP = registerSharpeningStump(WoodType.CRIMSON, true);
+    public static final Block STRIPPED_WARPED_SHARPENING_STUMP = registerSharpeningStump(WoodType.WARPED, true);
+    public static final Block STRIPPED_MANGROVE_SHARPENING_STUMP = registerSharpeningStump(WoodType.MANGROVE, true);
+    public static final Block STRIPPED_BAMBOO_SHARPENING_STUMP = registerSharpeningStump(WoodType.BAMBOO, true);
     //endregion
 
     //region Stumps
@@ -122,18 +122,18 @@ public class ModBlocks {
 
     //endregion
 
-    private static Block registerRockSharpeningStation(WoodType type, boolean isStripped) {
-        String name = (isStripped ? "stripped_" : "") + type.name() + "_rock_sharpening_station";
+    private static Block registerSharpeningStump(WoodType type, boolean isStripped) {
+        String name = (isStripped ? "stripped_" : "") + type.name() + "_sharpening_stump";
         Block L = Constants.LOGS_MAP.get(type);
         FabricBlockSettings settings = FabricBlockSettings.create()
                 .strength(L.getHardness(), L.getBlastResistance());
-        Block sharpeningStation = registerBlock(name, new RockSharpeningStationBlock(settings, type, isStripped), ModItemGroup.PALEOLITHIC_BLOCKS);
-        ROCK_SHARPENING_STATIONS.add(sharpeningStation);
-        return sharpeningStation;
+        Block sharpeningStump = registerBlock(name, new SharpeningStumpBlock(settings, type, isStripped), ModItemGroup.PALEOLITHIC_BLOCKS);
+        SHARPENING_STUMPS.add(sharpeningStump);
+        return sharpeningStump;
     }
 
-    public static Stream<Block> getAllRockSharpeningStations() {
-        return ROCK_SHARPENING_STATIONS.stream();
+    public static Stream<Block> getAllSharpeningStumps() {
+        return SHARPENING_STUMPS.stream();
     }
 
     private static Block registerStump(WoodType type, boolean isStripped) {
