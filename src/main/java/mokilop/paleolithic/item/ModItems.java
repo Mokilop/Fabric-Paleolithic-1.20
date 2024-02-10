@@ -14,6 +14,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 
 public class ModItems {
+    public static final Item FLAKED_ROCK = registerItem("flaked_rock", new Item(new FabricItemSettings()));
     public static final Item PLANT_FIBER = registerItem("plant_fiber", new Item(new FabricItemSettings()));
     public static final Item PLANT_TWINE = registerItem("plant_twine", new Item(new FabricItemSettings()));
     public static final Item STONE_HAMMER = registerItem("stone_hammer",

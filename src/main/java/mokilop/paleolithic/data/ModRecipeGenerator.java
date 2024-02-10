@@ -2,6 +2,7 @@ package mokilop.paleolithic.data;
 
 import mokilop.paleolithic.Paleolithic;
 import mokilop.paleolithic.block.ModBlocks;
+import mokilop.paleolithic.block.custom.CraftingStumpBlock;
 import mokilop.paleolithic.block.custom.SharpeningStumpBlock;
 import mokilop.paleolithic.block.custom.StumpBlock;
 import mokilop.paleolithic.item.ModItems;
@@ -11,6 +12,8 @@ import net.minecraft.block.Block;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.util.Identifier;
@@ -32,6 +35,20 @@ public class ModRecipeGenerator extends FabricRecipeProvider {
                 .offerTo(exporter, new Identifier(Paleolithic.MOD_ID, FabricRecipeProvider.getRecipeName(stump)));
     }
 
+    private static void generateCraftingStumpRecipe(Consumer<RecipeJsonProvider> exporter, CraftingStumpBlock crStump){
+        Block logBlock = crStump.getLogBlock();
+        Block stump = ModBlocks.getAllStumps().map(b -> (StumpBlock)b).filter(b -> b.getLogBlock() == logBlock).findFirst().orElseThrow();
+        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, crStump)
+                .input('L', logBlock)
+                .input('S', stump)
+                .pattern("S")
+                .pattern("L")
+                .criterion(FabricRecipeProvider.hasItem(logBlock), FabricRecipeProvider.conditionsFromItem(logBlock))
+                .criterion(FabricRecipeProvider.hasItem(stump), FabricRecipeProvider.conditionsFromItem(stump))
+                .group("crafting_stump")
+                .offerTo(exporter, new Identifier(Paleolithic.MOD_ID, FabricRecipeProvider.getRecipeName(crStump)));
+    }
+
     private static void generateRockSharpeningStationRecipe(Consumer<RecipeJsonProvider> exporter, SharpeningStumpBlock stationBlock) {
         Block logBlock = stationBlock.getLogBlock();
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, stationBlock)
@@ -41,6 +58,28 @@ public class ModRecipeGenerator extends FabricRecipeProvider {
                 .criterion(FabricRecipeProvider.hasItem(logBlock), FabricRecipeProvider.conditionsFromItem(logBlock))
                 .group("rock_sharpening_station")
                 .offerTo(exporter, new Identifier(Paleolithic.MOD_ID, FabricRecipeProvider.getRecipeName(stationBlock)));
+    }
+
+    private static void generateHatchetRecipe(Consumer<RecipeJsonProvider> exporter, ItemConvertible hatchedHead, ItemConvertible hatchetTwine, ItemConvertible hatchetHandle, Item hatchet){
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, hatchet)
+                .input('H', hatchedHead)
+                .input('T', hatchetTwine)
+                .input('S', hatchetHandle)
+                .pattern("HT")
+                .pattern(" S")
+                .criterion(FabricRecipeProvider.hasItem(hatchedHead), FabricRecipeProvider.conditionsFromItem(hatchedHead))
+                .criterion(FabricRecipeProvider.hasItem(hatchetTwine), FabricRecipeProvider.conditionsFromItem(hatchetTwine))
+                .criterion(FabricRecipeProvider.hasItem(hatchetHandle), FabricRecipeProvider.conditionsFromItem(hatchetHandle))
+                .offerTo(exporter, new Identifier(Paleolithic.MOD_ID, FabricRecipeProvider.getRecipeName(hatchet)));
+    }
+
+    private static void generateHatchetRecipes(Consumer<RecipeJsonProvider> exporter){
+        generateHatchetRecipe(exporter, ModItems.FLAKED_ROCK, ModItems.PLANT_TWINE, Items.STICK, ModItems.STONE_HATCHET);
+    }
+
+    private static void generateCraftingStumpRecipes(Consumer<RecipeJsonProvider> exporter){
+        ModBlocks.getAllCraftingStumps().forEach(cs -> generateCraftingStumpRecipe(exporter, (CraftingStumpBlock) cs));
     }
 
     private static void generateStumpRecipes(Consumer<RecipeJsonProvider> exporter) {
@@ -69,5 +108,7 @@ public class ModRecipeGenerator extends FabricRecipeProvider {
         generateCampfireRecipe(exporter);
         generateStumpRecipes(exporter);
         generateRockSharpeningStationRecipes(exporter);
+        generateCraftingStumpRecipes(exporter);
+        generateHatchetRecipes(exporter);
     }
 }

@@ -28,11 +28,11 @@ public class ModModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
+        itemModelGenerator.register(ModItems.FLAKED_ROCK, Models.GENERATED);
         itemModelGenerator.register(ModItems.STONE_HATCHET, Models.HANDHELD);
         itemModelGenerator.register(ModItems.STONE_HAMMER, Models.HANDHELD);
         itemModelGenerator.register(ModItems.PLANT_TWINE, Models.GENERATED);
         itemModelGenerator.register(ModItems.PLANT_FIBER, Models.GENERATED);
-
     }
 
     private void registerStump(BlockStateModelGenerator blockStateModelGenerator, StumpBlock stump) {

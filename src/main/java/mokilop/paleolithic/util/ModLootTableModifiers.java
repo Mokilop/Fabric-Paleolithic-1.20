@@ -3,6 +3,7 @@ package mokilop.paleolithic.util;
 import mokilop.paleolithic.item.ModItems;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
@@ -20,6 +21,7 @@ public class ModLootTableModifiers {
     private static final List<Identifier> GRASS_IDs = List.of(
             Blocks.GRASS.getLootTableId(),Blocks.TALL_GRASS.getLootTableId(),
             Blocks.FERN.getLootTableId(),Blocks.LARGE_FERN.getLootTableId());
+
     //private static final List<Identifier> LEAVES_IDs = MixinCollections.LEAVES_BLOCKS.stream().map(AbstractBlock::getLootTableId).toList();
     public static void modifyLootTables() {
         LootTableEvents.REPLACE.register((resourceManager, lootManager, id, original, source) -> {

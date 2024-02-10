@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 public class RockBlock extends HorizontalFacingBlock implements Waterloggable {
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
     public static final IntProperty STONES = IntProperty.of("stones", 1, 3);
+    public static final BooleanProperty IS_ON_HARD_SURFACE = BooleanProperty.of("is_on_high_surface");
     private static final VoxelShape SHAPE_NORTH_1 = Block.createCuboidShape(3, 0, 4, 7, 2, 9);
     private static final VoxelShape SHAPE_WEST_1 = Block.createCuboidShape(4, 0, 9, 9, 2, 13);
     private static final VoxelShape SHAPE_SOUTH_1 = Block.createCuboidShape(9, 0, 7, 13, 2, 12);
@@ -36,7 +37,7 @@ public class RockBlock extends HorizontalFacingBlock implements Waterloggable {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(Properties.HORIZONTAL_FACING, WATERLOGGED, STONES);
+        builder.add(Properties.HORIZONTAL_FACING, WATERLOGGED, STONES, IS_ON_HARD_SURFACE);
     }
 
     @Override
@@ -79,7 +80,8 @@ public class RockBlock extends HorizontalFacingBlock implements Waterloggable {
             return blockState.with(STONES, Math.min(3, blockState.get(STONES) + 1));
         }
         return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getHorizontalPlayerFacing().getOpposite())
-                .with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER);
+                .with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER)
+                .with(IS_ON_HARD_SURFACE, ctx.getWorld().getBlockState(ctx.getBlockPos().down()).getHardness(ctx.getWorld(), ctx.getBlockPos().down()) >= Blocks.STONE.getHardness());
     }
 
     @Override
@@ -90,7 +92,6 @@ public class RockBlock extends HorizontalFacingBlock implements Waterloggable {
     @Override
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
         if (state.get(WATERLOGGED)) {
-            // This is for 1.17 and below: world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
             world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
 

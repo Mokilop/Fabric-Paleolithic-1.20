@@ -13,6 +13,7 @@ public class ModTags {
         public static final TagKey<Block> CRAFTING_STUMPS = createBlockTag("crafting_stumps");
         public static final TagKey<Block> SHARPENING_STUMPS = createBlockTag("rock_sharpening_stations");
         public static final TagKey<Block> DRYING_RACKS = createBlockTag("drying_racks");
+        public static final TagKey<Block> HAMMER_MINEABLE = createBlockTag("hammer_mineable");
 
         private static TagKey<Block> createBlockTag(String name) {
             return TagKey.of(RegistryKeys.BLOCK, new Identifier(Paleolithic.MOD_ID, name));

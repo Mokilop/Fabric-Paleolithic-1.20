@@ -97,7 +97,9 @@ public class CraftingStumpBlockEntity extends BlockEntityWithDisplayableInventor
 
     public static void clearCraftingGrid(CraftingStumpBlockEntity entity) {
         for (int i = 0; i<numberOfCraftingSlots; i++){
-            entity.removeStack(i);
+            ItemStack current = entity.getStack(i);
+            ItemStack residualItem = current.getRecipeRemainder();
+            entity.setStack(i, residualItem);
         }
     }
 
