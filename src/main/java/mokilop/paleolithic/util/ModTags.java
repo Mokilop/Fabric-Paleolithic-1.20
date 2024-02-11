@@ -30,6 +30,7 @@ public class ModTags {
         public static final TagKey<Item> CRAFTING_STUMPS = createItemTag("crafting_stumps");
         public static final TagKey<Item> ROCK_SHARPENING_STATIONS = createItemTag("rock_sharpening_stations");
         public static final TagKey<Item> DRYING_RACKS = createItemTag("drying_racks");
+        public static final TagKey<Item> OFFHAND_EQUIPMENT = createItemTag("offhand_equipment");
 
         private static TagKey<Item> createItemTag(String name) {
             return TagKey.of(RegistryKeys.ITEM, new Identifier(Paleolithic.MOD_ID, name));

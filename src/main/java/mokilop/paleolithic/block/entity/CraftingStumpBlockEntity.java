@@ -26,7 +26,7 @@ public class CraftingStumpBlockEntity extends BlockEntityWithDisplayableInventor
     private static final int maxRandomRotationAmount = 6;
     public boolean crafting = false;
     public int craftingTicks = 0;
-    public static final int maxCraftingTicks = 1;
+    public static final int maxCraftingTicks = 2;
     public final CraftingStumpCraftingInventory craftingInventory = new CraftingStumpCraftingInventory(this);
     public final CraftingResultInventory craftingResultInventory = new CraftingResultInventory();
 

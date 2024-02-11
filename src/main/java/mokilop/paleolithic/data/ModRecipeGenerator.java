@@ -9,6 +9,7 @@ import mokilop.paleolithic.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
@@ -60,22 +61,23 @@ public class ModRecipeGenerator extends FabricRecipeProvider {
                 .offerTo(exporter, new Identifier(Paleolithic.MOD_ID, FabricRecipeProvider.getRecipeName(stationBlock)));
     }
 
-    private static void generateHatchetRecipe(Consumer<RecipeJsonProvider> exporter, ItemConvertible hatchedHead, ItemConvertible hatchetTwine, ItemConvertible hatchetHandle, Item hatchet){
+    private static void generateHatchetOrHammerRecipe(Consumer<RecipeJsonProvider> exporter, ItemConvertible head, ItemConvertible twine, ItemConvertible handle, Item tool){
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, hatchet)
-                .input('H', hatchedHead)
-                .input('T', hatchetTwine)
-                .input('S', hatchetHandle)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, tool)
+                .input('H', head)
+                .input('T', twine)
+                .input('S', handle)
                 .pattern("HT")
                 .pattern(" S")
-                .criterion(FabricRecipeProvider.hasItem(hatchedHead), FabricRecipeProvider.conditionsFromItem(hatchedHead))
-                .criterion(FabricRecipeProvider.hasItem(hatchetTwine), FabricRecipeProvider.conditionsFromItem(hatchetTwine))
-                .criterion(FabricRecipeProvider.hasItem(hatchetHandle), FabricRecipeProvider.conditionsFromItem(hatchetHandle))
-                .offerTo(exporter, new Identifier(Paleolithic.MOD_ID, FabricRecipeProvider.getRecipeName(hatchet)));
+                .criterion(FabricRecipeProvider.hasItem(head), FabricRecipeProvider.conditionsFromItem(head))
+                .criterion(FabricRecipeProvider.hasItem(twine), FabricRecipeProvider.conditionsFromItem(twine))
+                .criterion(FabricRecipeProvider.hasItem(handle), FabricRecipeProvider.conditionsFromItem(handle))
+                .offerTo(exporter, new Identifier(Paleolithic.MOD_ID, FabricRecipeProvider.getRecipeName(tool)));
     }
 
-    private static void generateHatchetRecipes(Consumer<RecipeJsonProvider> exporter){
-        generateHatchetRecipe(exporter, ModItems.FLAKED_ROCK, ModItems.PLANT_TWINE, Items.STICK, ModItems.STONE_HATCHET);
+    private static void generateHatchetAndHammerRecipes(Consumer<RecipeJsonProvider> exporter){
+        generateHatchetOrHammerRecipe(exporter, ModItems.FLAKED_ROCK, ModItems.PLANT_TWINE, Items.STICK, ModItems.STONE_HATCHET);
+        generateHatchetOrHammerRecipe(exporter, ModBlocks.ROCK, ModItems.PLANT_TWINE, Items.STICK, ModItems.STONE_HAMMER);
     }
 
     private static void generateCraftingStumpRecipes(Consumer<RecipeJsonProvider> exporter){
@@ -90,7 +92,7 @@ public class ModRecipeGenerator extends FabricRecipeProvider {
         ModBlocks.getAllSharpeningStumps().forEach((s) -> generateRockSharpeningStationRecipe(exporter, (SharpeningStumpBlock) s));
     }
 
-    private static void generateCampfireRecipe(Consumer<RecipeJsonProvider> exporter) {
+    private static void generateOneOffRecipes(Consumer<RecipeJsonProvider> exporter){
         ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.PRIMITIVE_CAMPFIRE)
                 .input('R', ModBlocks.ROCK)
                 .input('S', Items.STICK)
@@ -101,14 +103,19 @@ public class ModRecipeGenerator extends FabricRecipeProvider {
                 .criterion(FabricRecipeProvider.hasItem(ModBlocks.ROCK), FabricRecipeProvider.conditionsFromItem(ModBlocks.ROCK))
                 .group("primitive_campfire")
                 .offerTo(exporter, new Identifier(Paleolithic.MOD_ID, FabricRecipeProvider.getRecipeName(ModBlocks.PRIMITIVE_CAMPFIRE)));
+
+        offerReversibleCompactingRecipes(exporter, RecipeCategory.BUILDING_BLOCKS, ModBlocks.ROCK, RecipeCategory.BUILDING_BLOCKS, Blocks.COBBLESTONE);
+        ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.PLANT_TWINE).input(ModItems.PLANT_FIBER, 3)
+                .criterion(FabricRecipeProvider.hasItem(ModItems.PLANT_TWINE), FabricRecipeProvider.conditionsFromItem(ModItems.PLANT_TWINE))
+                .offerTo(exporter, new Identifier(Paleolithic.MOD_ID, FabricRecipeProvider.getRecipeName(ModItems.PLANT_TWINE)));
     }
 
     @Override
     public void generate(Consumer<RecipeJsonProvider> exporter) {
-        generateCampfireRecipe(exporter);
+        generateOneOffRecipes(exporter);
         generateStumpRecipes(exporter);
         generateRockSharpeningStationRecipes(exporter);
         generateCraftingStumpRecipes(exporter);
-        generateHatchetRecipes(exporter);
+        generateHatchetAndHammerRecipes(exporter);
     }
 }

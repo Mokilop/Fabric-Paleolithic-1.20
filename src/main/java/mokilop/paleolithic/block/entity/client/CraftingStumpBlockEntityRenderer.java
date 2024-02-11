@@ -46,7 +46,7 @@ public class CraftingStumpBlockEntityRenderer implements BlockEntityRenderer<Cra
         float xOffset = 0.5f + 0.1f * facing.getOffsetX();
         float zOffset = 0.5f + 0.1f * facing.getOffsetZ();
         matrices.translate(xOffset, 0.465f, zOffset);
-        matrices.multiply(RotationAxis.of(facing.getUnitVector()).rotationDegrees(225));
+        matrices.multiply(RotationAxis.of(facing.getUnitVector()).rotationDegrees(facing.getAxis() == Direction.Axis.X ? 135 : 225));
         matrices.scale(0.35f, 0.35f, 0.35f);
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotDeg));
         itemRenderer.renderItem(extraItem, ModelTransformationMode.FIXED, getLightLevel(entity.getWorld(), entity.getPos()),

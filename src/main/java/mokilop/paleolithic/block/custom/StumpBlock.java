@@ -4,18 +4,21 @@ import mokilop.paleolithic.Paleolithic;
 import mokilop.paleolithic.block.entity.StumpBlockEntity;
 import mokilop.paleolithic.data.Constants;
 import mokilop.paleolithic.sound.ModSounds;
+import mokilop.paleolithic.util.ModTags;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.data.client.Model;
 import net.minecraft.data.client.TextureKey;
 import net.minecraft.data.client.TextureMap;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.MiningToolItem;
-import net.minecraft.item.ToolItem;
+import net.minecraft.item.*;
+import net.minecraft.particle.ItemStackParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
@@ -23,6 +26,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
@@ -87,7 +91,7 @@ public class StumpBlock extends BlockWithEntity implements BlockEntityProvider {
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return super.getPlacementState(ctx).with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
+        return getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
 
     @Override
@@ -120,38 +124,60 @@ public class StumpBlock extends BlockWithEntity implements BlockEntityProvider {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (hit.getSide() != Direction.UP) return ActionResult.PASS;
-        if (world.isClient()) {
-            return ActionResult.CONSUME;
+        if (!(world.getBlockEntity(pos) instanceof StumpBlockEntity entity)) {
+            return ActionResult.PASS;
         }
-        if (world.getBlockEntity(pos) instanceof StumpBlockEntity entity) {
-            ItemStack hs = player.getMainHandStack();
-            if (hs.getItem() instanceof ToolItem) hs = player.getOffHandStack();
-            if (hs.isEmpty()) {
-                if (entity.removeItem(player)) return ActionResult.CONSUME_PARTIAL;
-            }
-            if (entity.addItem(hs.copyWithCount(1))) {
-                hs.decrement(player.isCreative() ? 0 : 1);
-            }
-            return ActionResult.CONSUME_PARTIAL;
+        if (entity.isEmpty()) {
+            return tryAddItemInHand(world, entity, player, hand);
         }
-        return ActionResult.PASS;
+        ItemStack itemHeld = player.getStackInHand(hand);
+        if (!itemHeld.isEmpty()) {
+            return tryChoppingWithItemHeld(world, entity, player, hand);
+        }
+        if (hand.equals(Hand.MAIN_HAND)) {
+            return pullOutItem(world, entity, player);
+        }
+        return ActionResult.CONSUME_PARTIAL;
     }
 
-    @Override
-    public void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
-        if (world.isClient()) return;
-        if (world.getBlockEntity(pos) instanceof StumpBlockEntity entity) {
-            ItemStack mhs = player.getMainHandStack();
-            if (mhs.getItem() instanceof MiningToolItem toolItem) {
-                boolean fullyCharged = player.getAttackCooldownProgress(0) == 1;
-                boolean highDamage = toolItem.getAttackDamage() >= 8;
-                boolean successful = StumpBlockEntity.chop(world, pos, state, entity, mhs, fullyCharged, highDamage);
-                mhs.damage(successful ? 1 : 0, world.getRandom(), (ServerPlayerEntity) player);
-                if (successful && world.getRandom().nextInt(256) == 0) {
-                    world.playSound(null, pos, ModSounds.STUMP_SHATTER, SoundCategory.BLOCKS, 1, 1);
-                    world.removeBlock(pos, false);
-                }
-            }
+    private ActionResult tryChoppingWithItemHeld(World world, StumpBlockEntity entity, PlayerEntity player, Hand hand) {
+        ItemStack itemHeld = player.getStackInHand(hand);
+        int result = entity.chop(world, itemHeld);
+        if (result < 0) return ActionResult.CONSUME;
+        if (result == 0) {
+            world.playSound(null, entity.getPos(), SoundEvents.BLOCK_WOOD_BREAK, SoundCategory.BLOCKS, .5f, 1.2f);
+            return ActionResult.SUCCESS;
         }
+        world.playSound(null, entity.getPos(), SoundEvents.BLOCK_WOOD_BREAK, SoundCategory.BLOCKS, 2.5f, 1f);
+        itemHeld.damage(1, player, user -> user.sendToolBreakStatus(Hand.MAIN_HAND));
+        return ActionResult.SUCCESS;
+    }
+
+    private ActionResult pullOutItem(World world, StumpBlockEntity entity, PlayerEntity player) {
+        BlockPos pos = entity.getPos();
+
+        if (player.isCreative()) {
+            entity.removeItem();
+        } else if (!player.getInventory().insertStack(entity.removeItem())) {
+            ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), entity.removeItem());
+        }
+        world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_WOOD_HIT, SoundCategory.BLOCKS, .25f, .5f);
+        return ActionResult.SUCCESS;
+    }
+
+    private ActionResult tryAddItemInHand(World world, StumpBlockEntity entity, PlayerEntity player, Hand hand) {
+        ItemStack itemHeld = player.getStackInHand(hand);
+        ItemStack itemOffhand = player.getOffHandStack();
+
+        boolean inMainWithBlockOrEqInOff = (hand.equals(Hand.MAIN_HAND) && !(itemOffhand.isIn(ModTags.Items.OFFHAND_EQUIPMENT) || (itemHeld.getItem() instanceof BlockItem)));
+        boolean inOffhandWithEq = (hand.equals(Hand.OFF_HAND) && itemOffhand.isIn(ModTags.Items.OFFHAND_EQUIPMENT));
+        if (!itemOffhand.isEmpty() && (inMainWithBlockOrEqInOff || inOffhandWithEq) || itemHeld.isEmpty()) {
+            return ActionResult.PASS;
+        }
+        if (entity.addItem(player.isCreative() ? itemHeld.copy() : itemHeld)) {
+            world.playSound(null, entity.getPos(), SoundEvents.BLOCK_WOOD_PLACE, SoundCategory.BLOCKS, 1, 0.2f);
+            return ActionResult.SUCCESS;
+        }
+        return ActionResult.PASS;
     }
 }

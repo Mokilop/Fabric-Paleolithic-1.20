@@ -1,0 +1,12 @@
+{
+  "type": "paleolithic:sharpening",
+  "category": "misc",
+  "input": {
+    "item": "paleolithic:flaked_rock"
+  },
+  "sharpen_times": 5,
+  "output": {
+    "item": "paleolithic:flaked_rock_point",
+    "count": 2
+  }
+}
