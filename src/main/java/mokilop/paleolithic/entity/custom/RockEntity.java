@@ -8,6 +8,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 
 public class RockEntity extends SnowballEntity {
+    private static final float velDamgageMultiplier = 3f;
 
     public RockEntity(EntityType<? extends SnowballEntity> entityType, World world) {
         super(entityType, world);
@@ -25,6 +26,6 @@ public class RockEntity extends SnowballEntity {
     protected void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
         Entity entity = entityHitResult.getEntity();
-        entity.damage(this.getDamageSources().thrown(this, this.getOwner()), 2.5f);
+        entity.damage(this.getDamageSources().thrown(this, this.getOwner()), (float) (this.getVelocity().length() * velDamgageMultiplier));
     }
 }

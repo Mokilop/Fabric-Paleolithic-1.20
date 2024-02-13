@@ -22,6 +22,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -152,6 +153,7 @@ public class StumpBlock extends BlockWithEntity implements BlockEntityProvider {
         itemHeld.damage(1, player, user -> user.sendToolBreakStatus(Hand.MAIN_HAND));
         return ActionResult.SUCCESS;
     }
+
 
     private ActionResult pullOutItem(World world, StumpBlockEntity entity, PlayerEntity player) {
         BlockPos pos = entity.getPos();
