@@ -4,11 +4,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.thrown.SnowballEntity;
+import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 
 public class RockEntity extends SnowballEntity {
-    private static final float velDamgageMultiplier = 3f;
+    private static final float VEL_DAMGAGE_MULTIPLIER = 1.6f;
 
     public RockEntity(EntityType<? extends SnowballEntity> entityType, World world) {
         super(entityType, world);
@@ -26,6 +27,6 @@ public class RockEntity extends SnowballEntity {
     protected void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
         Entity entity = entityHitResult.getEntity();
-        entity.damage(this.getDamageSources().thrown(this, this.getOwner()), (float) (this.getVelocity().length() * velDamgageMultiplier));
+        entity.damage(this.getDamageSources().thrown(this, this.getOwner()), (float) (this.getVelocity().length() * VEL_DAMGAGE_MULTIPLIER));
     }
 }
