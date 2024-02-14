@@ -5,6 +5,8 @@ import mokilop.paleolithic.block.entity.CraftingStumpBlockEntity;
 import mokilop.paleolithic.block.entity.ModBlockEntities;
 import mokilop.paleolithic.data.Constants;
 import mokilop.paleolithic.item.custom.HammerItem;
+import mokilop.paleolithic.util.ModTags;
+import mokilop.paleolithic.util.SoundEffect;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -37,6 +39,9 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class CraftingStumpBlock extends BlockWithEntity {
+    private static final SoundEffect ITEM_PULLOUT = new SoundEffect(SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, .5f, 1.5f);
+    private static final SoundEffect ITEM_HANG = new SoundEffect(SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, SoundCategory.BLOCKS, .5f, .8f);
+    private static final SoundEffect ITEM_PLACE = new SoundEffect(SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, .5f, 1f);
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
     public static final Model PARENT_MODEL = new Model(Optional.of(new Identifier(Paleolithic.MOD_ID, "block/crafting_stump")),
             Optional.empty());
@@ -96,8 +101,8 @@ public class CraftingStumpBlock extends BlockWithEntity {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 
-        if (world.isClient()){
-            if(hit.getSide() == Direction.UP || hit.getSide() == state.get(FACING))return ActionResult.SUCCESS;
+        if (world.isClient()) {
+            if (hit.getSide() == Direction.UP || hit.getSide() == state.get(FACING)) return ActionResult.SUCCESS;
             return ActionResult.PASS;
         }
         if (world.getBlockEntity(pos) instanceof CraftingStumpBlockEntity entity) {
@@ -110,13 +115,14 @@ public class CraftingStumpBlock extends BlockWithEntity {
                     ItemStack removed = entity.removeStack(9);
                     if (!player.isCreative()) player.giveItemStack(removed);
                     entity.markDirty();
-                    if(!removed.isEmpty()) world.playSound(null, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 0.5f, 2);
+                    if (!removed.isEmpty())
+                        world.playSound(null, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 0.5f, 2);
                     return ActionResult.SUCCESS;
                 }
                 if (mhs.getItem() instanceof HammerItem) {
-                    boolean success = entity.addStack(9, mhs.copyWithCount(1));
-                    mhs.decrement(success && !player.isCreative() ? 1 : 0);
-                    if(success) world.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, SoundCategory.BLOCKS, 0.5f, 1.2f);
+                    boolean success = entity.addStack(9, player.isCreative() ? mhs.copy() : mhs);
+                    if (success)
+                        world.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, SoundCategory.BLOCKS, 0.5f, 1.2f);
                     return ActionResult.SUCCESS;
                 }
             }
@@ -132,23 +138,46 @@ public class CraftingStumpBlock extends BlockWithEntity {
             ItemStack removed = entity.removeStack(getSlot(hit, pos, state));
             if (!player.isCreative()) player.giveItemStack(removed);
             entity.markDirty();
-            if(!removed.isEmpty()) world.playSound(null, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 0.5f, 2);
+            if (!removed.isEmpty())
+                world.playSound(null, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 0.5f, 2);
             return ActionResult.SUCCESS;
         }
         boolean addSuccess = entity.addStack(getSlot(hit, pos, state), mhs.copyWithCount(1));
         mhs.decrement(addSuccess && !player.isCreative() ? 1 : 0);
-        if(addSuccess) world.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_PLACE, SoundCategory.BLOCKS, 0.33f, 1);
+        if (addSuccess) world.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_PLACE, SoundCategory.BLOCKS, 0.33f, 1);
         return ActionResult.SUCCESS;
     }
 
-    private int getSlot(BlockHitResult hit, BlockPos pos, BlockState state) {
-        float oneStep = 0.3125f;
-        float threeSteps = 0.6875f;
+    private ActionResult tryHangItem(World world, CraftingStumpBlockEntity entity, PlayerEntity player, Hand hand) {
+        ItemStack itemHeld = player.getStackInHand(hand);
+        if (!entity.getStack(9).isEmpty() || !itemHeld.isIn(ModTags.Items.CRAFTING_TOOLS)) {
+            return ActionResult.PASS;
+        }
+        entity.setStack(9, player.isCreative() ? itemHeld.copy() : itemHeld);
+        ITEM_HANG.play(world, entity.getPos());
+        return ActionResult.SUCCESS;
+    }
+
+    private ActionResult pullOutItem(World world, CraftingStumpBlockEntity entity, PlayerEntity player, Hand hand, int slot) {
+        BlockPos pos = entity.getPos();
+
+        if (player.isCreative()) {
+            entity.removeStack(slot);
+        } else if (!player.getInventory().insertStack(entity.removeStack(slot))) {
+            ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), entity.removeStack(slot));
+        }
+        ITEM_PULLOUT.play(world, pos);
+        return ActionResult.SUCCESS;
+    }
+
+    private int getSlot(BlockHitResult hit, BlockPos pos, Direction facing) {
+        final float oneStep = 0.3125f;
+        final float threeSteps = 0.6875f;
         double xOffset = hit.getPos().x - pos.getX();
         double zOffset = hit.getPos().z - pos.getZ();
         int xSlot = xOffset < oneStep ? 0 : xOffset > threeSteps ? 2 : 1;
         int zSlot = zOffset < oneStep ? 0 : zOffset > threeSteps ? 2 : 1;
-        return switch (state.get(FACING)) {
+        return switch (facing) {
             case NORTH -> 8 - xSlot - 3 * zSlot;
             case EAST -> 2 - zSlot + 3 * xSlot;
             case WEST -> zSlot + 3 * (2 - xSlot);

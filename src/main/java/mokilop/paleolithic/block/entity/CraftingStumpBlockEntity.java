@@ -80,7 +80,7 @@ public class CraftingStumpBlockEntity extends BlockEntityWithDisplayableInventor
         ItemStack result = ItemStack.EMPTY;
         boolean shouldCraft = match.isPresent() && entity.craftingResultInventory.shouldCraftRecipe(world, serverPlayer, recipe = match.get())
                 && (result = recipe.craft(entity.craftingInventory, world.getRegistryManager())).isItemEnabled(world.getEnabledFeatures());
-        if(!shouldCraft) return false;
+        if (!shouldCraft) return false;
 
         entity.progress += hammer.CRAFTING_EFFICIENCY;
         if (entity.progress >= maxProgress) {
@@ -96,7 +96,7 @@ public class CraftingStumpBlockEntity extends BlockEntityWithDisplayableInventor
     }
 
     public static void clearCraftingGrid(CraftingStumpBlockEntity entity) {
-        for (int i = 0; i<numberOfCraftingSlots; i++){
+        for (int i = 0; i < numberOfCraftingSlots; i++) {
             ItemStack current = entity.getStack(i);
             ItemStack residualItem = current.getRecipeRemainder();
             entity.setStack(i, residualItem);
@@ -105,7 +105,7 @@ public class CraftingStumpBlockEntity extends BlockEntityWithDisplayableInventor
 
     public boolean addStack(int slot, ItemStack stack) {
         if (getStack(slot).isEmpty()) {
-            setStack(slot, stack.copyWithCount(1));
+            setStack(slot, stack.split(1));
             markDirty();
             return true;
         }
