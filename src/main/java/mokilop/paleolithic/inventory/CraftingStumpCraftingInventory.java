@@ -80,6 +80,6 @@ public class CraftingStumpCraftingInventory implements RecipeInputInventory {
 
     @Override
     public void clear() {
-        CraftingStumpBlockEntity.clearCraftingGrid(entity);
+        entity.clearCraftingGrid();
     }
 }

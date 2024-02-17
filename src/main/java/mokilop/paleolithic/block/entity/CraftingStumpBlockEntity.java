@@ -2,6 +2,8 @@ package mokilop.paleolithic.block.entity;
 
 import mokilop.paleolithic.inventory.CraftingStumpCraftingInventory;
 import mokilop.paleolithic.item.custom.HammerItem;
+import mokilop.paleolithic.util.ModTags;
+import mokilop.paleolithic.util.ProgressActionResult;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -63,43 +65,46 @@ public class CraftingStumpBlockEntity extends BlockEntityWithDisplayableInventor
         return entity.randomRotationAmounts;
     }
 
-    private static Optional<CraftingRecipe> getMatch(CraftingStumpBlockEntity entity) {
-        return entity.getWorld().getRecipeManager()
-                .getFirstMatch(RecipeType.CRAFTING, entity.craftingInventory, entity.getWorld());
+    private Optional<CraftingRecipe> getMatch() {
+        assert (getWorld() != null);
+        return getWorld().getRecipeManager()
+                .getFirstMatch(RecipeType.CRAFTING, craftingInventory, getWorld());
     }
 
-    public static boolean attemptCraft(CraftingStumpBlockEntity entity, HammerItem hammer, PlayerEntity player) {
-        if (entity.crafting) return false;
-        entity.crafting = true;
-        World world = entity.getWorld();
+    public ProgressActionResult attemptCraft(ItemStack itemHeld, PlayerEntity player) {
+        if (!itemHeld.isIn(ModTags.Items.HAMMERS) || !(itemHeld.getItem() instanceof HammerItem hammer) || crafting) {
+            return ProgressActionResult.FAIL;
+        }
+        World world = getWorld();
         assert world != null;
-        if (world.isClient) return false;
+        crafting = true;
+        if (world.isClient) return ProgressActionResult.PROGRESS_PARTIAL;
         ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
-        Optional<CraftingRecipe> match = getMatch(entity);
+        Optional<CraftingRecipe> match = getMatch();
         CraftingRecipe recipe;
         ItemStack result = ItemStack.EMPTY;
-        boolean shouldCraft = match.isPresent() && entity.craftingResultInventory.shouldCraftRecipe(world, serverPlayer, recipe = match.get())
-                && (result = recipe.craft(entity.craftingInventory, world.getRegistryManager())).isItemEnabled(world.getEnabledFeatures());
-        if (!shouldCraft) return false;
+        boolean shouldCraft = match.isPresent() && craftingResultInventory.shouldCraftRecipe(world, serverPlayer, recipe = match.get())
+                && (result = recipe.craft(craftingInventory, world.getRegistryManager())).isItemEnabled(world.getEnabledFeatures());
+        if (!shouldCraft) return ProgressActionResult.PROGRESS_PARTIAL;
 
-        entity.progress += hammer.CRAFTING_EFFICIENCY;
-        if (entity.progress >= maxProgress) {
-            entity.progress = 0;
-            ItemEntity resultE = new ItemEntity(entity.getWorld(), entity.getPos().getX() + 0.5,
-                    entity.getPos().getY() + 1, entity.getPos().getZ() + 0.5, result);
-            entity.getWorld().spawnEntity(resultE);
-            clearCraftingGrid(entity);
-            entity.markDirty();
-            return true;
+        progress += hammer.CRAFTING_EFFICIENCY;
+        if (progress >= maxProgress) {
+            progress = 0;
+            ItemEntity resultE = new ItemEntity(getWorld(), getPos().getX() + 0.5,
+                    getPos().getY() + 1, getPos().getZ() + 0.5, result);
+            getWorld().spawnEntity(resultE);
+            clearCraftingGrid();
+            markDirty();
+            return ProgressActionResult.COMPLETE;
         }
-        return false;
+        return ProgressActionResult.PROGRESS;
     }
 
-    public static void clearCraftingGrid(CraftingStumpBlockEntity entity) {
+    public void clearCraftingGrid() {
         for (int i = 0; i < numberOfCraftingSlots; i++) {
-            ItemStack current = entity.getStack(i);
+            ItemStack current = getStack(i);
             ItemStack residualItem = current.getRecipeRemainder();
-            entity.setStack(i, residualItem);
+            setStack(i, residualItem);
         }
     }
 

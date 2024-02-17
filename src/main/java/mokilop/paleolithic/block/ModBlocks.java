@@ -1,5 +1,6 @@
 package mokilop.paleolithic.block;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import mokilop.paleolithic.Paleolithic;
 import mokilop.paleolithic.block.custom.*;
@@ -10,29 +11,33 @@ import net.fabricmc.fabric.api.event.registry.RegistryEntryRemovedCallback;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.impl.itemgroup.ItemGroupEventsImpl;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.WoodType;
 import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.item.*;
 import net.minecraft.registry.MutableRegistry;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.entry.RegistryEntryList;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
+import org.spongepowered.asm.mixin.Shadow;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
+
 public class ModBlocks {
     // region Minecraft blocks
-    public static final Block OAK_LOG = overrideBlock(Blocks.OAK_LOG,
-            new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG).luminance(15)));
+    // public static final List<Block> OVERRIDDEN_LOGS = overrideLogBlocks();
     // endregion
     public static final Block ROCK = registerRockBlock();
     public static final Block PRIMITIVE_CAMPFIRE = registerPrimitiveCampfire();
@@ -225,27 +230,22 @@ public class ModBlocks {
         return block;
     }
 
-    private static Item overrideBlockItem(BlockItem toOverride, BlockItem newItem){
+    private static Item overrideBlockItem(BlockItem toOverride, BlockItem newItem, RegistryKey<ItemGroup> group) {
+        ItemGroupEvents.modifyEntriesEvent(group).register(entries -> entries.addAfter(toOverride, newItem));
         return Registry.register(Registries.ITEM, Registries.ITEM.getRawId(toOverride), Registries.ITEM.getId(toOverride).getPath(), newItem);
     }
 
-    private static Block overrideBlock(Block toOverride, Block newBlock){
+    private static Block overrideBlock(Block toOverride, Block newBlock) {
         BlockItem newBlockItem = new BlockItem(newBlock, new FabricItemSettings());
-        overrideBlockItem((BlockItem) toOverride.asItem(), newBlockItem);
+        overrideBlockItem((BlockItem) toOverride.asItem(), newBlockItem, ItemGroups.BUILDING_BLOCKS);
         return Registry.register(Registries.BLOCK, Registries.BLOCK.getRawId(toOverride), Registries.BLOCK.getId(toOverride).getPath(), newBlock);
     }
 
-    private static void overrideLogBlocks(){
-        WoodType.stream().forEach(wt -> {
-            var log = Constants.LOGS_MAP.get(wt);
-            var strippedLog = Constants.STRIPPED_LOGS_MAP.get(wt);
-            overrideBlock(log, new PillarBlock(FabricBlockSettings.copyOf(log).requiresTool()));
-            overrideBlock(strippedLog, new PillarBlock(FabricBlockSettings.copyOf(strippedLog).requiresTool()));
-        });
+    private static List<Block> overrideLogBlocks() {
+        return Constants.LOGS_LIST.stream().map(log -> overrideBlock(log, new PillarBlock(FabricBlockSettings.copyOf(log).requiresTool()))).toList();
     }
 
     public static void registerModBlocks() {
-        overrideLogBlocks();
         Paleolithic.LOGGER.info("Registering ModBlocks for " + Paleolithic.MOD_ID);
     }
 }

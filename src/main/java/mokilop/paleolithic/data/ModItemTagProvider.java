@@ -1,6 +1,7 @@
 package mokilop.paleolithic.data;
 
 import mokilop.paleolithic.block.ModBlocks;
+import mokilop.paleolithic.item.ModItems;
 import mokilop.paleolithic.util.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
@@ -17,6 +18,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup arg) {
+        getOrCreateTagBuilder(ModTags.Items.HAMMERS).add(ModItems.STONE_HAMMER);
         getOrCreateTagBuilder(ModTags.Items.CRAFTING_STUMPS)
                 .add(ModBlocks.getAllCraftingStumps().map(Block::asItem).toArray(Item[]::new));
 

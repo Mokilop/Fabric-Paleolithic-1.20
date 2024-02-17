@@ -2,6 +2,7 @@ package mokilop.paleolithic;
 
 import mokilop.paleolithic.block.ModBlocks;
 import mokilop.paleolithic.block.entity.ModBlockEntities;
+import mokilop.paleolithic.event.BlockBreakingHandler;
 import mokilop.paleolithic.item.ModItemGroup;
 import mokilop.paleolithic.item.ModItems;
 import mokilop.paleolithic.networking.ModMessages;
@@ -39,5 +40,6 @@ public class Paleolithic implements ModInitializer {
         ModMessages.registerC2SPackets();
         ModBlockEntities.registerBlocksEntities();
         generateModWorldGen();
+        BlockBreakingHandler.register();
     }
 }

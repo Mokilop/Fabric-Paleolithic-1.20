@@ -37,6 +37,7 @@ import java.util.stream.IntStream;
 
 public class ModLootTableGenerator extends FabricBlockLootTableProvider {
     protected static final LootCondition.Builder WITH_HAMMER = MatchToolLootCondition.builder(ItemPredicate.Builder.create().items(ModItems.STONE_HAMMER));
+
     public ModLootTableGenerator(FabricDataOutput dataOutput) {
         super(dataOutput);
     }
@@ -52,24 +53,15 @@ public class ModLootTableGenerator extends FabricBlockLootTableProvider {
                                 .alternatively(ItemEntry.builder(normalDrop))));
     }
 
-    private LootFunction.Builder rocksAmountFunc(int rocksAmount){
+    private LootFunction.Builder rocksAmountFunc(int rocksAmount) {
         return SetCountLootFunction.builder(ConstantLootNumberProvider.create(rocksAmount))
-            .conditionally(BlockStatePropertyLootCondition.builder(ModBlocks.ROCK).properties(StatePredicate.Builder.create()
-                    .exactMatch(RockBlock.STONES, rocksAmount)));
+                .conditionally(BlockStatePropertyLootCondition.builder(ModBlocks.ROCK).properties(StatePredicate.Builder.create()
+                        .exactMatch(RockBlock.STONES, rocksAmount)));
     }
-    public LootTable.Builder rockBlockDrops(){
-        Block normalDrop = ModBlocks.ROCK;
-        ItemConvertible withHammer = ModItems.FLAKED_ROCK;
 
-        final var defaultEntry = ItemEntry.builder(normalDrop).apply(IntStream.rangeClosed(1, 3).boxed().toList(),this::rocksAmountFunc);
-        final var hasOneRockCondition = BlockStatePropertyLootCondition.builder(ModBlocks.ROCK).properties(StatePredicate.Builder.create().exactMatch(RockBlock.STONES, 1));
-        final var isOnHardSurfaceCondition = BlockStatePropertyLootCondition.builder(ModBlocks.ROCK).properties(StatePredicate.Builder.create().exactMatch(RockBlock.IS_ON_HARD_SURFACE, true));
-        final var chanceCondition = TableBonusLootCondition.builder(Enchantments.FORTUNE, 0.2f, 0.4f, 0.6f, 1.0f);
-
-        return LootTable.builder().pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1f))
-                .with(this.addSurvivesExplosionCondition(normalDrop, ItemEntry.builder(withHammer)
-                        .conditionally(WITH_HAMMER.and(hasOneRockCondition).and(isOnHardSurfaceCondition).and(chanceCondition))
-                        .alternatively(defaultEntry))));
+    public LootTable.Builder rockBlockDrops() {
+        final var defaultEntry = ItemEntry.builder(ModBlocks.ROCK).apply(IntStream.rangeClosed(1, 3).boxed().toList(), this::rocksAmountFunc);
+        return LootTable.builder().pool(LootPool.builder().with(defaultEntry));
     }
 
     @Override
