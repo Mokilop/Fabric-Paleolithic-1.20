@@ -143,7 +143,7 @@ public class StumpBlock extends BlockWithEntity implements BlockEntityProvider {
 
     private ActionResult tryChoppingWithItemHeld(World world, StumpBlockEntity entity, PlayerEntity player, Hand hand) {
         ItemStack itemHeld = player.getStackInHand(hand);
-        int result = entity.chop(world, itemHeld);
+        int result = entity.chop(itemHeld);
         if (result < 0) return ActionResult.CONSUME;
         if (result == 0) {
             world.playSound(null, entity.getPos(), SoundEvents.BLOCK_WOOD_BREAK, SoundCategory.BLOCKS, .5f, 1.2f);

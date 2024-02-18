@@ -11,60 +11,22 @@ import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
-public class SharpeningRecipe implements Recipe<SimpleInventory> {
-    private final Identifier id;
-    private final ItemStack output;
-    private final DefaultedList<Ingredient> recipeItems;
+public class SharpeningRecipe extends SingleIngredienRecipe {
     public final int sharpenTimes;
 
     public SharpeningRecipe(Identifier id, ItemStack output, DefaultedList<Ingredient> recipeItems, int sharpenTimes) {
-        this.id = id;
-        this.output = output;
-        this.recipeItems = recipeItems;
+        super(id, output, recipeItems);
         this.sharpenTimes = sharpenTimes;
     }
 
     @Override
-    public boolean matches(SimpleInventory inventory, World world) {
-        if(world.isClient()){
-            return false;
-        }
-        return recipeItems.get(0).test(inventory.getStack(0));
-    }
-
-    @Override
-    public ItemStack craft(SimpleInventory inventory, DynamicRegistryManager registryManager) {
-        return output.copy();
-    }
-
-    @Override
-    public boolean fits(int width, int height) {
-        return true;
-    }
-
-    @Override
-    public ItemStack getOutput(DynamicRegistryManager registryManager) {
-        return output.copy();
-    }
-
-    @Override
-    public DefaultedList<Ingredient> getIngredients() {
-        return recipeItems;
-    }
-
-    @Override
-    public Identifier getId() {
-        return id;
-    }
-
-    @Override
     public RecipeSerializer<?> getSerializer() {
-        return null;
+        return Serializer.INSTANCE;
     }
 
     @Override
     public RecipeType<?> getType() {
-        return SharpeningRecipe.Type.INSTANCE;
+        return Type.INSTANCE;
     }
 
     public static class Type implements RecipeType<SharpeningRecipe> {
@@ -74,6 +36,7 @@ public class SharpeningRecipe implements Recipe<SimpleInventory> {
         private Type() {
         }
     }
+
     public static class Serializer implements RecipeSerializer<SharpeningRecipe> {
         public static final SharpeningRecipe.Serializer INSTANCE = new SharpeningRecipe.Serializer();
         public static final String ID = "sharpening";

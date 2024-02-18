@@ -47,7 +47,7 @@ public class StumpBlockEntity extends BlockEntityWithDisplayableInventory {
         world.spawnEntity(outputEntity);
     }
 
-    public int chop(World world, ItemStack tool) {
+    public int chop(ItemStack tool) {
         if (world == null) return -1;
         if (getMatchForChopping(tool).isEmpty()) {
             return -1;

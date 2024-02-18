@@ -46,6 +46,7 @@ public class CraftingStumpBlock extends BlockWithEntity {
     private static final SoundEffect ITEM_PLACE = new SoundEffect(SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, .5f, 1f);
     private static final SoundEffect PROGRESS_UP = new SoundEffect(SoundEvents.BLOCK_STONE_HIT, SoundCategory.BLOCKS, .5f, 1f);
     private static final SoundEffect CRAFTING_COMPLETE = new SoundEffect(SoundEvents.ENTITY_GLOW_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, .5f, 1f);
+
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
     public static final Model PARENT_MODEL = new Model(Optional.of(new Identifier(Paleolithic.MOD_ID, "block/crafting_stump")),
             Optional.empty());
@@ -107,13 +108,11 @@ public class CraftingStumpBlock extends BlockWithEntity {
         if (!(world.getBlockEntity(pos) instanceof CraftingStumpBlockEntity entity)) {
             return ActionResult.PASS;
         }
-        final float relativeX = (float) (hit.getPos().getX() - pos.getX());
         final float relativeY = (float) (hit.getPos().getY() - pos.getY());
-        final float relativeZ = (float) (hit.getPos().getZ() - pos.getZ());
         if (hit.getSide() == state.get(FACING) && relativeY < .75f) {
             return useOnFacingSide(world, entity, player, hand);
         }
-        if (hit.getSide() != Direction.UP && (relativeY < .9375f || (relativeX * relativeZ == 0 || relativeX == 1 || relativeZ == 1)))
+        if (hit.getSide() != Direction.UP && (relativeY < .9375f || !hit.isInsideBlock()))
             return ActionResult.PASS;
 
         int slot = getSlot(hit, pos, state.get(FACING));

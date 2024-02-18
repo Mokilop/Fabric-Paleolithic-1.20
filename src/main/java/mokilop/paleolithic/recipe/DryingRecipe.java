@@ -11,55 +11,18 @@ import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
-public class DryingRecipe implements Recipe<SimpleInventory> {
-    private final Identifier id;
-    private final ItemStack output;
-    private final DefaultedList<Ingredient> recipeItems;
+public class DryingRecipe extends SingleIngredienRecipe {
+    public static final String ID = "drying";
     public final int dryingTicks;
 
     public DryingRecipe(Identifier id, ItemStack output, DefaultedList<Ingredient> recipeItems, int dryingTicks) {
-        this.id = id;
-        this.output = output;
-        this.recipeItems = recipeItems;
+        super(id, output, recipeItems);
         this.dryingTicks = dryingTicks;
     }
 
     @Override
-    public boolean matches(SimpleInventory inventory, World world) {
-        if(world.isClient()){
-            return false;
-        }
-        return recipeItems.get(0).test(inventory.getStack(0));
-    }
-
-    @Override
-    public ItemStack craft(SimpleInventory inventory, DynamicRegistryManager registryManager) {
-        return output.copy();
-    }
-
-    @Override
-    public boolean fits(int width, int height) {
-        return true;
-    }
-
-    @Override
-    public ItemStack getOutput(DynamicRegistryManager registryManager) {
-        return output.copy();
-    }
-
-    @Override
-    public DefaultedList<Ingredient> getIngredients() {
-        return recipeItems;
-    }
-
-    @Override
-    public Identifier getId() {
-        return id;
-    }
-
-    @Override
     public RecipeSerializer<?> getSerializer() {
-        return null;
+        return Serializer.INSTANCE;
     }
 
     @Override
@@ -69,22 +32,21 @@ public class DryingRecipe implements Recipe<SimpleInventory> {
 
     public static class Type implements RecipeType<DryingRecipe> {
         public static final Type INSTANCE = new Type();
-        public static final String ID = "drying";
+        public static final String ID = DryingRecipe.ID;
 
         private Type() {
         }
     }
+
     public static class Serializer implements RecipeSerializer<DryingRecipe> {
         public static final Serializer INSTANCE = new Serializer();
-        public static final String ID = "drying";
-        // this is the name given in the json file
+        public static final String ID = DryingRecipe.ID;
 
         @Override
         public DryingRecipe read(Identifier id, JsonObject json) {
             ItemStack output = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "output"));
             JsonObject input = JsonHelper.getObject(json, "input");
-            DefaultedList<Ingredient> inputs = DefaultedList.ofSize(1, Ingredient.EMPTY);
-            inputs.set(0, Ingredient.fromJson(input));
+            DefaultedList<Ingredient> inputs = DefaultedList.ofSize(1, Ingredient.fromJson(input));
             int dryingTicks = JsonHelper.getInt(json, "time", 3600);
             return new DryingRecipe(id, output, inputs, dryingTicks);
         }

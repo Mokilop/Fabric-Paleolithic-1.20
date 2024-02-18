@@ -17,5 +17,6 @@ public class PaleolithicClient implements ClientModInitializer {
         BlockEntityRendererFactories.register(ModBlockEntities.CRAFTING_STUMP, CraftingStumpBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.DRYING_RACK, DryingRackBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.SHARPENING_STUMP, SharpeningStumpBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(ModBlockEntities.GRINDSTONE, GrindstoneBlockEntityRenderer::new);
     }
 }

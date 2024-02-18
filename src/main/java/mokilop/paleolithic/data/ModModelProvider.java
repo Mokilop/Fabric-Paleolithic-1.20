@@ -1,10 +1,7 @@
 package mokilop.paleolithic.data;
 
 import mokilop.paleolithic.block.ModBlocks;
-import mokilop.paleolithic.block.custom.CraftingStumpBlock;
-import mokilop.paleolithic.block.custom.DryingRackBlock;
-import mokilop.paleolithic.block.custom.SharpeningStumpBlock;
-import mokilop.paleolithic.block.custom.StumpBlock;
+import mokilop.paleolithic.block.custom.*;
 import mokilop.paleolithic.block.enums.ComplexAttachment;
 import mokilop.paleolithic.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -24,6 +21,7 @@ public class ModModelProvider extends FabricModelProvider {
         registerRockSharpeningStations(blockStateModelGenerator);
         registerCraftingStumps(blockStateModelGenerator);
         registerDryingRacks(blockStateModelGenerator);
+        registerGrindstone(blockStateModelGenerator);
     }
 
     @Override
@@ -34,6 +32,13 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.STONE_HAMMER, Models.HANDHELD);
         itemModelGenerator.register(ModItems.PLANT_TWINE, Models.GENERATED);
         itemModelGenerator.register(ModItems.PLANT_FIBER, Models.GENERATED);
+
+    }
+
+    private void registerGrindstone(BlockStateModelGenerator blockStateModelGenerator) {
+        blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier
+                .create(ModBlocks.GRINDSTONE, BlockStateVariant.create().put(VariantSettings.MODEL, ModelIds.getBlockModelId(ModBlocks.GRINDSTONE)))
+                .coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates()));
     }
 
     private void registerStump(BlockStateModelGenerator blockStateModelGenerator, StumpBlock stump) {
@@ -61,6 +66,7 @@ public class ModModelProvider extends FabricModelProvider {
                 .coordinate(BlockStateModelGenerator
                         .createNorthDefaultHorizontalRotationStates()));
     }
+
 
     private void registerDryingRack(BlockStateModelGenerator blockStateModelGenerator, DryingRackBlock dryingRack) {
         Identifier floorId = DryingRackBlock.PARENT_MODEL

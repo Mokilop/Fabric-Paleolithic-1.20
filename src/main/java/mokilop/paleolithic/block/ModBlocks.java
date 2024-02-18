@@ -41,6 +41,7 @@ public class ModBlocks {
     // endregion
     public static final Block ROCK = registerRockBlock();
     public static final Block PRIMITIVE_CAMPFIRE = registerPrimitiveCampfire();
+    public static final Block GRINDSTONE = registerBlock("grindstone", new GrindstoneBlock(FabricBlockSettings.copyOf(Blocks.STONE)), ModItemGroup.PALEOLITHIC_BLOCKS);
     // region RockSharpeningStations
     private static final Set<Block> SHARPENING_STUMPS = new ObjectArraySet<>();
     public static final Block OAK_SHARPENING_STUMP = registerSharpeningStump(WoodType.OAK, false);
