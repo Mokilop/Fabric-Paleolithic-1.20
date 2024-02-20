@@ -1,8 +1,7 @@
 package mokilop.paleolithic.block.custom;
 
-import mokilop.paleolithic.Paleolithic;
 import mokilop.paleolithic.block.entity.DryingRackBlockEntity;
-import mokilop.paleolithic.block.entity.GrindstoneBlockEntity;
+import mokilop.paleolithic.block.entity.HandMillBlockEntity;
 import mokilop.paleolithic.block.entity.ModBlockEntities;
 import mokilop.paleolithic.util.ProgressActionResult;
 import mokilop.paleolithic.util.SoundEffect;
@@ -10,7 +9,6 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.data.client.Model;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
@@ -31,25 +29,36 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
-import java.util.Optional;
+import java.util.stream.Stream;
 
-public class GrindstoneBlock extends BlockWithEntity {
-    public static final Model MODEL = new Model(Optional.of(new Identifier(Paleolithic.MOD_ID, "block/grindstone")),
-            Optional.empty());
-    private static final VoxelShape SHAPE = VoxelShapes.combineAndSimplify(Block.createCuboidShape(1, 4, 1, 15, 7, 15), Block.createCuboidShape(0, 0, 0, 16, 3, 16), BooleanBiFunction.OR);
+public class HandMillBlock extends BlockWithEntity {
+    private static final VoxelShape SHAPE = Stream.of(
+            Block.createCuboidShape(2, 0, 2, 14, 4, 14),
+            Block.createCuboidShape(1, 0, 3, 2, 4, 13),
+            Block.createCuboidShape(3, 0, 1, 13, 4, 2),
+            Block.createCuboidShape(14, 0, 3, 15, 4, 13),
+            Block.createCuboidShape(3, 0, 14, 13, 4, 15),
+            Block.createCuboidShape(6, 1, 6, 10, 9, 10),
+            Block.createCuboidShape(2, 4.25, 2, 14, 8.25, 14),
+            Block.createCuboidShape(1, 4.25, 3, 2, 8.25, 13),
+            Block.createCuboidShape(3, 4.25, 1, 13, 8.25, 2),
+            Block.createCuboidShape(14, 4.25, 3, 15, 8.25, 13),
+            Block.createCuboidShape(3, 4.25, 14, 13, 8.25, 15),
+            Block.createCuboidShape(12, 8, 3, 13, 11, 4)
+    ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, BooleanBiFunction.OR)).get();
     private static final SoundEffect ITEM_PULLOUT_SOUND = new SoundEffect(SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, .5f, 1.5f);
     private static final SoundEffect GRINDING_SOUND = new SoundEffect(SoundEvents.BLOCK_GRINDSTONE_USE, SoundCategory.BLOCKS, 1, .3f);
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
 
 
-    public GrindstoneBlock(Settings settings) {
+    public HandMillBlock(Settings settings) {
         super(settings);
     }
 
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new GrindstoneBlockEntity(pos, state);
+        return new HandMillBlockEntity(pos, state);
     }
 
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
@@ -58,7 +67,7 @@ public class GrindstoneBlock extends BlockWithEntity {
 
     @Override
     public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
+        return BlockRenderType.INVISIBLE;
     }
 
     @Override
@@ -91,7 +100,7 @@ public class GrindstoneBlock extends BlockWithEntity {
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof GrindstoneBlockEntity entity) {
+            if (blockEntity instanceof HandMillBlockEntity entity) {
                 ItemScatterer.spawn(world, pos, entity);
                 world.updateComparators(pos, this);
             }
@@ -102,7 +111,7 @@ public class GrindstoneBlock extends BlockWithEntity {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (hit.getSide() == Direction.DOWN ||
-                !(world.getBlockEntity(pos) instanceof GrindstoneBlockEntity entity)) {
+                !(world.getBlockEntity(pos) instanceof HandMillBlockEntity entity)) {
             return ActionResult.PASS;
         }
         if (hit.getSide().getHorizontal() >= 0) {
@@ -129,7 +138,7 @@ public class GrindstoneBlock extends BlockWithEntity {
         };
     }
 
-    private ActionResult tryAddItem(int slot, World world, GrindstoneBlockEntity entity, PlayerEntity player, Hand hand) {
+    private ActionResult tryAddItem(int slot, World world, HandMillBlockEntity entity, PlayerEntity player, Hand hand) {
         ItemStack itemHeld = player.getStackInHand(hand);
         if (entity.addItem(player.isCreative() ? itemHeld.copy() : itemHeld, slot)) {
             return ActionResult.SUCCESS;
@@ -137,7 +146,7 @@ public class GrindstoneBlock extends BlockWithEntity {
         return ActionResult.CONSUME;
     }
 
-    private ActionResult pullOutStack(int slot, World world, GrindstoneBlockEntity entity, PlayerEntity player) {
+    private ActionResult pullOutStack(int slot, World world, HandMillBlockEntity entity, PlayerEntity player) {
         ItemStack stack = entity.removeStack(slot);
         BlockPos pos = entity.getPos();
         if (!player.isCreative() && !player.getInventory().insertStack(stack)) {
@@ -147,7 +156,7 @@ public class GrindstoneBlock extends BlockWithEntity {
         return ActionResult.SUCCESS;
     }
 
-    private ActionResult tryGrinding(World world, GrindstoneBlockEntity entity) {
+    private ActionResult tryGrinding(World world, HandMillBlockEntity entity) {
         var results = entity.grind();
         ProgressActionResult result = Arrays.stream(results).anyMatch(r -> r == ProgressActionResult.COMPLETE) ? ProgressActionResult.COMPLETE :
                 Arrays.stream(results).anyMatch(r -> r == ProgressActionResult.PROGRESS) ? ProgressActionResult.PROGRESS : ProgressActionResult.FAIL;

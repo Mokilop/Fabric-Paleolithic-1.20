@@ -1,35 +1,26 @@
 package mokilop.paleolithic.block;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import mokilop.paleolithic.Paleolithic;
 import mokilop.paleolithic.block.custom.*;
 import mokilop.paleolithic.data.Constants;
 import mokilop.paleolithic.item.ModItemGroup;
 import mokilop.paleolithic.item.custom.RockBlockItem;
-import net.fabricmc.fabric.api.event.registry.RegistryEntryRemovedCallback;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.fabricmc.fabric.impl.itemgroup.ItemGroupEventsImpl;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.WoodType;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.item.*;
-import net.minecraft.registry.MutableRegistry;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.entry.RegistryEntryList;
-import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
-import org.spongepowered.asm.mixin.Shadow;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -41,7 +32,7 @@ public class ModBlocks {
     // endregion
     public static final Block ROCK = registerRockBlock();
     public static final Block PRIMITIVE_CAMPFIRE = registerPrimitiveCampfire();
-    public static final Block GRINDSTONE = registerBlock("grindstone", new GrindstoneBlock(FabricBlockSettings.copyOf(Blocks.STONE)), ModItemGroup.PALEOLITHIC_BLOCKS);
+    public static final Block HAND_MILL = registerBlock("hand_mill", new HandMillBlock(FabricBlockSettings.copyOf(Blocks.STONE)), ModItemGroup.PALEOLITHIC_BLOCKS);
     // region RockSharpeningStations
     private static final Set<Block> SHARPENING_STUMPS = new ObjectArraySet<>();
     public static final Block OAK_SHARPENING_STUMP = registerSharpeningStump(WoodType.OAK, false);

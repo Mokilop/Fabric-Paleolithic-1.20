@@ -34,7 +34,7 @@ public class CraftingStumpBlockEntity extends BlockEntityWithDisplayableInventor
 
     public CraftingStumpBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.CRAFTING_STUMP, pos, state, 10);
-        updateRandomRotationAmounts(this);
+        updateRandomRotationAmounts();
     }
 
     @Override
@@ -54,10 +54,10 @@ public class CraftingStumpBlockEntity extends BlockEntityWithDisplayableInventor
         return getStack(9);
     }
 
-    public static void updateRandomRotationAmounts(CraftingStumpBlockEntity entity) {
-        if (!entity.hasWorld()) return;
-        for (int i = 0; i < entity.randomRotationAmounts.length; i++) {
-            entity.randomRotationAmounts[i] = entity.getWorld().getRandom().nextBetween(-maxRandomRotationAmount, maxRandomRotationAmount);
+    public void updateRandomRotationAmounts() {
+        if (!hasWorld()) return;
+        for (int i = 0; i < randomRotationAmounts.length; i++) {
+            randomRotationAmounts[i] = getWorld().getRandom().nextBetween(-maxRandomRotationAmount, maxRandomRotationAmount);
         }
     }
 
@@ -78,7 +78,7 @@ public class CraftingStumpBlockEntity extends BlockEntityWithDisplayableInventor
         World world = getWorld();
         assert world != null;
         crafting = true;
-        if (world.isClient) return ProgressActionResult.PROGRESS_PARTIAL;
+        if (world.isClient()) return ProgressActionResult.PROGRESS_PARTIAL;
         ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
         Optional<CraftingRecipe> match = getMatch();
         CraftingRecipe recipe;
@@ -104,6 +104,10 @@ public class CraftingStumpBlockEntity extends BlockEntityWithDisplayableInventor
         for (int i = 0; i < numberOfCraftingSlots; i++) {
             ItemStack current = getStack(i);
             ItemStack residualItem = current.getRecipeRemainder();
+            if (residualItem.isEmpty()) {
+                current.decrement(1);
+                continue;
+            }
             setStack(i, residualItem);
         }
     }
@@ -119,13 +123,14 @@ public class CraftingStumpBlockEntity extends BlockEntityWithDisplayableInventor
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState,
                             CraftingStumpBlockEntity entity) {
-        if (entity.crafting) {
-            entity.craftingTicks++;
+        if (!entity.crafting) {
+            return;
         }
-        if (entity.craftingTicks > maxCraftingTicks) {
+        entity.craftingTicks++;
+        if (entity.craftingTicks >= maxCraftingTicks) {
             entity.craftingTicks = 0;
             entity.crafting = false;
-            updateRandomRotationAmounts(entity);
+            entity.updateRandomRotationAmounts();
         }
     }
 }

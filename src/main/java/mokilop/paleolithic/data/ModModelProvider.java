@@ -37,7 +37,7 @@ public class ModModelProvider extends FabricModelProvider {
 
     private void registerGrindstone(BlockStateModelGenerator blockStateModelGenerator) {
         blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier
-                .create(ModBlocks.GRINDSTONE, BlockStateVariant.create().put(VariantSettings.MODEL, ModelIds.getBlockModelId(ModBlocks.GRINDSTONE)))
+                .create(ModBlocks.HAND_MILL, BlockStateVariant.create().put(VariantSettings.MODEL, ModelIds.getBlockModelId(ModBlocks.HAND_MILL)))
                 .coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates()));
     }
 

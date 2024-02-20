@@ -15,7 +15,7 @@ public class ModBlockEntities {
     public static BlockEntityType<PrimitiveCampfireBlockEntity> PRIMITIVE_CAMPFIRE;
     public static BlockEntityType<StumpBlockEntity> STUMP;
     public static BlockEntityType<SharpeningStumpBlockEntity> SHARPENING_STUMP;
-    public static BlockEntityType<GrindstoneBlockEntity> GRINDSTONE;
+    public static BlockEntityType<HandMillBlockEntity> HAND_MILL;
 
     public static void registerBlocksEntities() {
         CRAFTING_STUMP = Registry.register(Registries.BLOCK_ENTITY_TYPE,
@@ -43,8 +43,8 @@ public class ModBlockEntities {
                 FabricBlockEntityTypeBuilder.create(SharpeningStumpBlockEntity::new,
                         ModBlocks.getAllSharpeningStumps().toArray(Block[]::new)).build(null));
 
-        GRINDSTONE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
+        HAND_MILL = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 new Identifier(Paleolithic.MOD_ID, "grindstone"),
-                FabricBlockEntityTypeBuilder.create(GrindstoneBlockEntity::new, ModBlocks.GRINDSTONE).build(null));
+                FabricBlockEntityTypeBuilder.create(HandMillBlockEntity::new, ModBlocks.HAND_MILL).build(null));
     }
 }

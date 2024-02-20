@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 
 import java.util.Optional;
 
-public class GrindstoneBlockEntity extends BlockEntityWithDisplayableInventory {
+public class HandMillBlockEntity extends BlockEntityWithDisplayableInventory {
     private static final int MAX_GRINDING_TICKS = 10;
     private int grindingTicks = MAX_GRINDING_TICKS;
     public boolean isGrinding = false;
@@ -20,8 +20,8 @@ public class GrindstoneBlockEntity extends BlockEntityWithDisplayableInventory {
     private int progress = 0;
 
 
-    public GrindstoneBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.GRINDSTONE, pos, state, N_INPUT_SLOTS + N_OUTPUT_SLOTS);
+    public HandMillBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.HAND_MILL, pos, state, N_INPUT_SLOTS + N_OUTPUT_SLOTS);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class GrindstoneBlockEntity extends BlockEntityWithDisplayableInventory {
     }
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState,
-                            GrindstoneBlockEntity entity) {
+                            HandMillBlockEntity entity) {
         if (entity.isGrinding && entity.grindingTicks > 0) {
             --entity.grindingTicks;
             return;
